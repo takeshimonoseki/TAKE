@@ -733,12 +733,11 @@
     });
 
     function updateSubmitButton() {
-      var cargoOk = cargoInsuranceConfirmedEl && cargoInsuranceConfirmedEl.checked;
       var blackOk = blackPlatePledgeEl && blackPlatePledgeEl.checked;
       var termsOk = agreeTermsEl && agreeTermsEl.checked;
-      var enabled = cargoOk && blackOk && termsOk;
+      var enabled = blackOk && termsOk;
       submitBtn.disabled = !enabled;
-      if (cargoInsuranceWarningEl) cargoInsuranceWarningEl.style.display = cargoOk ? "none" : "block";
+      if (cargoInsuranceWarningEl) cargoInsuranceWarningEl.style.display = (cargoInsuranceConfirmedEl && cargoInsuranceConfirmedEl.checked) ? "none" : "block";
       if (blackPlateWarningEl) blackPlateWarningEl.style.display = blackOk ? "none" : "block";
     }
     if (cargoInsuranceConfirmedEl) cargoInsuranceConfirmedEl.addEventListener("change", updateSubmitButton);

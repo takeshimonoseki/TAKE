@@ -1,57 +1,60 @@
 /**
  * 協力ドライバー登録フォーム用 GAS Webアプリ
  *
- * 【Script Properties で設定すること】（リポジトリに直書き禁止）
- *   プロジェクトの「プロジェクトの設定」→「スクリプト プロパティ」で以下を追加：
+ * 【埋め込み固定値】
+ *   SHEET_ID, SHEET_TAB, DRIVE_FOLDER_ID, ADMIN_EMAIL, ADMIN_LINE_USER_ID
  *
- *   DRIVE_FOLDER_ID   - 画像保存先のGoogle DriveフォルダID（Driveでフォルダを開きURLの末尾がID）
- *   SHEET_ID          - スプレッドシートID（スプレッドシートURLの /d/ と /edit の間）
- *   SHEET_TAB         - 登録一覧のシート名（例: 登録一覧）。無い場合は初回実行時に自動作成
- *   LINE_NOTIFY_TOKEN - LINE Notify のトークン（https://notify-bot.line.me/ で発行し「たけ」に通知）
- *   NOTIFY_EMAIL      - たけのメールアドレス（登録通知の送信先）
+ * 【Script Properties】（シークレット・直書き禁止）
+ *   LINE_CHANNEL_ACCESS_TOKEN - LINE Messaging API のチャネルアクセストークン
  *
  * デプロイ: 種類「Web アプリ」／実行ユーザー「自分」／アクセス「全員」
  * デプロイ後のURLを config.js の GAS_ENDPOINT に貼る。
  */
 
+var SHEET_ID = "1mEPSJsN0Pt1GULgLIBqQXyUQg-L7a4QCvSLMvADejN8";
+var SHEET_TAB = "Drivers";
+var DRIVE_FOLDER_ID = "1jJeND1RbxHS0rcCUJC116um2VL-UXAiC";
+var ADMIN_EMAIL = "takeshimonoseki@gmail.com";
+var ADMIN_LINE_USER_ID = "U94fa1bd99a801f9d531193705c108b65";
+
 var MAX_FILE_BYTES = 5 * 1024 * 1024;
 
-// 列順固定（一覧表示用に公開/非公開を分離しやすい構成）
 var DRIVER_HEADERS = [
-  "driver_id",           // 1
-  "created_at",         // 2
-  "nickname",            // 3 公開
-  "city",                // 4 公開
-  "vehicle_type",        // 5 公開
-  "availability",        // 6 公開
-  "specialties",         // 7 公開
-  "profile",             // 8 公開
-  "fullName",            // 9 非公開
-  "address",             // 10 非公開
-  "contactPhone",        // 11 非公開
-  "contactEmail",        // 12 非公開
-  "contactLineName",     // 13 非公開
-  "bankName",            // 14 非公開
-  "bankBranch",          // 15 非公開
-  "bankAccountType",     // 16 非公開
-  "bankAccountNumber",   // 17 非公開
-  "bankAccountHolder",   // 18 非公開
-  "autoInsurance",       // 19
-  "cargoInsurance",      // 20
-  "insuranceCompany",    // 21
-  "insurancePolicyNumber", // 22
-  "license_front_url",   // 23
-  "license_back_url",    // 24
-  "vehicle_inspection_url", // 25 車検証
-  "vehicle_photo1_url",  // 26
-  "vehicle_photo2_url",  // 27
-  "cargo_insurance_file_url", // 28
-  "notification_line_status",  // 29
-  "notification_email_status", // 30
-  "notification_error_message", // 31
-  "extra_files_note",    // 32
-  "black_plate_pledge",  // 33
-  "terms_agreed"        // 34
+  "driver_id",
+  "created_at",
+  "nickname",
+  "city",
+  "vehicle_type",
+  "availability",
+  "specialties",
+  "profile",
+  "fullName",
+  "address",
+  "contactPhone",
+  "contactEmail",
+  "contactLineName",
+  "bankName",
+  "bankBranch",
+  "bankAccountType",
+  "bankAccountNumber",
+  "bankAccountHolder",
+  "autoInsurance",
+  "cargoInsurance",
+  "insuranceCompany",
+  "insurancePolicyNumber",
+  "license_front_url",
+  "license_back_url",
+  "vehicle_inspection_url",
+  "vehicle_inspection_file_id",
+  "vehicle_photo1_url",
+  "vehicle_photo2_url",
+  "cargo_insurance_file_url",
+  "notification_line_status",
+  "notification_email_status",
+  "notification_error_message",
+  "extra_files_note",
+  "black_plate_pledge",
+  "terms_agreed"
 ];
 
 function doPost(e) {
@@ -81,7 +84,6 @@ function doPost(e) {
 }
 
 function doGet(e) {
-  // 将来のドライバー一覧用：公開項目のみJSONで返す（最小実装）
   var result = { ok: false, drivers: [] };
   try {
     var sheet = getDriverSheet();
@@ -123,25 +125,16 @@ function doGet(e) {
     .setMimeType(ContentService.MimeType.JSON);
 }
 
-function getProps() {
-  var p = PropertiesService.getScriptProperties();
-  return {
-    DRIVE_FOLDER_ID: p.getProperty("DRIVE_FOLDER_ID") || "",
-    SHEET_ID: p.getProperty("SHEET_ID") || "",
-    SHEET_TAB: p.getProperty("SHEET_TAB") || "登録一覧",
-    LINE_NOTIFY_TOKEN: p.getProperty("LINE_NOTIFY_TOKEN") || "",
-    NOTIFY_EMAIL: p.getProperty("NOTIFY_EMAIL") || ""
-  };
+function getLineChannelAccessToken() {
+  return PropertiesService.getScriptProperties().getProperty("LINE_CHANNEL_ACCESS_TOKEN") || "";
 }
 
 function getDriverSheet() {
-  var props = getProps();
-  if (!props.SHEET_ID) return null;
   try {
-    var spreadsheet = SpreadsheetApp.openById(props.SHEET_ID);
-    var sheet = spreadsheet.getSheetByName(props.SHEET_TAB);
+    var spreadsheet = SpreadsheetApp.openById(SHEET_ID);
+    var sheet = spreadsheet.getSheetByName(SHEET_TAB);
     if (!sheet) {
-      sheet = spreadsheet.insertSheet(props.SHEET_TAB);
+      sheet = spreadsheet.insertSheet(SHEET_TAB);
       sheet.getRange(1, 1, 1, DRIVER_HEADERS.length).setValues([DRIVER_HEADERS]);
       sheet.getRange(1, 1, 1, DRIVER_HEADERS.length).setFontWeight("bold");
     } else if (sheet.getLastRow() === 0) {
@@ -155,9 +148,30 @@ function getDriverSheet() {
   }
 }
 
+function pushLineMessage(userId, text) {
+  var token = getLineChannelAccessToken();
+  if (!token) return false;
+  try {
+    UrlFetchApp.fetch("https://api.line.me/v2/bot/message/push", {
+      method: "post",
+      headers: {
+        "Authorization": "Bearer " + token,
+        "Content-Type": "application/json"
+      },
+      payload: JSON.stringify({
+        to: userId,
+        messages: [{ type: "text", text: text }]
+      })
+    });
+    return true;
+  } catch (e) {
+    Logger.log("LINE push error: " + e.toString());
+    return false;
+  }
+}
+
 function handleDriverRegister(body) {
   var data = body.data || {};
-  var props = getProps();
   var sheet = getDriverSheet();
   if (!sheet) return { ok: false, error: "sheet_not_found", message: "スプレッドシートの設定を確認してください。" };
 
@@ -167,16 +181,15 @@ function handleDriverRegister(body) {
   var licenseFrontUrl = "";
   var licenseBackUrl = "";
   var vehicleInspectionUrl = "";
+  var vehicleInspectionFileId = "";
   var vehiclePhoto1Url = "";
   var vehiclePhoto2Url = "";
   var cargoInsuranceFileUrl = "";
 
   var folder = null;
-  if (props.DRIVE_FOLDER_ID) {
-    try {
-      folder = DriveApp.getFolderById(props.DRIVE_FOLDER_ID);
-    } catch (e) {}
-  }
+  try {
+    folder = DriveApp.getFolderById(DRIVE_FOLDER_ID);
+  } catch (e) {}
 
   if (folder && body.licenseFront && body.licenseFront.data) {
     var subFolder;
@@ -195,7 +208,10 @@ function handleDriverRegister(body) {
     }
     if (body.vehicleInspection && body.vehicleInspection.data) {
       f = saveBase64ReturnFile(subFolder, "車検証." + getExt(body.vehicleInspection.name || "jpg"), body.vehicleInspection.data);
-      if (f) vehicleInspectionUrl = f.getUrl();
+      if (f) {
+        vehicleInspectionUrl = f.getUrl();
+        vehicleInspectionFileId = f.getId();
+      }
     }
     if (body.vehiclePhoto1 && body.vehiclePhoto1.data) {
       f = saveBase64ReturnFile(subFolder, "車両1.jpg", body.vehiclePhoto1.data);
@@ -244,6 +260,7 @@ function handleDriverRegister(body) {
     licenseFrontUrl,
     licenseBackUrl,
     vehicleInspectionUrl,
+    vehicleInspectionFileId,
     vehiclePhoto1Url,
     vehiclePhoto2Url,
     cargoInsuranceFileUrl,
@@ -257,49 +274,45 @@ function handleDriverRegister(body) {
 
   sheet.appendRow(row);
 
-  // 通知（失敗しても登録は成功扱い）
-  var summary = "【新規登録】" + (data.nickname || "") + " / " + (data.city || "") + " / " + (data.vehicle_type || data.vehicle || "") + " / ID:" + driverId;
-  var detail = "ニックネーム: " + (data.nickname || "") + "\n市町村: " + (data.city || "") + "\n車種: " + (data.vehicle_type || data.vehicle || "") + "\n連絡先: " + (data.contactPhone || data.contactEmail || data.contactLineName || "—") + "\n受付ID: " + driverId;
+  var vehicleInfo = (data.vehicle_type || data.vehicle || "") + (data.vehicleOther ? " " + data.vehicleOther : "");
+  var insuranceInfo = "自賠責:" + (data.autoInsurance || "—") + " 貨物:" + (data.cargoInsurance || "—");
 
-  if (props.LINE_NOTIFY_TOKEN) {
-    try {
-      UrlFetchApp.fetch("https://notify-api.line.me/api/notify", {
-        method: "post",
-        headers: { "Authorization": "Bearer " + props.LINE_NOTIFY_TOKEN },
-        payload: { "message": summary + "\n\n" + detail }
-      });
-      lineStatus = "ok";
-    } catch (lineErr) {
-      lineStatus = "failed";
-      errMsg = (errMsg ? errMsg + "; " : "") + "LINE:" + lineErr.toString();
-      Logger.log("LINE Notify error: " + lineErr.toString());
-    }
+  var lineText = "【協力ドライバー新規登録】\n" +
+    "日時: " + createdAt + "\n" +
+    "ニックネーム: " + (data.nickname || "—") + "\n" +
+    "市町村: " + (data.city || "—") + "\n" +
+    "稼働エリア: " + (data.availability ? (Array.isArray(data.availability) ? data.availability.join(",") : data.availability) : "—") + "\n" +
+    "車両: " + vehicleInfo + "\n" +
+    "保険: " + insuranceInfo + "\n" +
+    "車検証: " + (vehicleInspectionUrl || "—") + "\n" +
+    "ID: " + driverId;
+
+  if (pushLineMessage(ADMIN_LINE_USER_ID, lineText)) {
+    lineStatus = "ok";
   } else {
-    lineStatus = "not_configured";
+    lineStatus = "failed";
+    errMsg = "LINE:" + (getLineChannelAccessToken() ? "push失敗" : "トークン未設定");
+    Logger.log("LINE push failed");
   }
 
-  if (props.NOTIFY_EMAIL) {
-    try {
-      MailApp.sendEmail({
-        to: props.NOTIFY_EMAIL,
-        subject: "協力ドライバー新規登録: " + (data.nickname || driverId),
-        body: detail + "\n\n--\n登録フォームから送信されました。"
-      });
-      emailStatus = "ok";
-    } catch (mailErr) {
-      emailStatus = "failed";
-      errMsg = (errMsg ? errMsg + "; " : "") + "Mail:" + mailErr.toString();
-      Logger.log("Mail error: " + mailErr.toString());
-    }
-  } else {
-    emailStatus = "not_configured";
+  try {
+    MailApp.sendEmail({
+      to: ADMIN_EMAIL,
+      subject: "協力ドライバー新規登録: " + (data.nickname || driverId),
+      body: lineText + "\n\n--\n登録フォームから送信されました。"
+    });
+    emailStatus = "ok";
+  } catch (mailErr) {
+    emailStatus = "failed";
+    errMsg = (errMsg ? errMsg + "; " : "") + "Mail:" + mailErr.toString();
+    Logger.log("Mail error: " + mailErr.toString());
   }
 
   var lastRow = sheet.getLastRow();
   if (lastRow > 0) {
-    sheet.getRange(lastRow, 29).setValue(lineStatus);
-    sheet.getRange(lastRow, 30).setValue(emailStatus);
-    sheet.getRange(lastRow, 31).setValue(errMsg);
+    sheet.getRange(lastRow, 30).setValue(lineStatus);
+    sheet.getRange(lastRow, 31).setValue(emailStatus);
+    sheet.getRange(lastRow, 32).setValue(errMsg);
   }
 
   return { ok: true, receiptId: driverId, driver_id: driverId };
@@ -309,10 +322,9 @@ function handleDriverFiles(body) {
   var receiptId = body.receiptId || body.driver_id;
   if (!receiptId) return { ok: false, error: "no_receipt_id" };
 
-  var props = getProps();
   var folder;
   try {
-    var main = DriveApp.getFolderById(props.DRIVE_FOLDER_ID);
+    var main = DriveApp.getFolderById(DRIVE_FOLDER_ID);
     var it = main.getFoldersByName(receiptId);
     folder = it.hasNext() ? it.next() : main.createFolder(receiptId);
   } catch (e) {
@@ -328,7 +340,7 @@ function handleDriverFiles(body) {
     var lastRow = sheet.getLastRow();
     for (var r = 1; r <= lastRow; r++) {
       if (sheet.getRange(r, 1).getValue() === receiptId) {
-        sheet.getRange(r, 32).setValue("追加書類受付済 " + new Date().toISOString());
+        sheet.getRange(r, 33).setValue("追加書類受付済 " + new Date().toISOString());
         break;
       }
     }
@@ -339,9 +351,7 @@ function handleDriverFiles(body) {
 
 function handleVehicleConsult(body) {
   var data = body.data || {};
-  var props = getProps();
-  if (!props.SHEET_ID) return { ok: false, error: "sheet_not_found" };
-  var spreadsheet = SpreadsheetApp.openById(props.SHEET_ID);
+  var spreadsheet = SpreadsheetApp.openById(SHEET_ID);
   var sheet = spreadsheet.getSheetByName("車両相談");
   if (!sheet) sheet = spreadsheet.insertSheet("車両相談");
   var consultId = "V" + new Date().getTime() + "-" + Math.random().toString(36).slice(2, 8);
