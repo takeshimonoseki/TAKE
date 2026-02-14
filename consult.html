@@ -11,30 +11,41 @@
 <body>
   <div id="top"></div>
 
-  <header class="site-header">
+  <header class="site-header" id="top">
     <div class="site-header-inner">
       <div class="header-left">
-        <a class="brand" href="./index.html">
-          <span class="brand-badge" aria-hidden="true">YAMAGUCHI<br>山口県</span>
-          <span class="brand-text">
-            <span class="brand-title" id="companyName">軽貨物TAKE</span>
-            <span class="brand-sub">協力ドライバー登録サイト</span>
-          </span>
-        </a>
+        <div class="region-badge" aria-label="対応地域">
+          <div class="region-en" id="regionEn">YAMAGUCHI</div>
+          <div class="region-ja" id="regionJa">山口県</div>
+        </div>
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true"><span></span></div>
+          <div>
+            <div class="company-name" id="companyName">軽貨物TAKE</div>
+            <div class="brand-text-sub">相談スタート</div>
+          </div>
+        </div>
       </div>
-
       <div class="header-right">
         <div class="contact-strip" aria-label="連絡先">
-          <a class="mini-link" id="headerLineLink" href="./consult.html">相談する</a>
-          <a class="mini-link" id="headerMailLink" href="#">MAIL</a>
-          <a class="mini-link" id="headerTelLink" href="#">TEL</a>
+          <div class="contact-item">
+            <span class="contact-label">LINE</span>
+            <span class="contact-value"><a href="#" id="headerLineLink">相談する</a></span>
+          </div>
+          <div class="contact-item">
+            <span class="contact-label">MAIL</span>
+            <span class="contact-value"><a href="#" id="headerMailLink"></a></span>
+          </div>
+          <div class="contact-item">
+            <span class="contact-label">TEL</span>
+            <span class="contact-value"><a href="#" id="headerTelLink"></a></span>
+          </div>
         </div>
-
         <nav class="nav" aria-label="メイン">
+          <a href="./register.html" class="nav-link nav-link-cta">登録</a>
           <a href="./index.html" class="nav-link">トップ</a>
           <a href="./consult.html" class="nav-link nav-link-primary" aria-current="page">開業相談</a>
           <a href="./vehicle.html" class="nav-link">車両の相談</a>
-          <a href="./register.html" class="nav-link">登録</a>
         </nav>
       </div>
     </div>
@@ -123,106 +134,177 @@
 
             <section>
               <h3 class="section-title" style="margin:0 0 10px; font-size:16px;">③ 確認して送る</h3>
-              <div id="previewBox" class="card" style="display:none;">
-                <div class="card-inner">
-                  <div class="muted" style="margin-bottom:8px;">この内容がLINEの入力欄に入ります（送信はあなたが押します）</div>
-                  <pre id="previewText" style="white-space:pre-wrap; margin:0; font-size:14px; line-height:1.6;"></pre>
-
-                  <div class="actions" style="margin-top: 12px;">
-                    <button class="btn btn-secondary" type="button" id="btnEdit">修正する</button>
-                    <button class="btn btn-line" type="button" id="btnSend">LINEで送る</button>
-                  </div>
-
-                  <div class="muted" style="margin-top:10px;">
-                    ※ 端末によってLINEが開かない場合は、いったん友だち追加→戻ってもう一度「LINEで送る」を押してください。
-                  </div>
-                </div>
-              </div>
+              <p class="muted" style="margin:0;">
+                「この内容で作る」を押すと、送信内容のプレビューが<span class="badge badge-soft">ポップアップ</span>で表示されます。
+                そこで内容を確認してから「LINEで送る」を押してください。
+              </p>
             </section>
           </div>
         </div>
       </article>
 
-  </main>
+  
+  <!-- プレビュー（モーダル） -->
+  <div class="modal-overlay" id="previewModal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-head">
+        <h3 class="modal-title" id="modalTitle">送信内容の確認</h3>
+        <button type="button" class="icon-btn" id="modalClose" aria-label="閉じる">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="muted" style="margin-bottom:8px;">この内容がLINEの入力欄に入ります（送信はあなたが押します）</div>
+        <pre class="modal-pre" id="modalText"></pre>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" id="modalEdit">修正する</button>
+          <button type="button" class="btn" id="modalCopy">コピー</button>
+          <button type="button" class="btn btn-line" id="modalSend">LINEで送る</button>
+        </div>
+
+        <div class="small-muted" id="modalHelp">
+          LINEが開かない時は、いったん <a href="#" id="modalAddFriend">友だち追加</a> → 戻ってもう一度お試しください。
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
 
   <script>
-    (function(){
-      var C = window.CONFIG || {};
+  (function(){
+    'use strict';
+    var C = window.CONFIG || {};
 
-      // header
-      var companyName = document.getElementById('companyName');
-      if (companyName && C.COMPANY_NAME) companyName.textContent = C.COMPANY_NAME;
+    // header
+    var regionJa = document.getElementById('regionJa');
+    var regionEn = document.getElementById('regionEn');
+    var companyName = document.getElementById('companyName');
 
-      var mail = (C.EMAIL_TO || '').trim();
-      var tel = (C.TEL || '').trim();
-      var headerMailLink = document.getElementById('headerMailLink');
-      var headerTelLink = document.getElementById('headerTelLink');
-      if (headerMailLink && mail) headerMailLink.href = 'mailto:' + mail;
-      if (headerTelLink && tel) headerTelLink.href = 'tel:' + tel.replace(/[^0-9+]/g,'');
+    if (regionJa) regionJa.textContent = C.REGION_LABEL || '山口県';
+    if (regionEn) regionEn.textContent = (C.REGION_CODE || 'YAMAGUCHI').toUpperCase();
+    if (companyName) companyName.textContent = C.COMPANY_NAME || '軽貨物TAKE';
 
-      // add friend
-      var addUrl = (C.LINE_URL || '').trim();
-      var btnAddFriend = document.getElementById('btnAddFriend');
-      if (btnAddFriend) btnAddFriend.href = addUrl || '#';
+    var mail = (C.EMAIL_TO || '').trim();
+    var tel  = (C.TEL || '').trim();
+    var lineAdd = (C.LINE_URL || '').trim();
 
-      function getSelectedType(){
-        var el = document.querySelector('input[name="consultType"]:checked');
-        return el ? el.value : '';
+    var headerLine = document.getElementById('headerLineLink');
+    var headerMail = document.getElementById('headerMailLink');
+    var headerTel  = document.getElementById('headerTelLink');
+
+    // 相談の入口は「相談スタート」に集約（現在ページなのでリンクは無効化）
+    if (headerLine) headerLine.href = './consult.html';
+    if (headerMail && mail) { headerMail.href = 'mailto:' + mail; headerMail.textContent = mail; }
+    if (headerTel  && tel)  { headerTel.href  = 'tel:' + tel.replace(/[^0-9+]/g,''); headerTel.textContent = tel.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'); }
+
+    var btnAddFriend = document.getElementById('btnAddFriend');
+    if (btnAddFriend && lineAdd) btnAddFriend.href = lineAdd;
+
+    // ===== LINE 下書き =====
+    function normalizeOaId(raw){
+      var s = String(raw || '').trim();
+      if (!s) return '';
+      if (s[0] !== '@') s = '@' + s;
+      return s;
+    }
+
+    function buildMessage(){
+      var type = (document.querySelector('input[name="consultType"]:checked') || {}).value || '';
+      var note = (document.getElementById('note') || {}).value || '';
+      type = String(type).trim();
+      note = String(note).trim();
+      if (!note) note = '未入力';
+
+      return [
+        '【相談カテゴリ】',
+        type || '未選択',
+        '',
+        '【備考】',
+        note
+      ].join('\n').slice(0, 5000);
+    }
+
+    function openLineWithText(text){
+      var msg = encodeURIComponent(String(text || '').slice(0, 5000));
+      var oa = normalizeOaId(C.LINE_OA_ID || C.LINE_OA || '');
+      if (oa){
+        var url = 'https://line.me/R/oaMessage/' + encodeURIComponent(oa) + '/?' + msg;
+        location.href = url;
+        return;
       }
+      // fallback（宛先選択になる可能性あり）
+      location.href = 'https://line.me/R/msg/text/?' + msg;
+    }
 
-      function buildMessage(){
-        var type = getSelectedType() || '未選択';
-        var note = (document.getElementById('note').value || '').trim();
-        if (!note) note = '未入力';
+    // ===== modal =====
+    var modal = document.getElementById('previewModal');
+    var modalText = document.getElementById('modalText');
+    var modalClose = document.getElementById('modalClose');
+    var modalEdit = document.getElementById('modalEdit');
+    var modalSend = document.getElementById('modalSend');
+    var modalCopy = document.getElementById('modalCopy');
+    var modalAddFriend = document.getElementById('modalAddFriend');
 
-        return [
-          '【相談カテゴリ】',
-          type,
-          '',
-          '【備考】',
-          note
-        ].join('\n');
+    if (modalAddFriend && lineAdd) modalAddFriend.href = lineAdd;
+
+    function openModal(text){
+      if (!modal) return;
+      modalText.textContent = text;
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden','false');
+      document.documentElement.style.overflow = 'hidden';
+    }
+    function closeModal(){
+      if (!modal) return;
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden','true');
+      document.documentElement.style.overflow = '';
+    }
+
+    function copyText(text){
+      if (!text) return;
+      if (navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).catch(function(){});
+        return;
       }
+      // fallback
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch(e){}
+      ta.remove();
+    }
 
-      function openLineWithText(text){
-        var msg = encodeURIComponent(String(text || '').slice(0, 5000));
-        var oa = (C.LINE_OA_ID || '').trim();
-        if (oa) {
-          if (oa[0] !== '@') oa = '@' + oa;
-          var oaEnc = encodeURIComponent(oa);
-          var isMobile = /iphone|ipad|ipod|android/i.test(navigator.userAgent || '');
-          var base = isMobile ? 'line://oaMessage/' : 'https://line.me/R/oaMessage/';
-          location.href = base + oaEnc + '/?' + msg;
-          return;
-        }
-        // fallback: share text
-        location.href = 'https://line.me/R/msg/text/?' + msg;
-      }
+    var btnBuild = document.getElementById('btnBuild');
+    if (btnBuild) btnBuild.addEventListener('click', function(){
+      openModal(buildMessage());
+    });
 
-      // UI actions
-      var btnBuild = document.getElementById('btnBuild');
-      var btnSend = document.getElementById('btnSend');
-      var btnEdit = document.getElementById('btnEdit');
-      var previewBox = document.getElementById('previewBox');
-      var previewText = document.getElementById('previewText');
+    if (modalClose) modalClose.addEventListener('click', closeModal);
+    if (modalEdit) modalEdit.addEventListener('click', function(){
+      closeModal();
+      var noteEl = document.getElementById('note');
+      if (noteEl) noteEl.focus();
+    });
+    if (modalCopy) modalCopy.addEventListener('click', function(){
+      copyText(modalText ? modalText.textContent : buildMessage());
+    });
+    if (modalSend) modalSend.addEventListener('click', function(){
+      openLineWithText(modalText ? modalText.textContent : buildMessage());
+    });
 
-      function showPreview(){
-        var msg = buildMessage();
-        previewText.textContent = msg;
-        previewBox.style.display = 'block';
-        previewBox.scrollIntoView({behavior:'smooth', block:'start'});
-      }
+    // overlay click
+    if (modal) modal.addEventListener('click', function(e){
+      if (e.target === modal) closeModal();
+    });
 
-      if (btnBuild) btnBuild.addEventListener('click', showPreview);
-      if (btnEdit) btnEdit.addEventListener('click', function(){
-        // プレビューを閉じず、入力欄へ戻す（視覚的に修正が成立する）
-        document.getElementById('note').focus();
-        document.getElementById('consultCard').scrollIntoView({behavior:'smooth', block:'start'});
-      });
-      if (btnSend) btnSend.addEventListener('click', function(){
-        openLineWithText(buildMessage());
-      });
-    })();
-  </script>
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape') closeModal();
+    });
+  })();
+</script>
 </body>
 </html>

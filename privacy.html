@@ -31,9 +31,10 @@
       </div>
       <div class="header-right">
         <nav class="nav" aria-label="メイン">
+          <a href="./register.html" class="nav-link nav-link-cta">登録</a>
           <a href="./index.html" class="nav-link">トップ</a>
+          <a href="./consult.html" class="nav-link">開業相談</a>
           <a href="./vehicle.html" class="nav-link">車両の相談</a>
-          <a href="./register.html" class="nav-link nav-link-primary">登録</a>
         </nav>
       </div>
     </div>
@@ -73,15 +74,36 @@
   <script>
     (function () {
       if (!window.CONFIG) return;
+
       var ja = document.getElementById("regionJa");
       var en = document.getElementById("regionEn");
       var cn = document.getElementById("companyName");
       var fc = document.getElementById("footerCompany");
+
       if (ja) ja.textContent = window.CONFIG.REGION_LABEL || "山口県";
       if (en) en.textContent = (window.CONFIG.REGION_CODE || "YAMAGUCHI").toUpperCase();
       if (cn) cn.textContent = window.CONFIG.COMPANY_NAME || "軽貨物TAKE";
       if (fc) fc.textContent = (window.CONFIG.COMPANY_NAME || "drivers-site") + "｜協力ドライバー登録プール（" + (window.CONFIG.REGION_LABEL || "山口県") + "）";
+
+      // header links
+      var lineLink = document.getElementById("headerLineLink");
+      if (lineLink) lineLink.href = "./consult.html";
+
+      var mailLink = document.getElementById("headerMailLink");
+      var telLink  = document.getElementById("headerTelLink");
+
+      var email = window.CONFIG.EMAIL_TO || "";
+      var tel = window.CONFIG.TEL || "";
+
+      if (mailLink && email) {
+        mailLink.href = "mailto:" + email;
+        mailLink.textContent = email;
+      }
+      if (telLink && tel) {
+        telLink.href = "tel:" + tel.replace(/[^0-9+]/g, "");
+        telLink.textContent = tel;
+      }
     })();
-  </script>
+</script>
 </body>
 </html>

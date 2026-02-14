@@ -1,30 +1,13 @@
 // FILE: line-consult.js（全文）
-// 各相談セクション内の選択項目 + 備考を集めて、LINEに下書き入りで開く
+// 車両ページ：選択内容 + 備考 を集めて、LINE（公式アカウント）に「下書き入り」で開く
 
 (function () {
   "use strict";
 
+  var C = window.CONFIG || {};
+
   function $all(sel, root) {
     return Array.prototype.slice.call((root || document).querySelectorAll(sel));
-  }
-
-  function cssEscapeSafe(s) {
-    s = String(s || "");
-    if (window.CSS && typeof window.CSS.escape === "function") return window.CSS.escape(s);
-    // 超簡易エスケープ（id/name程度に使う）
-    return s.replace(/[^a-zA-Z0-9_\-]/g, "\\$&");
-  }
-
-  function getLabelText(el, scope) {
-    if (!el) return "";
-    var id = el.id ? String(el.id) : "";
-    if (id) {
-      var lb = (scope || document).querySelector('label[for="' + cssEscapeSafe(id) + '"]');
-      if (lb) return (lb.textContent || "").trim();
-    }
-    var prev = el.previousElementSibling;
-    if (prev && prev.tagName === "LABEL") return (prev.textContent || "").trim();
-    return "";
   }
 
   function normalizeOaId(raw) {
@@ -34,117 +17,129 @@
     return s;
   }
 
-  function buildMessage(sectionEl, title) {
-    var lines = [];
-    var t = String(title || "").trim();
-    if (!t) {
-      var h = sectionEl ? sectionEl.querySelector("h2,h3,.vehicle-card-title,.consult-title") : null;
-      t = h ? (h.textContent || "").trim() : "相談";
+  function getLabelText(el, scope) {
+    if (!el) return "";
+
+    // label[for=id]
+    if (el.id) {
+      var lb = (scope || document).querySelector('label[for="' + el.id + '"]');
+      if (lb && (lb.textContent || "").trim()) return (lb.textContent || "").trim();
     }
 
-    lines.push("【" + t + "】");
-    lines.push("ページ: " + (location.pathname || "/"));
+    // .field-label（近い行）
+    var row = el.closest(".form-row") || el.closest(".form-row-full");
+    if (row) {
+      var fl = row.querySelector(".field-label");
+      if (fl && (fl.textContent || "").trim()) return (fl.textContent || "").trim();
+    }
+
+    // fieldset legend
+    var fs = el.closest("fieldset");
+    if (fs) {
+      var lg = fs.querySelector("legend");
+      if (lg && (lg.textContent || "").trim()) return (lg.textContent || "").trim();
+    }
+
+    return "";
+  }
+
+  function buildMessage(sectionEl, title) {
+    var t = String(title || "").trim();
+    if (!t) {
+      var h = sectionEl ? sectionEl.querySelector("h2,h3,.vehicle-card-title") : null;
+      t = h ? String(h.textContent || "").trim() : "相談";
+    }
+
+    var lines = [];
+    lines.push("【相談カテゴリ】");
+    lines.push(t);
+    lines.push("");
+    lines.push("【選択内容】");
+
+    var any = false;
 
     // select
     $all("select", sectionEl).forEach(function (sel) {
-      var v = (sel.value == null ? "" : String(sel.value)).trim();
+      var v = "";
+      if (sel.options && sel.selectedIndex >= 0) {
+        v = String(sel.options[sel.selectedIndex].text || "").trim();
+      } else {
+        v = String(sel.value || "").trim();
+      }
       if (!v) return;
-      var label = getLabelText(sel, sectionEl) || sel.name || sel.id || "項目";
-      lines.push(label + ": " + v);
+
+      any = true;
+      var label = (getLabelText(sel, sectionEl) || sel.name || sel.id || "項目").replace(/：\s*$/, "");
+      lines.push("・" + label + "： " + v);
     });
 
     // text/number/email/tel
     $all('input[type="text"],input[type="number"],input[type="email"],input[type="tel"]', sectionEl).forEach(function (inp) {
-      var v = (inp.value == null ? "" : String(inp.value)).trim();
+      var v = String(inp.value || "").trim();
       if (!v) return;
-      var label = getLabelText(inp, sectionEl) || inp.name || inp.id || "入力";
-      lines.push(label + ": " + v);
+
+      any = true;
+      var label = (getLabelText(inp, sectionEl) || inp.name || inp.id || "入力").replace(/：\s*$/, "");
+      lines.push("・" + label + "： " + v);
     });
 
-    // checkbox/radio
+    // checkbox/radio（checkedだけ）
     var checked = $all('input[type="checkbox"]:checked, input[type="radio"]:checked', sectionEl);
     var groups = {};
     checked.forEach(function (inp) {
       var name = (inp.name || inp.id || "選択");
       if (!groups[name]) groups[name] = [];
-      var lb = "";
-      if (inp.id) {
-        var l = sectionEl.querySelector('label[for="' + cssEscapeSafe(inp.id) + '"]');
-        lb = l ? (l.textContent || "").trim() : "";
-      }
-      groups[name].push(lb || (inp.value || "選択"));
-    });
-    Object.keys(groups).forEach(function (k) {
-      var label = k;
-      var any = sectionEl.querySelector('[name="' + cssEscapeSafe(k) + '"]');
-      if (any) {
-        var fs = any.closest("fieldset");
-        var lg = fs ? fs.querySelector("legend") : null;
-        if (lg && (lg.textContent || "").trim()) label = (lg.textContent || "").trim();
-      }
-      lines.push(label + ": " + groups[k].join("・"));
+      var lb = getLabelText(inp, sectionEl);
+      groups[name].push(lb || String(inp.value || "選択"));
     });
 
-    // note textarea
+    Object.keys(groups).forEach(function (k) {
+      any = true;
+      var anyEl = sectionEl.querySelector('[name="' + k + '"]');
+      var label = anyEl ? getLabelText(anyEl, sectionEl) : k;
+      label = (label || k).replace(/：\s*$/, "");
+      lines.push("・" + label + "： " + groups[k].join(" / "));
+    });
+
+    if (!any) lines.push("（未選択）");
+
+    // note
     var noteEl = sectionEl ? sectionEl.querySelector("textarea.js-line-note, textarea[data-line-note]") : null;
     var note = noteEl ? String(noteEl.value || "").trim() : "";
     if (!note) note = "未入力";
 
-    lines.push("備考:");
+    lines.push("");
+    lines.push("【備考】");
     lines.push(note);
-
-    if (lines.length <= 2) {
-      lines.push("（未選択）");
-      lines.push("備考に状況を書いて送ってください。");
-    }
 
     return lines.join("\n").slice(0, 5000);
   }
 
   function openLineWithText(text) {
     var msg = encodeURIComponent(String(text || "").slice(0, 5000));
-
-    var oa = (window.CONFIG && (window.CONFIG.LINE_OA_ID || window.CONFIG.LINE_OA)) ? (window.CONFIG.LINE_OA_ID || window.CONFIG.LINE_OA) : "";
-    var oaEnc = encodeURIComponent(normalizeOaId(oa));
-
-    // ✅ 公式アカウント宛て（最優先）
-    if (oaEnc) {
-      var isMobile = /iphone|ipad|ipod|android/i.test(navigator.userAgent || "");
-      var base = isMobile ? "line://oaMessage/" : "https://line.me/R/oaMessage/";
-      location.href = base + oaEnc + "/?" + msg;
+    var oaId = normalizeOaId(C.LINE_OA_ID || C.LINE_OA || "");
+    if (oaId) {
+      var url = "https://line.me/R/oaMessage/" + encodeURIComponent(oaId) + "/?" + msg;
+      window.open(url, "_blank", "noopener,noreferrer");
       return;
     }
-
-    // 要件指定のURLスキーム（宛先は端末側の選択/直近トークに依存する可能性あり）
-    location.href = "https://line.me/R/msg/text/?" + msg;
+    // fallback（宛先選択になる可能性あり）
+    window.open("https://line.me/R/msg/text/?" + msg, "_blank", "noopener,noreferrer");
   }
 
   function onClick(e) {
     var btn = e.currentTarget;
-    if (!btn) return;
-    e.preventDefault();
+    var title = (btn.getAttribute("data-line-title") || btn.textContent || "").trim();
 
-    var section =
-      btn.closest("section") ||
-      btn.closest(".card") ||
-      btn.closest(".vehicle-card") ||
-      btn.closest(".consult-card") ||
-      document;
+    // ボタンがあるセクション単位で集計
+    var section = btn.closest("section") || btn.closest(".card") || document.body;
 
-    var title = btn.getAttribute("data-line-title") || "";
     var text = buildMessage(section, title);
     openLineWithText(text);
   }
 
-  function boot() {
-    $all(".js-line-send").forEach(function (el) {
-      el.addEventListener("click", onClick);
-    });
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", boot);
-  } else {
-    boot();
-  }
+  // bind
+  $all(".js-line-send").forEach(function (btn) {
+    btn.addEventListener("click", onClick);
+  });
 })();

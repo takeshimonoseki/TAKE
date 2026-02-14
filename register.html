@@ -77,10 +77,10 @@
           </div>
         </div>
         <nav class="nav" aria-label="メイン">
+          <a href="./register.html" class="nav-link nav-link-cta nav-link-primary" aria-current="page">登録</a>
           <a href="./index.html" class="nav-link">トップ</a>
           <a href="./consult.html" class="nav-link">開業相談</a>
           <a href="./vehicle.html" class="nav-link">車両の相談</a>
-          <a href="./register.html" class="nav-link nav-link-primary" aria-current="page">登録</a>
         </nav>
       </div>
     </div>
@@ -347,7 +347,17 @@
     })();
 
     function openLineShareWithText(text) {
-      var shareUrl = "https://line.me/R/msg/text/?" + encodeURIComponent(text.slice(0, 5000));
+      var msg = encodeURIComponent(String(text || "").slice(0, 5000));
+      var oa = (window.CONFIG && (window.CONFIG.LINE_OA_ID || window.CONFIG.LINE_OA)) || "";
+      oa = String(oa).trim();
+      if (oa) {
+        if (oa[0] !== "@") oa = "@" + oa;
+        var url = "https://line.me/R/oaMessage/" + encodeURIComponent(oa) + "/?" + msg;
+        window.open(url, "_blank", "noopener,noreferrer");
+        return;
+      }
+      // fallback（宛先選択になる可能性あり）
+      var shareUrl = "https://line.me/R/msg/text/?" + msg;
       window.open(shareUrl, "_blank", "noopener,noreferrer");
     }
 

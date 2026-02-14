@@ -42,9 +42,10 @@
           </div>
         </div>
         <nav class="nav" aria-label="メイン">
+          <a href="./register.html" class="nav-link nav-link-cta">登録</a>
           <a href="./index.html" class="nav-link">トップ</a>
-          <a href="./register.html" class="nav-link">登録</a>
-          <span class="nav-link nav-link-primary" aria-current="page">連絡</span>
+          <a href="./consult.html" class="nav-link">開業相談</a>
+          <a href="./vehicle.html" class="nav-link">車両の相談</a>
         </nav>
       </div>
     </div>
@@ -78,6 +79,7 @@
 
           <div class="mt-md">
             <button type="button" class="btn btn-line" id="btnLineSend">LINEでこの内容を送る</button>
+            <div class="small-muted" style="margin-top:8px;">友だち追加がまだの方は <a href="#" data-add-friend>こちら</a></div>
           </div>
         </section>
 
@@ -102,6 +104,7 @@
     // CONFIG からヘッダー・フッター情報を反映
     (function applyConfig() {
       if (!window.CONFIG) return;
+
       var regionJa = document.getElementById("regionJa");
       var regionEn = document.getElementById("regionEn");
       var companyName = document.getElementById("companyName");
@@ -114,15 +117,16 @@
         footerCompany.textContent = (window.CONFIG.COMPANY_NAME || "drivers-site") + "｜協力ドライバー登録プール（" + (window.CONFIG.REGION_LABEL || "山口県") + "）";
       }
 
-      var lineLink = document.getElementById("headerLineLink");
       var mailLink = document.getElementById("headerMailLink");
       var telLink = document.getElementById("headerTelLink");
 
-      var lineUrl = window.CONFIG.LINE_ADD_FRIEND_URL || window.CONFIG.LINE_URL || "";
       var email = window.CONFIG.EMAIL_TO || "";
       var tel = window.CONFIG.TEL || "";
 
-      if (lineLink && lineUrl) lineLink.href = lineUrl;
+      // ヘッダーの「相談」は、まず相談スタートへ（登録の後押し）
+      var lineLink = document.getElementById("headerLineLink");
+      if (lineLink) lineLink.href = "./consult.html";
+
       if (mailLink && email) {
         mailLink.href = "mailto:" + email;
         mailLink.textContent = email;
@@ -131,27 +135,47 @@
         telLink.href = "tel:" + tel.replace(/[^0-9+]/g, "");
         telLink.textContent = tel;
       }
+
+      // 友だち追加リンク
+      var addUrl = window.CONFIG.LINE_ADD_FRIEND_URL || window.CONFIG.LINE_URL || "";
+      if (addUrl) {
+        document.querySelectorAll("[data-add-friend]").forEach(function(a){ a.href = addUrl; });
+      }
     })();
 
+    function normalizeOaId(raw) {
+      var s = String(raw || "").trim();
+      if (!s) return "";
+      if (s[0] !== "@") s = "@" + s;
+      return s;
+    }
+
     function openLineWithText(text) {
-      var base = "https://line.me/R/msg/text/";
-      var url = base + "?" + encodeURIComponent(text.slice(0, 5000));
-      window.open(url, "_blank", "noopener,noreferrer");
+      var msg = encodeURIComponent(String(text || "").slice(0, 5000));
+      var oa = normalizeOaId((window.CONFIG && (window.CONFIG.LINE_OA_ID || window.CONFIG.LINE_OA)) || "");
+      if (oa) {
+        window.open("https://line.me/R/oaMessage/" + encodeURIComponent(oa) + "/?" + msg, "_blank", "noopener,noreferrer");
+        return;
+      }
+      window.open("https://line.me/R/msg/text/?" + msg, "_blank", "noopener,noreferrer");
     }
 
     document.getElementById("btnLineSend").addEventListener("click", function () {
-      var body = document.getElementById("messageBody").value.trim();
-      var lines = [];
-      lines.push("【協力ドライバーからの連絡】");
-      if (body) {
-        lines.push(body);
-      } else {
-        lines.push("（本文は空欄のまま送信しました。内容はトークでお伝えします。）");
-      }
-      var text = lines.join("\n");
+      var body = (document.getElementById("messageBody").value || "").trim();
+      if (!body) body = "未入力";
+
+      var text = [
+        "【相談カテゴリ】",
+        "協力ドライバーからの連絡",
+        "",
+        "【備考】",
+        body
+      ].join("\n");
+
       openLineWithText(text);
     });
-  </script>
+
+</script>
 </body>
 </html>
 
