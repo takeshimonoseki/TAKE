@@ -1,3 +1,4 @@
+<!-- FILE: vehicle.html（全文） -->
 <!doctype html>
 <html lang="ja">
 <head>
@@ -12,6 +13,7 @@
   <link rel="stylesheet" href="./drivers.css" />
   <script src="./config.js"></script>
   <script src="./drivers.js" defer></script>
+  <script src="./line-consult.js" defer></script>
 </head>
 <body>
   <header class="site-header" id="top">
@@ -56,15 +58,16 @@
   <main class="page page-vehicle" role="main">
     <h1 class="hero-title">車両の相談</h1>
     <p class="hero-lead">
-      購入・修理・車検・開業まわりについて、内容を選んで入力するとLINE用の文面が作れます。<br />
-      タップでLINEを開き、そのまま送信してご相談ください。
+      内容を選んで入力 → LINEを開くと、<strong>相談内容が入力欄に入った状態</strong>になります。<br />
+      そのまま送信してご相談ください（送信ボタンはあなたが押します）。
     </p>
 
-    <!-- A) 車両購入の相談 -->
+    <!-- 1) 車両購入 -->
     <section class="section card vehicle-card section-reveal" id="card-purchase">
-      <h2 class="vehicle-card-title">車両購入の相談（料金なし・相談→LINE）</h2>
+      <h2 class="vehicle-card-title">車両購入の相談</h2>
+
       <div class="form-row-full">
-        <label class="field-label">用途</label>
+        <label class="field-label" for="purchaseUse">用途</label>
         <select id="purchaseUse">
           <option value="">選択してください</option>
           <option value="軽貨物">軽貨物</option>
@@ -73,10 +76,11 @@
           <option value="未定">未定</option>
         </select>
       </div>
+
       <div class="form-row-full">
-        <label class="field-label">予算帯（任意・相談優先）</label>
+        <label class="field-label" for="purchaseBudget">予算帯（任意）</label>
         <select id="purchaseBudget">
-          <option value="">選択（未選択でも送信できます）</option>
+          <option value="">未選択でもOK</option>
           <option value="〜30万">〜30万円</option>
           <option value="〜50万">〜50万円</option>
           <option value="〜80万">〜80万円</option>
@@ -87,60 +91,42 @@
           <option value="未定">未定</option>
         </select>
       </div>
+
       <div class="form-row-full">
-        <label class="field-label">メーカー（任意・下の車種は手入力も可）</label>
+        <label class="field-label" for="purchaseMaker">メーカー（任意）</label>
         <select id="purchaseMaker">
           <option value="">選択</option>
           <optgroup label="国産">
             <option value="トヨタ">トヨタ</option>
-            <option value="レクサス">レクサス</option>
             <option value="ホンダ">ホンダ</option>
             <option value="日産">日産</option>
-            <option value="インフィニティ">インフィニティ</option>
             <option value="スズキ">スズキ</option>
             <option value="ダイハツ">ダイハツ</option>
             <option value="マツダ">マツダ</option>
             <option value="スバル">スバル</option>
             <option value="三菱">三菱</option>
-            <option value="いすゞ">いすゞ</option>
-            <option value="日野">日野</option>
-            <option value="UDトラックス">UDトラックス</option>
-            <option value="光岡">光岡</option>
             <option value="その他国産">その他国産</option>
           </optgroup>
           <optgroup label="輸入">
             <option value="メルセデス・ベンツ">メルセデス・ベンツ</option>
             <option value="BMW">BMW</option>
-            <option value="ミニ">ミニ</option>
             <option value="アウディ">アウディ</option>
             <option value="フォルクスワーゲン">フォルクスワーゲン</option>
-            <option value="ポルシェ">ポルシェ</option>
             <option value="ボルボ">ボルボ</option>
-            <option value="テスラ">テスラ</option>
-            <option value="フォード">フォード</option>
-            <option value="シボレー">シボレー</option>
-            <option value="ジープ">ジープ</option>
-            <option value="プジョー">プジョー</option>
-            <option value="シトロエン">シトロエン</option>
-            <option value="ルノー">ルノー</option>
-            <option value="フィアット">フィアット</option>
-            <option value="アルファロメオ">アルファロメオ</option>
-            <option value="ランドローバー">ランドローバー</option>
-            <option value="ジャガー">ジャガー</option>
-            <option value="ヒュンダイ">ヒュンダイ</option>
-            <option value="キア">キア</option>
             <option value="その他輸入">その他輸入</option>
           </optgroup>
         </select>
       </div>
+
       <div class="form-row-full">
-        <label class="field-label">車種（モデル）</label>
+        <label class="field-label" for="purchaseModel">車種（モデル）</label>
         <select id="purchaseModel">
           <option value="">メーカーを選択すると車種が出ます</option>
         </select>
       </div>
+
       <div class="form-row-full">
-        <label class="field-label">希望納期</label>
+        <label class="field-label" for="purchaseDelivery">希望納期</label>
         <select id="purchaseDelivery">
           <option value="">選択</option>
           <option value="すぐ">すぐ</option>
@@ -149,8 +135,9 @@
           <option value="未定">未定</option>
         </select>
       </div>
+
       <div class="form-row-full">
-        <label class="field-label">連絡希望 <span class="field-recommend">（推奨・未選択でも送信可）</span></label>
+        <label class="field-label" for="purchaseContact">連絡希望（任意）</label>
         <select id="purchaseContact">
           <option value="">選択</option>
           <option value="LINE">LINE</option>
@@ -158,324 +145,181 @@
           <option value="メール">メール</option>
         </select>
       </div>
+
+      <div class="form-row-full mt-md">
+        <label class="field-label">備考（任意）</label>
+        <textarea class="js-line-note" data-line-note rows="4" placeholder="例：希望の車種／走行距離／急ぎ度／今の車の状況など"></textarea>
+      </div>
+
       <div class="mt-md">
-        <button type="button" class="btn btn-line" id="btnLinePurchase">LINEで相談する</button>
+        <button type="button" class="btn btn-line js-line-send" id="btnLinePurchase" data-line-title="車両購入の相談">LINEで相談する</button>
       </div>
     </section>
 
-    <!-- B) 修理・整備の相談 -->
+    <!-- 2) 修理・整備 -->
     <section class="section card vehicle-card" id="card-repair">
-      <h2 class="vehicle-card-title">修理・整備の相談（相談→LINE）</h2>
+      <h2 class="vehicle-card-title">修理・整備の相談</h2>
+
       <div class="form-row-full">
-        <label class="field-label">症状（複数可）</label>
-        <div class="checkbox-group checkbox-group-spaced">
-          <label><input type="checkbox" name="repairSymptom" value="エンジン不良" /> エンジン不良</label>
-          <label><input type="checkbox" name="repairSymptom" value="ブレーキ" /> ブレーキ</label>
-          <label><input type="checkbox" name="repairSymptom" value="異音" /> 異音</label>
-          <label><input type="checkbox" name="repairSymptom" value="エアコン" /> エアコン</label>
-          <label><input type="checkbox" name="repairSymptom" value="オイル交換" /> オイル交換</label>
-          <label><input type="checkbox" name="repairSymptom" value="バッテリー" /> バッテリー</label>
-          <label><input type="checkbox" name="repairSymptom" value="タイヤ" /> タイヤ</label>
-          <label><input type="checkbox" name="repairSymptom" value="警告灯" /> 警告灯</label>
-          <label><input type="checkbox" name="repairSymptom" value="その他" /> その他</label>
-        </div>
+        <label class="field-label" for="repairCar">車種（ざっくり）</label>
+        <select id="repairCar">
+          <option value="">選択</option>
+          <option value="軽バン">軽バン</option>
+          <option value="軽トラ">軽トラ</option>
+          <option value="普通車">普通車</option>
+          <option value="その他">その他</option>
+        </select>
       </div>
+
+      <fieldset class="form-row-full">
+        <legend class="field-label">症状（複数OK）</legend>
+        <label><input type="checkbox" name="repairSym" value="異音" /> 異音</label>
+        <label><input type="checkbox" name="repairSym" value="警告灯" /> 警告灯</label>
+        <label><input type="checkbox" name="repairSym" value="エアコン" /> エアコン</label>
+        <label><input type="checkbox" name="repairSym" value="ブレーキ" /> ブレーキ</label>
+        <label><input type="checkbox" name="repairSym" value="エンジン" /> エンジン</label>
+        <label><input type="checkbox" name="repairSym" value="足回り" /> 足回り</label>
+        <label><input type="checkbox" name="repairSym" value="その他" /> その他</label>
+      </fieldset>
+
       <div class="form-row-full">
-        <label class="field-label">緊急度</label>
+        <label class="field-label" for="repairUrgency">急ぎ度</label>
         <select id="repairUrgency">
           <option value="">選択</option>
-          <option value="すぐ">すぐ</option>
-          <option value="近いうち">近いうち</option>
-          <option value="相談">相談</option>
+          <option value="今日〜明日">今日〜明日</option>
+          <option value="今週中">今週中</option>
+          <option value="急ぎではない">急ぎではない</option>
+          <option value="未定">未定</option>
         </select>
       </div>
-      <div class="form-row-full">
-        <label class="field-label">車種情報（任意）</label>
-        <div class="form-row-grid">
-          <input type="text" id="repairMaker" placeholder="メーカー" />
-          <input type="text" id="repairModel" placeholder="車種" />
-          <input type="text" id="repairYear" placeholder="年式" />
-          <input type="text" id="repairMileage" placeholder="走行距離" />
-        </div>
+
+      <div class="form-row-full mt-md">
+        <label class="field-label">備考（任意）</label>
+        <textarea class="js-line-note" data-line-note rows="4" placeholder="例：症状の詳細／どのタイミングで出るか／写真があれば後で送れます"></textarea>
       </div>
-      <div class="form-row-full">
-        <label class="field-label">希望日時</label>
-        <input type="text" id="repairDateTime" placeholder="例：土曜午前／週末" />
-      </div>
+
       <div class="mt-md">
-        <button type="button" class="btn btn-line" id="btnLineRepair">LINEで相談する</button>
+        <button type="button" class="btn btn-line js-line-send" id="btnLineRepair" data-line-title="修理・整備の相談">LINEで相談する</button>
       </div>
     </section>
 
-    <!-- C) 車検の相談 -->
+    <!-- 3) 車検 -->
     <section class="section card vehicle-card" id="card-shaken">
-      <h2 class="vehicle-card-title">車検の相談（目安レンジ＋LINE送信）</h2>
-      <p class="vehicle-note">※確定料金は出せません。実車確認後に確定見積となります。</p>
+      <h2 class="vehicle-card-title">車検の相談</h2>
+
       <div class="form-row-full">
-        <label class="field-label">車種区分</label>
-        <select id="shakenCategory">
-          <option value="軽">軽</option>
-          <option value="普通">普通</option>
+        <label class="field-label" for="shakenWhen">車検時期</label>
+        <select id="shakenWhen">
+          <option value="">選択</option>
+          <option value="今月">今月</option>
+          <option value="来月">来月</option>
+          <option value="3ヶ月以内">3ヶ月以内</option>
+          <option value="未定">未定</option>
         </select>
       </div>
+
       <div class="form-row-full">
-        <label class="field-label">年式・走行距離（任意）</label>
-        <div class="form-row-grid">
-          <input type="text" id="shakenYear" placeholder="年式" />
-          <input type="text" id="shakenMileage" placeholder="走行距離" />
-        </div>
-      </div>
-      <div class="form-row-full">
-        <label class="field-label">希望</label>
-        <select id="shakenHope">
-          <option value="できるだけ安く">できるだけ安く</option>
-          <option value="標準">標準</option>
-          <option value="しっかり整備">しっかり整備</option>
+        <label class="field-label" for="shakenType">希望</label>
+        <select id="shakenType">
+          <option value="">選択</option>
+          <option value="最低限でOK">最低限でOK</option>
+          <option value="しっかり整備も">しっかり整備も</option>
+          <option value="相談して決めたい">相談して決めたい</option>
         </select>
       </div>
-      <div id="shakenEstimate" class="summary-block mt-md" aria-live="polite">
-        <div class="summary-block-title">参考目安（概算レンジ）</div>
-        <p id="shakenEstimateText" class="vehicle-estimate-text"></p>
-        <p class="small">※法定費用・整備内容・車両状態で大きく変動します。実車確認後に確定見積をお出しします。</p>
+
+      <div class="form-row-full mt-md">
+        <label class="field-label">備考（任意）</label>
+        <textarea class="js-line-note" data-line-note rows="4" placeholder="例：車種／走行距離／気になる点／代車の希望など"></textarea>
       </div>
+
       <div class="mt-md">
-        <button type="button" class="btn btn-line" id="btnLineShaken">LINEで相談する（目安を文面に反映）</button>
+        <button type="button" class="btn btn-line js-line-send" id="btnLineShaken" data-line-title="車検の相談">LINEで相談する</button>
       </div>
     </section>
 
-    <!-- D) 開業トータル相談 -->
-    <section class="section card vehicle-card" id="card-procedure">
-      <h2 class="vehicle-card-title">開業トータル相談（手続き／黒ナンバー／保険／確定申告など）</h2>
-      <div class="summary-block mb-md vehicle-summary">
-        <div class="summary-block-title">黒ナンバーについて</div>
-        <p>必要書類をまとめて、<strong>あとは窓口に行くだけの状態までサポートします</strong>（本人申請が原則）。必要に応じて提携先をご案内する場合があります。</p>
-        <p class="vehicle-price">書類準備サポート：15,000円（税別）/ 16,500円（税込）※本人申請</p>
-        <p class="small">※代行・提出の代理は行いません。申請はご本人が窓口で行います。</p>
-      </div>
+    <!-- 4) 開業トータル -->
+    <section class="section card vehicle-card" id="card-startup">
+      <h2 class="vehicle-card-title">開業トータル相談（黒ナンバー・保険・確定申告など）</h2>
+
+      <fieldset class="form-row-full">
+        <legend class="field-label">相談したい内容（複数OK）</legend>
+        <label><input type="checkbox" name="startupTopics" value="黒ナンバー" /> 黒ナンバー</label>
+        <label><input type="checkbox" name="startupTopics" value="保険" /> 保険</label>
+        <label><input type="checkbox" name="startupTopics" value="確定申告" /> 確定申告</label>
+        <label><input type="checkbox" name="startupTopics" value="車両" /> 車両</label>
+        <label><input type="checkbox" name="startupTopics" value="仕事の取り方" /> 仕事の取り方</label>
+      </fieldset>
+
       <div class="form-row-full">
-        <label class="field-label">相談カテゴリ（複数可）</label>
-        <div class="checkbox-group checkbox-group-spaced">
-          <label><input type="checkbox" name="procedureKind" value="黒ナンバー" /> 黒ナンバー</label>
-          <label><input type="checkbox" name="procedureKind" value="保険" /> 保険</label>
-          <label><input type="checkbox" name="procedureKind" value="確定申告" /> 確定申告</label>
-          <label><input type="checkbox" name="procedureKind" value="車両準備" /> 車両準備</label>
-          <label><input type="checkbox" name="procedureKind" value="その他" /> その他</label>
-        </div>
-      </div>
-      <div class="form-row-full">
-        <label class="field-label">車両の有無</label>
-        <select id="procedureVehicle">
+        <label class="field-label" for="startupWhen">始めたい時期</label>
+        <select id="startupWhen">
           <option value="">選択</option>
-          <option value="あり">あり</option>
-          <option value="なし">なし</option>
-          <option value="検討中">検討中</option>
-        </select>
-        <p id="procedureVehicleNone" class="field-help" style="display:none;">
-          <a href="#card-purchase">車両購入の相談</a>へお進みください。
-        </p>
-      </div>
-      <div class="form-row-full">
-        <label class="field-label">いつから稼働したいか</label>
-        <input type="text" id="procedureStart" placeholder="例：来月から／3ヶ月後" />
-      </div>
-      <div class="form-row-full">
-        <label class="field-label">現状・希望連絡</label>
-        <input type="text" id="procedureContact" placeholder="例：書類は揃っている／LINEで返信希望" />
-      </div>
-      <div class="form-row-full">
-        <label class="field-label">希望連絡方法</label>
-        <select id="procedureContactMethod">
-          <option value="">選択</option>
-          <option value="LINE">LINE</option>
-          <option value="電話">電話</option>
-          <option value="メール">メール</option>
+          <option value="すぐ">すぐ</option>
+          <option value="1ヶ月以内">1ヶ月以内</option>
+          <option value="3ヶ月以内">3ヶ月以内</option>
+          <option value="未定">未定</option>
         </select>
       </div>
+
+      <div class="form-row-full mt-md">
+        <label class="field-label">備考（任意）</label>
+        <textarea class="js-line-note" data-line-note rows="4" placeholder="例：今の状況（未経験／副業／車あり無し）／困ってること／希望など"></textarea>
+      </div>
+
       <div class="mt-md">
-        <button type="button" class="btn btn-line" id="btnLineProcedure">LINEで相談する</button>
+        <button type="button" class="btn btn-line js-line-send" id="btnLineStartup" data-line-title="開業トータル相談">LINEで相談する</button>
       </div>
     </section>
 
-    <footer class="site-footer">
-      <div class="hero-actions footer-actions">
-        <a class="btn btn-line btn-footer" id="footerLineBtn" href="#" target="_blank" rel="noopener noreferrer">LINEで質問</a>
-        <a class="btn btn-mail btn-footer" id="footerMailBtn" href="#">メール</a>
-        <a class="btn btn-tel btn-footer" id="footerTelBtn" href="#">電話</a>
-        <a class="btn btn-primary btn-footer" href="./register.html">登録に進む</a>
-      </div>
-      <div id="footerCompany">drivers-site｜協力ドライバー登録プール（山口県）</div>
-      <p class="mt-sm"><a href="./privacy.html">プライバシー・個人情報の取扱い</a></p>
-    </footer>
+    <div class="mt-md">
+      <a class="btn btn-primary" href="./index.html">トップに戻る</a>
+    </div>
   </main>
 
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      var C = window.CONFIG || {};
-      var lineUrl = C.LINE_URL || "";
-      var email = C.EMAIL_TO || "";
-      var tel = C.TEL || "";
+    // CONFIG からヘッダー情報を反映
+    (function applyConfig() {
+      if (!window.CONFIG) return;
+      var regionJa = document.getElementById("regionJa");
+      var regionEn = document.getElementById("regionEn");
+      var companyName = document.getElementById("companyName");
 
-      function setHref(id, url) {
-        var el = document.getElementById(id);
-        if (el && url) el.href = url;
-      }
-      setHref("headerLineLink", lineUrl);
-      setHref("headerMailLink", email ? "mailto:" + email : "");
-      setHref("headerTelLink", tel ? "tel:" + tel.replace(/[^0-9+]/g, "") : "");
-      var headerMail = document.getElementById("headerMailLink");
-      var headerTel = document.getElementById("headerTelLink");
-      if (headerMail) headerMail.textContent = email || "—";
-      if (headerTel) headerTel.textContent = tel ? tel.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3") : "—";
-      setHref("footerLineBtn", lineUrl);
-      setHref("footerMailBtn", email ? "mailto:" + email : "");
-      setHref("footerTelBtn", tel ? "tel:" + tel.replace(/[^0-9+]/g, "") : "");
+      if (regionJa) regionJa.textContent = window.CONFIG.REGION_LABEL || "山口県";
+      if (regionEn) regionEn.textContent = (window.CONFIG.REGION_CODE || "YAMAGUCHI").toUpperCase();
+      if (companyName) companyName.textContent = window.CONFIG.COMPANY_NAME || "軽貨物TAKE";
 
-      if (C.REGION_LABEL) {
-        var ja = document.getElementById("regionJa");
-        if (ja) ja.textContent = C.REGION_LABEL;
-      }
-      if (C.COMPANY_NAME) {
-        var cn = document.getElementById("companyName");
-        if (cn) cn.textContent = C.COMPANY_NAME;
-      }
+      var lineLink = document.getElementById("headerLineLink");
+      var mailLink = document.getElementById("headerMailLink");
+      var telLink = document.getElementById("headerTelLink");
+      var lineUrl = window.CONFIG.LINE_URL || "";
+      var email = window.CONFIG.EMAIL_TO || "";
+      var tel = window.CONFIG.TEL || "";
 
-      function openLineWithText(text) {
-        if (!text || !text.trim()) {
-          alert("送信する内容を入力してください。");
-          return;
-        }
-        var url = "https://line.me/R/msg/text/?" + encodeURIComponent(text.trim().slice(0, 5000));
-        window.open(url, "_blank", "noopener,noreferrer");
+      if (lineLink && lineUrl) lineLink.href = lineUrl;
+      if (mailLink && email) {
+        mailLink.href = "mailto:" + email;
+        mailLink.textContent = email;
       }
+      if (telLink && tel) {
+        telLink.href = "tel:" + tel.replace(/[^0-9+]/g, "");
+        telLink.textContent = tel.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3");
+      }
+    })();
 
-      function getChecked(name) {
-        var nodes = document.querySelectorAll("input[name=" + name + "]:checked");
-        return Array.prototype.map.call(nodes, function (n) { return n.value; });
-      }
+    // 車種連動（drivers.js の DB がある場合だけ）
+    (function () {
+      var maker = document.getElementById("purchaseMaker");
+      var model = document.getElementById("purchaseModel");
+      if (!maker || !model) return;
+      if (!window.DriversRegister || !window.DriversRegister.updatePurchaseModelSelect) return;
 
-      // A) 車両購入（メーカー→車種連動・select方式）
-      var purchaseMakerEl = document.getElementById("purchaseMaker");
-      var purchaseModelEl = document.getElementById("purchaseModel");
-      if (purchaseMakerEl && purchaseModelEl && window.DriversRegister && DriversRegister.updatePurchaseModelSelect) {
-        purchaseMakerEl.addEventListener("change", function () { DriversRegister.updatePurchaseModelSelect(purchaseMakerEl, purchaseModelEl); });
-        DriversRegister.updatePurchaseModelSelect(purchaseMakerEl, purchaseModelEl);
-      }
-      document.getElementById("btnLinePurchase").addEventListener("click", function () {
-        var lines = ["【車両購入の相談】"];
-        var use = document.getElementById("purchaseUse").value;
-        var budget = document.getElementById("purchaseBudget").value;
-        var maker = document.getElementById("purchaseMaker").value;
-        var model = (document.getElementById("purchaseModel") && document.getElementById("purchaseModel").value) ? document.getElementById("purchaseModel").value.trim() : "";
-        var delivery = document.getElementById("purchaseDelivery").value;
-        var contact = document.getElementById("purchaseContact").value;
-        if (use) lines.push("用途：" + use);
-        if (budget) lines.push("予算帯：" + budget);
-        if (maker) lines.push("メーカー：" + maker);
-        if (model) lines.push("車種（モデル）：" + model);
-        if (delivery) lines.push("希望納期：" + delivery);
-        lines.push("連絡希望：" + (contact || "未選択（まずはLINEでOK）"));
-        openLineWithText(lines.join("\n"));
+      maker.addEventListener("change", function () {
+        window.DriversRegister.updatePurchaseModelSelect(maker, model);
       });
-
-      // B) 修理・整備
-      document.getElementById("btnLineRepair").addEventListener("click", function () {
-        var lines = ["【修理・整備の相談】"];
-        var symptoms = getChecked("repairSymptom");
-        if (symptoms.length) lines.push("症状：" + symptoms.join("・"));
-        var urgency = document.getElementById("repairUrgency").value;
-        if (urgency) lines.push("緊急度：" + urgency);
-        var maker = document.getElementById("repairMaker").value.trim();
-        var model = document.getElementById("repairModel").value.trim();
-        var year = document.getElementById("repairYear").value.trim();
-        var mileage = document.getElementById("repairMileage").value.trim();
-        if (maker) lines.push("メーカー：" + maker);
-        if (model) lines.push("車種：" + model);
-        if (year) lines.push("年式：" + year);
-        if (mileage) lines.push("走行距離：" + mileage);
-        var dt = document.getElementById("repairDateTime").value.trim();
-        if (dt) lines.push("希望日時：" + dt);
-        openLineWithText(lines.join("\n") || "【修理・整備の相談】内容は後から送ります。");
-      });
-
-      // C) 車検（目安レンジ・確定料金は出さない）
-      var shakenRanges = {
-        "軽": {
-          "できるだけ安く": "目安6〜8万円前後",
-          "標準": "目安8〜12万円前後",
-          "しっかり整備": "目安12〜16万円前後"
-        },
-        "普通": {
-          "できるだけ安く": "目安10〜12万円前後",
-          "標準": "目安12〜15万円前後",
-          "しっかり整備": "目安15〜20万円前後"
-        }
-      };
-      function updateShakenEstimate() {
-        var category = document.getElementById("shakenCategory").value;
-        var hope = document.getElementById("shakenHope").value;
-        var el = document.getElementById("shakenEstimateText");
-        if (!el) return;
-        var r = shakenRanges[category] && shakenRanges[category][hope];
-        el.textContent = r ? (category + "車 " + hope + "：" + r + "（※状態で大きく変動）") : "車種区分・希望を選択するとここに表示されます。";
-      }
-      document.getElementById("shakenCategory").addEventListener("change", updateShakenEstimate);
-      document.getElementById("shakenHope").addEventListener("change", updateShakenEstimate);
-      updateShakenEstimate();
-
-      document.getElementById("btnLineShaken").addEventListener("click", function () {
-        var lines = ["【車検の相談】"];
-        var category = document.getElementById("shakenCategory").value;
-        var hope = document.getElementById("shakenHope").value;
-        var year = document.getElementById("shakenYear").value.trim();
-        var mileage = document.getElementById("shakenMileage").value.trim();
-        lines.push("車種区分：" + category);
-        lines.push("希望：" + hope);
-        if (year) lines.push("年式：" + year);
-        if (mileage) lines.push("走行距離：" + mileage);
-        var r = shakenRanges[category] && shakenRanges[category][hope];
-        if (r) lines.push("参考目安：" + r + "（※状態で変動）");
-        lines.push("※実車確認後に確定見積。法定費用・整備内容で変動します。");
-        openLineWithText(lines.join("\n"));
-      });
-
-      // D) 開業トータル
-      document.getElementById("procedureVehicle").addEventListener("change", function () {
-        var v = this.value;
-        var el = document.getElementById("procedureVehicleNone");
-        if (el) el.style.display = v === "なし" ? "block" : "none";
-      });
-
-      document.getElementById("btnLineProcedure").addEventListener("click", function () {
-        var lines = ["【開業トータル相談】"];
-        lines.push("書類準備サポート：15,000円（税別）/ 16,500円（税込）※本人申請");
-        var kinds = getChecked("procedureKind");
-        if (kinds.length) lines.push("相談カテゴリ：" + kinds.join("・"));
-        var vehicle = document.getElementById("procedureVehicle").value;
-        if (vehicle) lines.push("車両の有無：" + vehicle);
-        var start = document.getElementById("procedureStart").value.trim();
-        if (start) lines.push("いつから稼働したいか：" + start);
-        var contact = document.getElementById("procedureContact").value.trim();
-        if (contact) lines.push("現状・希望：" + contact);
-        var method = document.getElementById("procedureContactMethod").value;
-        if (method) lines.push("希望連絡：" + method);
-        openLineWithText(lines.join("\n") || "【開業トータル相談】内容は後から送ります。");
-      });
-
-      // セクション表示時のフェードイン
-      (function () {
-        var root = document.querySelector(".page");
-        if (!root) return;
-        var els = root.querySelectorAll(".vehicle-card");
-        var io = typeof IntersectionObserver !== "undefined" ? new IntersectionObserver(function (entries) {
-          entries.forEach(function (e) {
-            if (e.isIntersecting) e.target.classList.add("section-reveal");
-          });
-        }, { rootMargin: "0px 0px -40px 0px", threshold: 0.01 }) : null;
-        els.forEach(function (el) {
-          if (io) io.observe(el); else el.classList.add("section-reveal");
-        });
-      })();
-    });
+      // 初期
+      window.DriversRegister.updatePurchaseModelSelect(maker, model);
+    })();
   </script>
 </body>
 </html>

@@ -185,14 +185,7 @@ main {
   letter-spacing: 0.04em;
 }
 
-.contact-strip {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 6px 10px;
-  font-size: 11px;
-}
-
+/* 旧：contact-item系は残してもOK（使わなくなる） */
 .contact-item {
   display: inline-flex;
   align-items: center;
@@ -1096,4 +1089,56 @@ textarea:focus {
 }
 .form-row-grid input {
   min-width: 0;
+}
+
+/* ===== 追加：ヘッダー連絡ボタン（おしゃれ＆色分け） ===== */
+.contact-strip{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+  gap:8px;
+  margin-top:4px;
+}
+
+.contact-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:8px 12px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:900;
+  text-decoration:none;
+  border:1px solid rgba(0,0,0,.08);
+  box-shadow: 0 10px 22px rgba(0,0,0,.08);
+  transition: transform .16s ease, box-shadow .16s ease, filter .16s ease;
+}
+
+.contact-btn:hover{ transform: translateY(-1px); box-shadow: 0 14px 28px rgba(0,0,0,.10); }
+.contact-btn:active{ transform: translateY(1px); box-shadow: 0 6px 16px rgba(0,0,0,.08); }
+
+.contact-line{ background:#06C755; color:#fff; border-color:transparent; }
+.contact-line:hover{ filter: brightness(.95); }
+
+.contact-mail{ background:#2563EB; color:#fff; border-color:transparent; }
+.contact-mail:hover{ filter: brightness(.95); }
+
+.contact-tel{ background:#F59E0B; color:#1b1200; border-color:transparent; }
+.contact-tel:hover{ filter: brightness(.95); }
+
+/* 現在地は押せそうに見せない */
+.nav-link[aria-current="page"]{ cursor: default; }
+.nav-link[aria-current="page"]:hover{ transform:none; }
+
+/* ===== 追加：必須未入力の赤枠（register用） ===== */
+.is-invalid{
+  border-color: rgba(185,28,28,.85) !important;
+  box-shadow: 0 0 0 3px rgba(185,28,28,.18) !important;
+  background: rgba(254,242,242,.92) !important;
+}
+.is-invalid-check{
+  border: 1px solid rgba(185,28,28,.6);
+  background: rgba(254,242,242,.8);
+  padding: 8px 10px;
+  border-radius: 12px;
 }
