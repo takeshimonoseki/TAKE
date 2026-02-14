@@ -31,7 +31,8 @@
     var s = String(raw || "").trim();
     if (!s) return "";
     if (s[0] !== "@") s = "@" + s;
-    return encodeURIComponent(s); // @ -> %40
+    // NOTE: oaMessage のパスは「@」を含む文字列のままの方が安定（%40 だと環境によって失敗する）
+    return s;
   }
 
   function buildMessage(sectionEl, title) {
@@ -109,7 +110,9 @@
 
     // ✅ 公式アカウント宛て（最優先）
     if (oaEnc) {
-      location.href = "https://line.me/R/oaMessage/" + oaEnc + "/?" + msg;
+      var isMobile = /iphone|ipad|ipod|android/i.test(navigator.userAgent || "");
+      var base = isMobile ? "line://oaMessage/" : "https://line.me/R/oaMessage/";
+      location.href = base + oaEnc + "/?" + msg;
       return;
     }
 
