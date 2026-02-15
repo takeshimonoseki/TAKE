@@ -1,18 +1,238 @@
-/* 共通テーマ（協力ドライバー登録サイト専用） */
-:root {
-  --accent:  #8B2C2C;  /* 深めあずき */
-  --accent2: #C24A4A;  /* 明るいあずき */
-  --bg:      #FFF7F7;  /* 白にほんのり赤 */
-  --text:    #1F2937;
+/* 
+  Neo-Brutalism "Deep Space" Theme 
+  Target: drivers-site-from-github 2Refactor
+*/
 
-  --surface: #FFFFFF;
-  --muted:   rgba(15, 23, 42, 0.7);
-  --line:    rgba(148, 27, 27, 0.16);
-  --shadow-sm: 0 6px 18px rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 14px 40px rgba(139, 44, 44, 0.12);
-  --radius-lg: 20px;
-  --radius-md: 14px;
+:root {
+  /* Colors */
+  --bg-deep: #050505;
+  --bg-card: rgba(10, 10, 10, 0.6);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-glow: rgba(255, 255, 255, 0.15);
+  
+  --text-main: #FFFFFF;
+  --text-muted: #94A3B8; /* Slate-400 */
+  --text-accent: #38BDF8; /* Sky-400 for tech feel or stick to white for brutalism */
+
+  /* Spotlight */
+  --spotlight-color: rgba(255, 255, 255, 0.08);
+
+  /* Spacing (4pt grid base) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
 }
+
+/* Global Reset & Base */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-deep);
+  color: var(--text-main);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.5;
+  overflow-x: hidden; /* Prevent horizontal scroll from animations */
+}
+
+/* Typography Overrides */
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #fff;
+}
+
+p {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+/* 
+  Utility Classes for Animation & Glassmorphism 
+  (Supplementing Tailwind)
+*/
+
+.glass-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), 
+              border-color 0.3s ease,
+              box-shadow 0.3s ease;
+}
+
+.glass-card:hover {
+  border-color: var(--border-glow);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5);
+}
+
+/* Spotlight Effect Layer */
+.glass-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(
+    800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
+    var(--spotlight-color), 
+    transparent 40%
+  );
+  z-index: 0; /* Behind content */
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.glass-card:hover::before {
+  opacity: 1;
+}
+
+/* Ensure content stays on top of spotlight */
+.glass-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Text Utilities */
+.font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.text-gradient {
+  background: linear-gradient(to right, #fff, #94a3b8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-deep);
+}
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Animation Utilities */
+.reveal-hidden {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), 
+              transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger delays handled via JS or utility classes */
+.delay-100 { transition-delay: 100ms; }
+.delay-200 { transition-delay: 200ms; }
+.delay-300 { transition-delay: 300ms; }
+
+/* 
+  Preserve Legacy Form Styles but modernized 
+*/
+select, input, textarea {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-size: 15px;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+select:focus, input:focus, textarea:focus {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.05);
+}
+
+label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Checkbox Modernization */
+input[type="checkbox"] {
+  width: auto;
+  margin-right: 8px;
+  accent-color: #fff;
+}
+
+/* Button Modernization */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  padding: 14px 24px;
+  border-radius: 999px;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  cursor: pointer;
+  border: none;
+}
+
+.btn:active {
+  transform: scale(0.96);
+}
+
+/* LINE Button Special */
+.btn-line {
+  background: #06C755;
+  color: white;
+  box-shadow: 0 4px 24px rgba(6, 199, 85, 0.2);
+}
+
+.btn-line:hover {
+  background: #05b04c;
+  box-shadow: 0 8px 32px rgba(6, 199, 85, 0.4);
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  background: white;
+  color: black;
+}
+.btn-primary:hover {
+  background: #e2e2e2;
+}
+
+/* Hide original helper classes that might conflict, or adapt them */
+.mt-md { margin-top: 24px; }
 
 *,
 *::before,
