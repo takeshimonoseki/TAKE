@@ -1,0 +1,327 @@
+<!-- FILE: vehicle.html（全文） -->
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>車両の相談｜drivers-site（山口県）</title>
+  <meta name="description" content="車両購入・修理・車検・開業トータル相談。協力ドライバー登録サイト。" />
+  <link rel="canonical" href="https://takeshimonoseki.github.io/vehicle.html" />
+  <meta property="og:title" content="車両の相談｜drivers-site（山口県）" />
+  <meta property="og:url" content="https://takeshimonoseki.github.io/vehicle.html" />
+  <meta property="og:type" content="website" />
+  <link rel="stylesheet" href="./drivers.css" />
+  <script src="./config.js"></script>
+  <script src="./drivers.js" defer></script>
+  <script src="./line-consult.js" defer></script>
+</head>
+<body>
+  <header class="site-header" id="top">
+    <div class="site-header-inner">
+      <div class="header-left">
+        <div class="region-badge" aria-label="対応地域">
+          <div class="region-en" id="regionEn">YAMAGUCHI</div>
+          <div class="region-ja" id="regionJa">山口県</div>
+        </div>
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true"><span></span></div>
+          <div>
+            <div class="company-name" id="companyName">軽貨物TAKE</div>
+            <div class="brand-text-sub">協力ドライバー登録サイト</div>
+          </div>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="contact-strip" aria-label="連絡先">
+          <div class="contact-item">
+            <span class="contact-label">LINE</span>
+            <span class="contact-value"><a href="#" id="headerLineLink">相談する</a></span>
+          </div>
+          <div class="contact-item">
+            <span class="contact-label">MAIL</span>
+            <span class="contact-value"><a href="#" id="headerMailLink"></a></span>
+          </div>
+          <div class="contact-item">
+            <span class="contact-label">TEL</span>
+            <span class="contact-value"><a href="#" id="headerTelLink"></a></span>
+          </div>
+        </div>
+        <nav class="nav" aria-label="メイン">
+          <a href="./index.html" class="nav-link">トップ</a>
+          <a href="./consult.html" class="nav-link">開業相談</a>
+          <a href="./vehicle.html" class="nav-link nav-link-primary" aria-current="page">車両の相談</a>
+          <a href="./register.html" class="nav-link">登録</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="page page-vehicle" role="main">
+    <h1 class="hero-title">車両の相談</h1>
+    <p class="hero-lead">
+      内容を選んで入力 → LINEを開くと、<strong>相談内容が入力欄に入った状態</strong>になります。<br />
+      そのまま送信してご相談ください（送信ボタンはあなたが押します）。
+    </p>
+
+    <!-- 1) 車両購入 -->
+    <section class="section card vehicle-card section-reveal" id="card-purchase">
+      <h2 class="vehicle-card-title">車両購入の相談</h2>
+
+      <div class="form-row-full">
+        <label class="field-label" for="purchaseUse">用途</label>
+        <select id="purchaseUse">
+          <option value="">選択してください</option>
+          <option value="軽貨物">軽貨物</option>
+          <option value="プライベート">プライベート</option>
+          <option value="兼用">兼用</option>
+          <option value="未定">未定</option>
+        </select>
+      </div>
+
+      <div class="form-row-full">
+        <label class="field-label" for="purchaseBudget">予算帯（任意）</label>
+        <select id="purchaseBudget">
+          <option value="">未選択でもOK</option>
+          <option value="〜30万">〜30万円</option>
+          <option value="〜50万">〜50万円</option>
+          <option value="〜80万">〜80万円</option>
+          <option value="〜150万">〜150万円</option>
+          <option value="〜300万">〜300万円</option>
+          <option value="〜500万">〜500万円</option>
+          <option value="それ以上">それ以上</option>
+          <option value="未定">未定</option>
+        </select>
+      </div>
+
+      <div class="form-row-full">
+        <label class="field-label" for="purchaseMaker">メーカー（任意）</label>
+        <select id="purchaseMaker">
+          <option value="">選択</option>
+          <optgroup label="国産">
+            <option value="トヨタ">トヨタ</option>
+            <option value="ホンダ">ホンダ</option>
+            <option value="日産">日産</option>
+            <option value="スズキ">スズキ</option>
+            <option value="ダイハツ">ダイハツ</option>
+            <option value="マツダ">マツダ</option>
+            <option value="スバル">スバル</option>
+            <option value="三菱">三菱</option>
+            <option value="その他国産">その他国産</option>
+          </optgroup>
+          <optgroup label="輸入">
+            <option value="メルセデス・ベンツ">メルセデス・ベンツ</option>
+            <option value="BMW">BMW</option>
+            <option value="アウディ">アウディ</option>
+            <option value="フォルクスワーゲン">フォルクスワーゲン</option>
+            <option value="ボルボ">ボルボ</option>
+            <option value="その他輸入">その他輸入</option>
+          </optgroup>
+        </select>
+      </div>
+
+      <div class="form-row-full">
+        <label class="field-label" for="purchaseModel">車種（モデル）</label>
+        <select id="purchaseModel">
+          <option value="">メーカーを選択すると車種が出ます</option>
+        </select>
+      </div>
+
+      <div class="form-row-full">
+        <label class="field-label" for="purchaseDelivery">希望納期</label>
+        <select id="purchaseDelivery">
+          <option value="">選択</option>
+          <option value="すぐ">すぐ</option>
+          <option value="1ヶ月以内">1ヶ月以内</option>
+          <option value="3ヶ月以内">3ヶ月以内</option>
+          <option value="未定">未定</option>
+        </select>
+      </div>
+
+      <div class="form-row-full">
+        <label class="field-label" for="purchaseContact">連絡希望（任意）</label>
+        <select id="purchaseContact">
+          <option value="">選択</option>
+          <option value="LINE">LINE</option>
+          <option value="電話">電話</option>
+          <option value="メール">メール</option>
+        </select>
+      </div>
+
+      <div class="form-row-full mt-md">
+        <label class="field-label">備考（任意）</label>
+        <textarea class="js-line-note" data-line-note rows="4" placeholder="例：希望の車種／走行距離／急ぎ度／今の車の状況など"></textarea>
+      </div>
+
+      <div class="mt-md">
+        <button type="button" class="btn btn-line js-line-send" id="btnLinePurchase" data-line-title="車両購入の相談">LINEで相談する</button>
+      </div>
+    </section>
+
+    <!-- 2) 修理・整備 -->
+    <section class="section card vehicle-card" id="card-repair">
+      <h2 class="vehicle-card-title">修理・整備の相談</h2>
+
+      <div class="form-row-full">
+        <label class="field-label" for="repairCar">車種（ざっくり）</label>
+        <select id="repairCar">
+          <option value="">選択</option>
+          <option value="軽バン">軽バン</option>
+          <option value="軽トラ">軽トラ</option>
+          <option value="普通車">普通車</option>
+          <option value="その他">その他</option>
+        </select>
+      </div>
+
+      <fieldset class="form-row-full">
+        <legend class="field-label">症状（複数OK）</legend>
+        <label><input type="checkbox" name="repairSym" value="異音" /> 異音</label>
+        <label><input type="checkbox" name="repairSym" value="警告灯" /> 警告灯</label>
+        <label><input type="checkbox" name="repairSym" value="エアコン" /> エアコン</label>
+        <label><input type="checkbox" name="repairSym" value="ブレーキ" /> ブレーキ</label>
+        <label><input type="checkbox" name="repairSym" value="エンジン" /> エンジン</label>
+        <label><input type="checkbox" name="repairSym" value="足回り" /> 足回り</label>
+        <label><input type="checkbox" name="repairSym" value="その他" /> その他</label>
+      </fieldset>
+
+      <div class="form-row-full">
+        <label class="field-label" for="repairUrgency">急ぎ度</label>
+        <select id="repairUrgency">
+          <option value="">選択</option>
+          <option value="今日〜明日">今日〜明日</option>
+          <option value="今週中">今週中</option>
+          <option value="急ぎではない">急ぎではない</option>
+          <option value="未定">未定</option>
+        </select>
+      </div>
+
+      <div class="form-row-full mt-md">
+        <label class="field-label">備考（任意）</label>
+        <textarea class="js-line-note" data-line-note rows="4" placeholder="例：症状の詳細／どのタイミングで出るか／写真があれば後で送れます"></textarea>
+      </div>
+
+      <div class="mt-md">
+        <button type="button" class="btn btn-line js-line-send" id="btnLineRepair" data-line-title="修理・整備の相談">LINEで相談する</button>
+      </div>
+    </section>
+
+    <!-- 3) 車検 -->
+    <section class="section card vehicle-card" id="card-shaken">
+      <h2 class="vehicle-card-title">車検の相談</h2>
+
+      <div class="form-row-full">
+        <label class="field-label" for="shakenWhen">車検時期</label>
+        <select id="shakenWhen">
+          <option value="">選択</option>
+          <option value="今月">今月</option>
+          <option value="来月">来月</option>
+          <option value="3ヶ月以内">3ヶ月以内</option>
+          <option value="未定">未定</option>
+        </select>
+      </div>
+
+      <div class="form-row-full">
+        <label class="field-label" for="shakenType">希望</label>
+        <select id="shakenType">
+          <option value="">選択</option>
+          <option value="最低限でOK">最低限でOK</option>
+          <option value="しっかり整備も">しっかり整備も</option>
+          <option value="相談して決めたい">相談して決めたい</option>
+        </select>
+      </div>
+
+      <div class="form-row-full mt-md">
+        <label class="field-label">備考（任意）</label>
+        <textarea class="js-line-note" data-line-note rows="4" placeholder="例：車種／走行距離／気になる点／代車の希望など"></textarea>
+      </div>
+
+      <div class="mt-md">
+        <button type="button" class="btn btn-line js-line-send" id="btnLineShaken" data-line-title="車検の相談">LINEで相談する</button>
+      </div>
+    </section>
+
+    <!-- 4) 開業トータル -->
+    <section class="section card vehicle-card" id="card-startup">
+      <h2 class="vehicle-card-title">開業トータル相談（黒ナンバー・保険・確定申告など）</h2>
+
+      <fieldset class="form-row-full">
+        <legend class="field-label">相談したい内容（複数OK）</legend>
+        <label><input type="checkbox" name="startupTopics" value="黒ナンバー" /> 黒ナンバー</label>
+        <label><input type="checkbox" name="startupTopics" value="保険" /> 保険</label>
+        <label><input type="checkbox" name="startupTopics" value="確定申告" /> 確定申告</label>
+        <label><input type="checkbox" name="startupTopics" value="車両" /> 車両</label>
+        <label><input type="checkbox" name="startupTopics" value="仕事の取り方" /> 仕事の取り方</label>
+      </fieldset>
+
+      <div class="form-row-full">
+        <label class="field-label" for="startupWhen">始めたい時期</label>
+        <select id="startupWhen">
+          <option value="">選択</option>
+          <option value="すぐ">すぐ</option>
+          <option value="1ヶ月以内">1ヶ月以内</option>
+          <option value="3ヶ月以内">3ヶ月以内</option>
+          <option value="未定">未定</option>
+        </select>
+      </div>
+
+      <div class="form-row-full mt-md">
+        <label class="field-label">備考（任意）</label>
+        <textarea class="js-line-note" data-line-note rows="4" placeholder="例：今の状況（未経験／副業／車あり無し）／困ってること／希望など"></textarea>
+      </div>
+
+      <div class="mt-md">
+        <button type="button" class="btn btn-line js-line-send" id="btnLineStartup" data-line-title="開業トータル相談">LINEで相談する</button>
+      </div>
+    </section>
+
+    <div class="mt-md">
+      <a class="btn btn-primary" href="./index.html">トップに戻る</a>
+    </div>
+  </main>
+
+  <script>
+    // CONFIG からヘッダー情報を反映
+    (function applyConfig() {
+      if (!window.CONFIG) return;
+      var regionJa = document.getElementById("regionJa");
+      var regionEn = document.getElementById("regionEn");
+      var companyName = document.getElementById("companyName");
+
+      if (regionJa) regionJa.textContent = window.CONFIG.REGION_LABEL || "山口県";
+      if (regionEn) regionEn.textContent = (window.CONFIG.REGION_CODE || "YAMAGUCHI").toUpperCase();
+      if (companyName) companyName.textContent = window.CONFIG.COMPANY_NAME || "軽貨物TAKE";
+
+      var lineLink = document.getElementById("headerLineLink");
+      var mailLink = document.getElementById("headerMailLink");
+      var telLink = document.getElementById("headerTelLink");
+      // 相談の入口は「相談スタート」へ集約
+      var startUrl = "./consult.html";
+      var email = window.CONFIG.EMAIL_TO || "";
+      var tel = window.CONFIG.TEL || "";
+
+      if (lineLink) lineLink.href = startUrl;
+      if (mailLink && email) {
+        mailLink.href = "mailto:" + email;
+        mailLink.textContent = email;
+      }
+      if (telLink && tel) {
+        telLink.href = "tel:" + tel.replace(/[^0-9+]/g, "");
+        telLink.textContent = tel.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3");
+      }
+    })();
+
+    // 車種連動（drivers.js の DB がある場合だけ）
+    (function () {
+      var maker = document.getElementById("purchaseMaker");
+      var model = document.getElementById("purchaseModel");
+      if (!maker || !model) return;
+      if (!window.DriversRegister || !window.DriversRegister.updatePurchaseModelSelect) return;
+
+      maker.addEventListener("change", function () {
+        window.DriversRegister.updatePurchaseModelSelect(maker, model);
+      });
+      // 初期
+      window.DriversRegister.updatePurchaseModelSelect(maker, model);
+    })();
+  </script>
+</body>
+</html>
