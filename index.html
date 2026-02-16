@@ -412,15 +412,15 @@
               </p>
             </div>
             <div class="text-xs text-stone-500 font-bold">
-              ※ 電話受付は廃止（LINE/メールのみ）
+              ※ LINE/メールのみ受付
             </div>
           </div>
-
-          <!-- NOTE: 依頼送信のGAS連携は Step3で実装 -->
+          <input type="hidden" id="fareEstimatePayload" name="fareEstimatePayload" value="" />
+          <!-- NOTE: 依頼送信のGAS連携は Step3で実装。見積は fareEstimatePayload に同梱可能 -->
           <div class="mt-6 rounded-3xl bg-white/60 border border-stone-200 p-5">
             <div class="text-sm font-black text-stone-700">準備中</div>
             <div class="mt-2 text-sm text-stone-600">
-              依頼フォーム送信 → スプレッドシート保存 → LINE通知 は次のステップで仕上げます。
+              依頼フォーム送信 → スプレッドシート保存 → LINE通知 は次のステップで仕上げます。未設定の場合はLINE相談へ誘導します。
             </div>
           </div>
         </div>
@@ -463,7 +463,7 @@
     <!-- FOOTER -->
     <!-- ═══════════════════════════════════════════════════════ -->
     <footer class="site-footer">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div class="footer-inner max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="footer-top">
           <div class="footer-brand">
             <div class="footer-title" id="footerCompany">
@@ -497,12 +497,8 @@
         </div>
 
         <div class="footer-bottom mt-4">
-          <div class="text-xs text-stone-400">
-            © 2026 軽貨物TAKE. All rights reserved.
-          </div>
-          <a class="text-xs text-stone-400 hover:text-blush-500" href="./register.html"
-            >ドライバー登録はこちら</a
-          >
+          <div class="text-xs text-stone-400">© 2026 軽貨物TAKE</div>
+          <a class="text-xs text-stone-400 hover:text-blush-500" href="./register.html">ドライバー登録はこちら</a>
         </div>
       </div>
     </footer>
