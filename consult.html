@@ -33,7 +33,9 @@
   <link rel="stylesheet" href="./drivers.css" />
   <script src="./config.js"></script>
 
-  <!-- Icons -->
+  
+  <script src="./drivers.js" defer></script>
+<!-- Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body class="bg-deep text-white min-h-screen">
@@ -65,16 +67,14 @@
           <a href="./consult.html" id="headerLineLink" class="hover:text-white transition-colors">相談する</a>
           <span class="text-white/20">|</span>
           <a href="#" id="headerMailLink" class="hover:text-white transition-colors">MAIL</a>
-          <span class="text-white/20">|</span>
-          <a href="#" id="headerTelLink" class="hover:text-white transition-colors">TEL</a>
-        </div>
+</div>
 
         <nav class="hidden md:flex gap-1" aria-label="メイン">
           <a href="./index.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-white hover:bg-white/5 transition-colors">トップ</a>
           <a href="./consult.html" class="px-4 py-2 rounded-full text-xs font-bold bg-white text-black shadow-lg shadow-white/10" aria-current="page">開業相談</a>
           <a href="./vehicle.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-white hover:bg-white/5 transition-colors">車両の相談</a>
-          <a href="./register.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-white hover:bg-white/5 transition-colors">登録</a>
-        </nav>
+          <a href="./register.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-white hover:bg-white/5 transition-colors">登録（一次）</a>
+</nav>
       </div>
     </div>
   </header>
@@ -262,9 +262,7 @@
       var mail = (C.EMAIL_TO || '').trim();
       var tel = (C.TEL || '').trim();
       var headerMailLink = document.getElementById('headerMailLink');
-      var headerTelLink = document.getElementById('headerTelLink');
       if (headerMailLink && mail) headerMailLink.href = 'mailto:' + mail;
-      if (headerTelLink && tel) headerTelLink.href = 'tel:' + tel.replace(/[^0-9+]/g,'');
 
       // add friend
       var addUrl = (C.LINE_URL || '').trim();

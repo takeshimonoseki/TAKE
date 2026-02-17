@@ -72,8 +72,8 @@
           <a href="./index.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-white hover:bg-white/5 transition-colors">トップ</a>
           <a href="./consult.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-white hover:bg-white/5 transition-colors">開業相談</a>
           <a href="./vehicle.html" class="px-4 py-2 rounded-full text-xs font-bold bg-white text-black shadow-lg shadow-white/10" aria-current="page">車両の相談</a>
-          <a href="./register.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-white hover:bg-white/5 transition-colors">登録</a>
-        </nav>
+          <a href="./register.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-white hover:bg-white/5 transition-colors">登録（一次）</a>
+</nav>
         
         <!-- Mobile Menu Button (Hamburger) - Simple layout for now -->
         <a href="./consult.html" class="md:hidden p-2 text-white bg-white/10 rounded-full">
@@ -101,8 +101,7 @@
       <span id="regionJa">山口県</span>
       <a href="#" id="headerLineLink"></a>
       <a href="#" id="headerMailLink"></a>
-      <a href="#" id="headerTelLink"></a>
-    </div>
+</div>
 
     <!-- BENTO GRID LAYOUT -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-min">
@@ -197,8 +196,7 @@
               <select id="purchaseContact">
                 <option value="">選択</option>
                 <option value="LINE">LINE</option>
-                <option value="電話">電話</option>
-                <option value="メール">メール</option>
+<option value="メール">メール</option>
               </select>
             </div>
           </div>
@@ -397,19 +395,14 @@
 
       var lineLink = document.getElementById("headerLineLink");
       var mailLink = document.getElementById("headerMailLink");
-      var telLink = document.getElementById("headerTelLink");
       var startUrl = "./consult.html";
       var email = window.CONFIG.EMAIL_TO || "";
-      var tel = window.CONFIG.TEL || "";
 
       if (lineLink) lineLink.href = startUrl;
       if (mailLink && email) {
         mailLink.href = "mailto:" + email;
         mailLink.textContent = email;
       }
-      if (telLink && tel) {
-        telLink.href = "tel:" + tel.replace(/[^0-9+]/g, "");
-        telLink.textContent = tel.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3");
       }
     })();
 

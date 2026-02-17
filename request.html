@@ -15,7 +15,9 @@
   </script>
   <link rel="stylesheet" href="./drivers.css" />
   <script src="./config.js"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <script src="./drivers.js" defer></script>
+<script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body class="bg-deep text-white min-h-screen">
 
@@ -40,14 +42,13 @@
           <a href="#" id="headerLineLink" class="hover:text-white transition-colors">相談する</a>
           <span class="text-white/20">|</span>
           <a href="#" id="headerMailLink" class="hover:text-white transition-colors">takeshimonoseki@gmail.com</a>
-          <span class="text-white/20">|</span>
-          <a href="#" id="headerTelLink" class="hover:text-white transition-colors">090-XXXX-XXXX</a>
-        </div>
+</div>
         <nav class="hidden md:flex gap-1" aria-label="メイン">
           <a href="./index.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-white hover:bg-white/5 transition-colors">トップ</a>
-          <a href="./register.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-white hover:bg-white/5 transition-colors">登録</a>
-          <span class="px-4 py-2 rounded-full text-xs font-bold bg-white text-black shadow-lg shadow-white/10" aria-current="page">連絡</span>
-        </nav>
+          <a href="./consult.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-white hover:bg-white/5 transition-colors">開業相談</a>
+          <a href="./vehicle.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-white hover:bg-white/5 transition-colors">車両の相談</a>
+          <a href="./register.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-white hover:bg-white/5 transition-colors">登録（一次）</a>
+</nav>
       </div>
     </div>
   </header>
@@ -132,20 +133,15 @@
 
       var lineLink = document.getElementById("headerLineLink");
       var mailLink = document.getElementById("headerMailLink");
-      var telLink = document.getElementById("headerTelLink");
 
       var lineUrl = window.CONFIG.LINE_ADD_FRIEND_URL || window.CONFIG.LINE_URL || "";
       var email = window.CONFIG.EMAIL_TO || "";
-      var tel = window.CONFIG.TEL || "";
 
       if (lineLink && lineUrl) lineLink.href = lineUrl;
       if (mailLink && email) {
         mailLink.href = "mailto:" + email;
         mailLink.textContent = email;
       }
-      if (telLink && tel) {
-        telLink.href = "tel:" + tel.replace(/[^0-9+]/g, "");
-        telLink.textContent = tel;
       }
     })();
 
