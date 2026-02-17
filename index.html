@@ -12,10 +12,10 @@
   <meta content="山口県エリアの安心・丁寧な配送サービス。LINEで簡単にご依頼。" property="og:description" />
   <meta content="https://takeshimonoseki.github.io/" property="og:url" />
   <meta content="website" property="og:type" />
-  <!-- Fonts: Nunito (rounded, friendly) -->
+  <!-- Fonts: Inter + Noto Sans JP -->
   <link href="https://fonts.googleapis.com" rel="preconnect" />
   <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&amp;display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+JP:wght@400;500;700;800;900&display=swap"
     rel="stylesheet" />
   <!-- Tailwind CSS (CDN) -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -24,22 +24,23 @@
       theme: {
         extend: {
           colors: {
-            warm: "#FAFAF9",
-            cream: "#FDFBF7",
-            blush: {
-              100: "#FFE4E6",
-              200: "#FECDD3",
-              300: "#FDA4AF",
-              400: "#FB7185",
-              500: "#F43F5E",
+            dark: {
+              900: "#0a0f1a",
+              800: "#111827",
+              700: "#1e293b",
             },
-            skin: "#44403C",
+            accent: {
+              blue: "#3b82f6",
+              indigo: "#6366f1",
+              orange: "#f97316",
+              amber: "#f59e0b",
+            },
           },
           fontFamily: {
             sans: [
-              "Nunito",
-              "Rounded Mplus 1c",
-              "Hiragino Maru Gothic Pro",
+              "Inter",
+              "Noto Sans JP",
+              "Hiragino Kaku Gothic ProN",
               "sans-serif",
             ],
           },
@@ -57,13 +58,13 @@
   <script>
     document.documentElement.classList.add("js");
   </script>
-  <!-- Icons（CDN失敗時も表示継続のため defer は使わず body 末尾で createIcons） -->
+  <!-- Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
-<body class="bg-warm text-skin min-h-screen">
+<body class="bg-dark-900 text-slate-100 min-h-screen">
   <!-- ═══════════════════════════════════════════════════════ -->
-  <!-- HEADER — Fixed, Warm Glassmorphism -->
+  <!-- HEADER — Transparent, blurs on scroll                 -->
   <!-- ═══════════════════════════════════════════════════════ -->
   <header class="site-header" id="top">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
@@ -81,18 +82,18 @@
             <div class="text-sm font-black tracking-wide leading-none" id="companyName">
               軽貨物TAKE
             </div>
-            <div class="text-[10px] text-stone-400 font-bold mt-0.5">
+            <div class="text-[10px] text-slate-500 font-bold mt-0.5">
               DELIVERY SERVICE
             </div>
           </div>
         </a>
       </div>
-      <!-- Right: Contact + Nav（共通ボタン・縦中央揃え） -->
+      <!-- Right: Contact + Nav -->
       <div class="header-right flex items-center gap-3 sm:gap-4">
-        <div aria-label="連絡先" class="hidden lg:flex items-center gap-3 text-xs text-stone-400">
-          <a class="btn-link-text hover:text-blush-500 transition-colors" href="#" id="headerLineLink">LINE相談</a>
-          <span aria-hidden="true" class="text-stone-300">|</span>
-          <a class="btn-link-text hover:text-blush-500 transition-colors" href="#"
+        <div aria-label="連絡先" class="hidden lg:flex items-center gap-3 text-xs text-slate-500">
+          <a class="btn-link-text hover:text-blue-400 transition-colors" href="#" id="headerLineLink">LINE相談</a>
+          <span aria-hidden="true" class="text-slate-700">|</span>
+          <a class="btn-link-text hover:text-blue-400 transition-colors" href="#"
             id="headerMailLink">takeshimonoseki@gmail.com</a>
         </div>
         <nav aria-label="メイン" class="hidden md:flex items-center gap-1 nav">
@@ -100,7 +101,7 @@
           <a class="nav-link" href="#services">サービス</a>
           <a class="nav-link" href="#pricing">料金</a>
           <a class="nav-link" href="#request-form" style="
-                background: linear-gradient(135deg, #fb7185, #fb923c);
+                background: linear-gradient(135deg, #3b82f6, #6366f1);
                 color: white;
                 border: none;
               ">依頼する</a>
@@ -111,30 +112,44 @@
       </div>
     </div>
   </header>
+
   <!-- ═══════════════════════════════════════════════════════ -->
-  <!-- MAIN -->
+  <!-- VIDEO HERO                                             -->
   <!-- ═══════════════════════════════════════════════════════ -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
-    <!-- ─── HERO ─── -->
-    <section class="hero-wrap mb-10">
-      <div aria-hidden="true" class="hero-bg"></div>
+  <section class="video-hero" id="hero">
+    <!-- Background Video -->
+    <div class="video-hero__bg">
+      <video autoplay muted loop playsinline preload="auto"
+        poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 1080'%3E%3Crect fill='%230a0f1a' width='1920' height='1080'/%3E%3C/svg%3E">
+        <source
+          src="https://videos.pexels.com/video-files/2800369/2800369-uhd_2560_1440_30fps.mp4"
+          type="video/mp4" />
+      </video>
+    </div>
+    <!-- Dark Overlay -->
+    <div class="video-hero__overlay"></div>
+    <!-- Ambient Mesh Gradient -->
+    <div class="video-hero__mesh"></div>
+
+    <!-- Hero Content -->
+    <div class="video-hero__content">
       <div class="hero-grid">
         <!-- Left: Message -->
-        <div class="hero-left glass-card p-7 md:p-8 reveal-hidden">
-          <div class="flex items-center gap-2 text-xs font-extrabold">
+        <div class="hero-left reveal-hidden">
+          <div class="flex items-center gap-2 text-xs font-extrabold flex-wrap">
             <span class="pill">山口県エリア対応</span>
             <span class="pill pill-soft">スポット配送・引越し</span>
             <span class="pill pill-soft">当日相談OK</span>
           </div>
-          <h1 class="hero-title mt-4">
+          <h1 class="hero-title mt-6">
             <span class="block">「迷わない」配送依頼。</span>
-            <span class="block"><span class="text-blush-500">LINE</span>で完結。</span>
+            <span class="block"><span class="gradient-text">LINE</span>で完結。</span>
           </h1>
           <p class="hero-lead mt-4">
             まずは距離と荷物量だけでもOK。<br />
             料金目安→依頼→受付通知まで、スムーズにご案内します。
           </p>
-          <ul class="hero-points mt-5">
+          <ul class="hero-points mt-6">
             <li>
               <i class="w-5 h-5" data-lucide="check-circle"></i>
               即レス重視（運営が窓口）
@@ -148,7 +163,7 @@
               当日・夜間の相談も可
             </li>
           </ul>
-          <div class="hero-cta mt-6 flex flex-wrap gap-3">
+          <div class="hero-cta mt-8 flex flex-wrap gap-3">
             <a class="btn btn-primary" href="#request-form">
               <i class="w-4 h-4" data-lucide="package"></i> 配送を依頼
             </a>
@@ -157,29 +172,126 @@
             </a>
           </div>
         </div>
-        <!-- Right: 運賃計算機（md以上で右、mobileでHero下） -->
-        <aside class="hero-right glass-card p-6 md:p-7 reveal-hidden delay-100">
-          <h2 class="fare-calc-title">運賃計算機</h2>
-          <p class="fare-calc-lead">運賃の目安は「専用ページ」でそのまま計算できます（内容は変更しません）。</p>
-          <div class="mt-4">
-            <a class="btn btn-primary w-full" href="./farecalc.html">
-              <i class="w-4 h-4" data-lucide="calculator"></i>
-              運賃を計算する
-            </a>
-            <p class="smallNote mt-3">※「運ぶ・移動」の運賃計算機のみ表示します。ほかの計算機は非表示。</p>
+
+        <!-- Right: Fare Calculator Card -->
+        <aside class="hero-right reveal-hidden delay-200">
+          <div class="fare-calc-card">
+            <h2 class="fare-calc-title">
+              <span class="calc-icon">
+                <i class="w-5 h-5 text-white" data-lucide="calculator"></i>
+              </span>
+              運賃計算機
+            </h2>
+            <p class="fare-calc-lead">
+              運賃の目安は「専用ページ」でそのまま計算できます。<br>
+              距離と荷物量を入力するだけ、すぐに目安が分かります。
+            </p>
+            <div class="mt-6">
+              <a class="btn btn-primary w-full" href="./farecalc.html"
+                style="background: linear-gradient(135deg, #f97316, #f59e0b); box-shadow: 0 6px 20px rgba(249, 115, 22, 0.3);">
+                <i class="w-5 h-5" data-lucide="calculator"></i>
+                運賃を計算する
+              </a>
+              <p class="smallNote mt-3 text-center">※「運ぶ・移動」の運賃計算機のみ表示します。</p>
+            </div>
+
+            <!-- Quick-info pills inside card -->
+            <div class="mt-6 pt-5" style="border-top: 1px solid rgba(255,255,255,0.08);">
+              <div class="grid grid-cols-2 gap-3">
+                <div class="text-center p-3 rounded-xl" style="background: rgba(255,255,255,0.04);">
+                  <div class="text-xl font-black text-blue-400">20km</div>
+                  <div class="text-xs text-slate-500 mt-1">圏内出張無料</div>
+                </div>
+                <div class="text-center p-3 rounded-xl" style="background: rgba(255,255,255,0.04);">
+                  <div class="text-xl font-black text-orange-400">¥3,000〜</div>
+                  <div class="text-xs text-slate-500 mt-1">スポット配送</div>
+                </div>
+              </div>
+            </div>
           </div>
         </aside>
       </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 text-center" style="animation: float 2s ease-in-out infinite;">
+      <div class="text-slate-500 text-xs font-bold mb-2">SCROLL</div>
+      <div class="w-6 h-10 rounded-full border-2 border-slate-600 mx-auto flex items-start justify-center pt-2">
+        <div class="w-1 h-2 bg-blue-400 rounded-full" style="animation: float 1.5s ease-in-out infinite;"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- MAIN CONTENT                                           -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+
+    <!-- ─── STATS COUNTER ─── -->
+    <section class="stats-section reveal-hidden" id="stats">
+      <div class="text-center mb-10">
+        <h2 class="section-title">数字で見る軽貨物TAKE</h2>
+        <p class="section-subtitle">確かな実績と安心のサービス</p>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-item glass-card reveal-hidden">
+          <div class="stat-number" data-count="500">0<span class="stat-unit">件+</span></div>
+          <div class="stat-label">配送実績</div>
+        </div>
+        <div class="stat-item glass-card reveal-hidden delay-100">
+          <div class="stat-number" data-count="98">0<span class="stat-unit">%</span></div>
+          <div class="stat-label">お客様満足度</div>
+        </div>
+        <div class="stat-item glass-card reveal-hidden delay-200">
+          <div class="stat-number" data-count="2">0<span class="stat-unit">県</span></div>
+          <div class="stat-label">対応エリア</div>
+        </div>
+      </div>
     </section>
+
+    <!-- ─── HOW IT WORKS (Steps) ─── -->
+    <section class="mb-16 section-anchor reveal-hidden" id="flow">
+      <div class="text-center mb-2">
+        <h2 class="section-title">ご利用の流れ</h2>
+        <p class="section-subtitle">4ステップでかんたん依頼</p>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card glass-card reveal-hidden">
+          <div class="step-number">1</div>
+          <div class="step-title">LINE / フォームで相談</div>
+          <div class="step-desc">距離と荷物量だけでもOK。まずはお気軽にご連絡ください。</div>
+        </div>
+        <div class="step-card glass-card reveal-hidden delay-100">
+          <div class="step-number">2</div>
+          <div class="step-title">料金の目安を確認</div>
+          <div class="step-desc">運賃計算機で即時見積。条件に合わせて調整します。</div>
+        </div>
+        <div class="step-card glass-card reveal-hidden delay-200">
+          <div class="step-number">3</div>
+          <div class="step-title">日時・条件を確定</div>
+          <div class="step-desc">希望日時や積み下ろし条件を最終確認して合意します。</div>
+        </div>
+        <div class="step-card glass-card reveal-hidden delay-300">
+          <div class="step-number">4</div>
+          <div class="step-title">配送 → 完了</div>
+          <div class="step-desc">当日配送・当日決済。安全・丁寧にお届けします。</div>
+        </div>
+      </div>
+    </section>
+
     <!-- ─── SERVICES BENTO GRID ─── -->
-    <section class="mb-12 section-anchor" id="services">
+    <section class="mb-16 section-anchor" id="services">
+      <div class="text-center mb-10">
+        <h2 class="section-title">サービス</h2>
+        <p class="section-subtitle">お客様のニーズに合わせた柔軟な配送サービス</p>
+      </div>
       <div class="bento-grid">
         <!-- Service: Spot Delivery -->
         <div class="glass-card p-6 reveal-hidden">
           <div class="bento-icon">
             <i class="w-6 h-6" data-lucide="truck"></i>
           </div>
-          <h2 class="bento-title mt-3">スポット配送</h2>
+          <h3 class="bento-title mt-3">スポット配送</h3>
           <p class="bento-text mt-2">
             緊急配送、単発の荷物運び、当日対応など。まずは距離と荷物量を
             教えてください。
@@ -191,10 +303,10 @@
         </div>
         <!-- Service: Move -->
         <div class="glass-card p-6 reveal-hidden delay-100">
-          <div class="bento-icon">
+          <div class="bento-icon" style="background: rgba(249, 115, 22, 0.1); color: #f97316;">
             <i class="w-6 h-6" data-lucide="home"></i>
           </div>
-          <h2 class="bento-title mt-3">引越し・荷物運び</h2>
+          <h3 class="bento-title mt-3">引越し・荷物運び</h3>
           <p class="bento-text mt-2">
             単身〜少量引越し。家具家電の運搬もご相談ください。
           </p>
@@ -205,10 +317,10 @@
         </div>
         <!-- Service: Corporate -->
         <div class="glass-card p-6 reveal-hidden delay-200">
-          <div class="bento-icon">
+          <div class="bento-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
             <i class="w-6 h-6" data-lucide="building-2"></i>
           </div>
-          <h2 class="bento-title mt-3">法人配送</h2>
+          <h3 class="bento-title mt-3">法人配送</h3>
           <p class="bento-text mt-2">
             定期・スポットどちらもOK。現場条件に合わせて柔軟に対応します。
           </p>
@@ -219,7 +331,7 @@
         </div>
         <!-- Service: Simple CTA -->
         <div class="glass-card p-6 bento-cta reveal-hidden delay-300">
-          <h2 class="bento-title">まずは料金の目安を確認</h2>
+          <h3 class="bento-title">まずは料金の目安を確認</h3>
           <p class="bento-text mt-2">
             「高いかも…」の不安を先に解消。目安を見てから依頼できます。
           </p>
@@ -229,12 +341,13 @@
         </div>
       </div>
     </section>
+
     <!-- ─── PRICING ─── -->
-    <section class="mb-12 section-anchor" id="pricing">
+    <section class="mb-16 section-anchor" id="pricing">
       <div class="glass-card p-7 md:p-8 reveal-hidden">
         <div class="flex items-center justify-between flex-wrap gap-3">
           <h2 class="section-title">料金</h2>
-          <div class="text-xs text-stone-500 font-bold">
+          <div class="text-xs text-slate-500 font-bold">
             ※ 正確な金額は条件で変動します（まずは目安）
           </div>
         </div>
@@ -255,11 +368,11 @@
             <div class="price-sub">定期・チャーター</div>
           </div>
         </div>
-        <div class="mt-6 rounded-3xl bg-white/60 border border-stone-200 p-5">
-          <div class="text-sm font-black text-stone-700">
+        <div class="mt-6 rounded-2xl p-5" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);">
+          <div class="text-sm font-black text-slate-200">
             料金の目安を出すには？
           </div>
-          <div class="mt-2 text-sm text-stone-600 leading-relaxed">
+          <div class="mt-2 text-sm text-slate-400 leading-relaxed">
             「発地/着地」「荷物の量」「希望日時」だけでもOK。まずはフォームで送ってください。
           </div>
           <div class="mt-4 flex flex-wrap gap-3">
@@ -273,32 +386,33 @@
         </div>
       </div>
     </section>
+
     <!-- ─── REQUEST FORM ─── -->
-    <section class="mb-12 section-anchor" id="request-form">
+    <section class="mb-16 section-anchor" id="request-form">
       <div class="glass-card p-7 md:p-8 reveal-hidden">
         <div class="flex items-start justify-between gap-6 flex-wrap">
           <div>
             <h2 class="section-title">配送を依頼</h2>
-            <p class="text-sm text-stone-600 mt-2">
+            <p class="text-sm text-slate-400 mt-2">
               まずは必要な項目だけでOK。送信後、受付通知→LINEで条件調整できます。
             </p>
           </div>
-          <div class="text-xs text-stone-500 font-bold">
+          <div class="text-xs text-slate-500 font-bold">
             ※ LINE/メールのみ受付
           </div>
         </div>
         <input id="fareEstimatePayload" name="fareEstimatePayload" type="hidden" value="" />
-        <!-- NOTE: 依頼送信のGAS連携は Step3で実装。見積は fareEstimatePayload に同梱可能 -->
-        <div class="mt-6 rounded-3xl bg-white/60 border border-stone-200 p-5">
-          <div class="text-sm font-black text-stone-700">準備中</div>
-          <div class="mt-2 text-sm text-stone-600">
+        <div class="mt-6 rounded-2xl p-5" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);">
+          <div class="text-sm font-black text-slate-200">準備中</div>
+          <div class="mt-2 text-sm text-slate-400">
             依頼フォーム送信 → スプレッドシート保存 → LINE通知 は次のステップで仕上げます。未設定の場合はLINE相談へ誘導します。
           </div>
         </div>
       </div>
     </section>
+
     <!-- ─── FAQ ─── -->
-    <section class="mb-12 section-anchor" id="faq">
+    <section class="mb-16 section-anchor" id="faq">
       <div class="glass-card p-7 md:p-8 reveal-hidden">
         <h2 class="section-title">FAQ</h2>
         <div class="faq-list mt-6">
@@ -317,19 +431,21 @@
         </div>
       </div>
     </section>
+
     <!-- ─── NEWS ─── -->
-    <section class="mb-12 section-anchor" id="news">
+    <section class="mb-16 section-anchor" id="news">
       <div class="glass-card p-7 md:p-8 reveal-hidden">
         <h2 class="section-title">お知らせ</h2>
         <div class="mt-6" id="newsList"></div>
-        <div class="mt-4 text-sm text-stone-500" id="newsNone" style="display:none;">
+        <div class="mt-4 text-sm text-slate-500" id="newsNone" style="display:none;">
           現在お知らせはありません。
         </div>
       </div>
     </section>
   </main>
+
   <!-- ═══════════════════════════════════════════════════════ -->
-  <!-- FOOTER -->
+  <!-- FOOTER                                                 -->
   <!-- ═══════════════════════════════════════════════════════ -->
   <footer class="site-footer">
     <div class="footer-inner max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -357,11 +473,16 @@
         <a href="./sitemap.xml">サイトマップ</a>
       </div>
       <div class="footer-bottom mt-4">
-        <div class="text-xs text-stone-400">© 2026 軽貨物TAKE</div>
-        <a class="text-xs text-stone-400 hover:text-blush-500" href="./register.html">ドライバー登録はこちら</a>
+        <div class="text-xs text-slate-600">© 2026 軽貨物TAKE</div>
+        <a class="text-xs text-slate-600 hover:text-blue-400" href="./register.html">ドライバー登録はこちら</a>
       </div>
     </div>
   </footer>
+
+  <!-- Back to Top Button -->
+  <button class="back-to-top" id="backToTop" aria-label="ページトップへ">
+    <i class="w-5 h-5" data-lucide="chevron-up"></i>
+  </button>
 
   <script>
 
@@ -373,7 +494,7 @@
         });
       } catch (e) { }
 
-      // Initialize Lucide Icons（CDNが落ちても止めない）
+      // Initialize Lucide Icons
       try {
         if (window.lucide && typeof window.lucide.createIcons === "function") {
           window.lucide.createIcons();
@@ -453,7 +574,7 @@
           });
         });
 
-        // Spotlight Effect
+        // Spotlight Effect on glass cards
         document.addEventListener("mousemove", (e) => {
           document.querySelectorAll(".glass-card").forEach((card) => {
             const rect = card.getBoundingClientRect();
@@ -479,6 +600,8 @@
         );
 
         document.querySelectorAll(".reveal-hidden").forEach((el) => {
+          // Reset for animation — remove the safety reveal
+          el.classList.remove("reveal-visible");
           observer.observe(el);
         });
 
@@ -489,7 +612,60 @@
             if (window.scrollY > 10) header.classList.add("scrolled");
             else header.classList.remove("scrolled");
           }
+
+          // Back to top button
+          var backToTop = document.getElementById("backToTop");
+          if (backToTop) {
+            if (window.scrollY > 600) backToTop.classList.add("visible");
+            else backToTop.classList.remove("visible");
+          }
         });
+
+        // Back to top click
+        var backToTopBtn = document.getElementById("backToTop");
+        if (backToTopBtn) {
+          backToTopBtn.addEventListener("click", function () {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          });
+        }
+
+        // Count-up animation for stats
+        function animateCountUp(el) {
+          var target = parseInt(el.getAttribute("data-count"), 10);
+          var unit = el.querySelector(".stat-unit");
+          var unitText = unit ? unit.textContent : "";
+          var duration = 2000;
+          var start = 0;
+          var startTime = null;
+
+          function step(timestamp) {
+            if (!startTime) startTime = timestamp;
+            var progress = Math.min((timestamp - startTime) / duration, 1);
+            var eased = 1 - Math.pow(1 - progress, 3); // easeOutCubic
+            var current = Math.round(eased * target);
+            el.textContent = current;
+            if (unit) {
+              el.appendChild(document.createElement("span"));
+              el.lastChild.className = "stat-unit";
+              el.lastChild.textContent = unitText;
+            }
+            if (progress < 1) requestAnimationFrame(step);
+          }
+          requestAnimationFrame(step);
+        }
+
+        var statsObserver = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              var nums = entry.target.querySelectorAll("[data-count]");
+              nums.forEach(animateCountUp);
+              statsObserver.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.3 });
+
+        var statsSection = document.getElementById("stats");
+        if (statsSection) statsObserver.observe(statsSection);
 
         // News feed
         fetch("./news.json")
@@ -510,14 +686,14 @@
             data.items.slice(0, 5).forEach(function (item) {
               var div = document.createElement("div");
               div.className = "flex items-center gap-3 py-2";
-              div.style.borderBottom = "1px solid rgba(68,64,60,0.06)";
+              div.style.borderBottom = "1px solid rgba(255,255,255,0.06)";
               div.innerHTML =
                 (item.date
-                  ? '<span class="font-mono text-xs text-stone-400 flex-shrink-0">' +
+                  ? '<span class="font-mono text-xs text-slate-500 flex-shrink-0">' +
                   item.date +
                   "</span>"
                   : "") +
-                '<span class="text-stone-600">' +
+                '<span class="text-slate-400">' +
                 (item.text || "") +
                 "</span>";
               list.appendChild(div);
