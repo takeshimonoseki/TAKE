@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="ja" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>本人確認（本登録）｜drivers-site</title>
+  <meta name="description" content="本人確認（本登録）フォーム。必須：氏名、住所、年齢、顔写真、免許証（表/裏）、自動車保険証券写真。任意：貨物保険証券。" />
+  <link rel="canonical" href="https://takeshimonoseki.github.io/full-register.html" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { deep: '#050505', muted: '#94A3B8' },
+          fontFamily: { sans: ['Inter','sans-serif'], mono: ['JetBrains Mono','monospace'] }
+        }
+      }
+    }
+  </script>
+
+  <link rel="stylesheet" href="./drivers.css" />
+  <script src="./config.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    .field-input {
+      width: 100%;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 10px 14px;
+      color: white;
+      font-size: 14px;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .field-input:focus {
+      outline: none;
+      border-color: rgba(56,189,248,0.5);
+      box-shadow: 0 0 0 3px rgba(56,189,248,0.1);
+    }
+    textarea.field-input { resize: vertical; min-height: 90px; }
+    .is-invalid { border-color: rgba(239,68,68,0.6) !important; }
+    .is-invalid:focus { box-shadow: 0 0 0 3px rgba(239,68,68,0.15) !important; }
+
+    .error-banner {
+      padding: 16px; border-radius: 16px;
+      background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3);
+      color: #fca5a5; font-size: 14px;
+    }
+    .success-banner {
+      padding: 20px; border-radius: 16px;
+      background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3);
+      color: #86efac; font-size: 14px;
+    }
+    #agreeLabel { font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 10px; }
+    #agreeLabel input { accent-color: #38bdf8; }
+    .note-link { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+  </style>
+</head>
+
+<body class="bg-deep text-white min-h-screen">
+  <header class="fixed top-0 w-full z-50 bg-deep/80 backdrop-blur-xl border-b border-white/5">
+    <div class="header-inner max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <a href="./index.html" class="flex items-center gap-3 group">
+        <div class="hidden sm:flex flex-col items-center justify-center px-3 py-1 bg-white/5 border border-white/10 rounded-full" aria-label="対応地域">
+          <div class="text-[9px] tracking-widest font-extrabold text-white/80" id="regionEn">YAMAGUCHI</div>
+          <div class="text-[9px] font-bold text-white/50" id="regionJa">山口県</div>
+        </div>
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-red-900 to-red-500 flex items-center justify-center shadow-lg shadow-red-900/30" aria-hidden="true">
+          <span class="w-4 h-4 rounded-full border-2 border-white/90"></span>
+        </div>
+        <div>
+          <div class="text-sm font-black tracking-wide leading-none" id="companyName">軽貨物TAKE</div>
+          <div class="text-[10px] text-muted font-bold font-mono mt-0.5">FULL REGISTER</div>
+        </div>
+      </a>
+
+      <div class="flex items-center gap-4 flex-wrap">
+        <div class="hidden lg:flex items-center gap-3 text-xs text-muted" aria-label="連絡先">
+          <a href="https://line.me/R/ti/p/%40277rcesk" id="headerLineLink" class="hover:text-white transition-colors" target="_blank" rel="noopener noreferrer">LINE</a>
+          <span class="text-white/20">|</span>
+          <a href="#" id="headerMailLink" class="hover:text-white transition-colors">takeshimonoseki@gmail.com</a>
+        </div>
+
+        <nav class="hidden md:flex gap-1 flex-wrap" aria-label="メイン">
+          <a href="./index.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-white hover:bg-white/5 transition-colors">トップ</a>
+          <a href="./register.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-white hover:bg-white/5 transition-colors">登録（一次）</a>
+          <span class="px-4 py-2 rounded-full text-xs font-bold bg-white text-black shadow-lg shadow-white/10" aria-current="page">本人確認（本登録）</span>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-3xl mx-auto">
+    <div class="glass-card p-6 md:p-10 mb-6 reveal-hidden relative overflow-hidden">
+      <div class="absolute -top-20 -right-20 w-[300px] h-[300px] bg-gradient-to-br from-blue-600/10 to-transparent rounded-full blur-3xl pointer-events-none"></div>
+      <div class="relative z-10">
+        <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[11px] font-bold text-muted mb-4">
+          <i data-lucide="shield" class="w-3 h-3"></i> noindex（案内された方のみ）
+        </span>
+
+        <h1 class="text-2xl sm:text-3xl font-black tracking-tight mb-3">本人確認（本登録）フォーム</h1>
+        <p class="text-sm text-muted leading-relaxed mb-2">
+          必須：氏名／住所／年齢／顔写真／免許証（表・裏）／自動車保険証券写真。任意：貨物保険証券（あれば）。
+        </p>
+        <p class="text-xs text-white/40">
+          公開プロフィールとして「市町村・車種・経験・ひとこと・ツール/所属など」を登録できます（任意）。
+        </p>
+      </div>
+    </div>
+
+    <div class="glass-card p-6 md:p-10 reveal-hidden delay-100">
+      <form id="fullRegisterForm" novalidate>
+
+        <div id="errorBox" class="error-banner mb-6" style="display:none;">
+          <strong>送信できませんでした。</strong>
+          <div class="mt-2" id="errorText">赤枠の項目をご確認ください。</div>
+        </div>
+
+        <div id="successBox" class="success-banner mb-6" style="display:none;">
+          <strong>送信しました。</strong>
+          <div class="mt-2 text-white/70 text-sm">受付ID：<span id="receiptId" class="font-mono"></span></div>
+          <div class="mt-2 text-white/60 text-xs">確認後、必要に応じて運営から連絡します。</div>
+        </div>
+
+        <div class="p-5 rounded-2xl border border-amber-500/20 bg-amber-500/5 mb-6">
+          <div class="flex items-center gap-2 mb-5">
+            <i data-lucide="zap" class="w-4 h-4 text-amber-400"></i>
+            <span class="font-bold text-sm">必須</span>
+          </div>
+
+          <div class="space-y-5">
+            <div>
+              <label class="text-sm font-bold mb-2 block" for="fullName">氏名</label>
+              <input type="text" id="fullName" class="field-input" placeholder="例：山田 太郎" autocomplete="name" />
+            </div>
+
+            <div>
+              <label class="text-sm font-bold mb-2 block" for="address">住所</label>
+              <input type="text" id="address" class="field-input" placeholder="例：山口県下関市〜（番地まで）" autocomplete="street-address" />
+            </div>
+
+            <div>
+              <label class="text-sm font-bold mb-2 block" for="age">年齢</label>
+              <input type="number" id="age" class="field-input" placeholder="例：35" min="18" />
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="text-sm font-bold mb-2 block" for="facePhoto">顔写真</label>
+                <input type="file" id="facePhoto" class="field-input" accept="image/*" />
+                <div class="text-xs text-white/40 mt-1">本人確認用（公開しません）。</div>
+              </div>
+              <div>
+                <label class="text-sm font-bold mb-2 block" for="autoInsurance">自動車保険（任意保険）証券写真</label>
+                <input type="file" id="autoInsurance" class="field-input" accept="image/*,application/pdf" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="text-sm font-bold mb-2 block" for="licenseFront">免許証（表）</label>
+                <input type="file" id="licenseFront" class="field-input" accept="image/*" />
+              </div>
+              <div>
+                <label class="text-sm font-bold mb-2 block" for="licenseBack">免許証（裏）</label>
+                <input type="file" id="licenseBack" class="field-input" accept="image/*" />
+              </div>
+            </div>
+
+            <div>
+              <label class="text-sm font-bold mb-2 block" for="cargoInsurance">貨物保険証券（任意）</label>
+              <input type="file" id="cargoInsurance" class="field-input" accept="image/*,application/pdf" />
+              <div class="text-xs text-white/40 mt-1">
+                PickGoの「貨物の保障」公式説明：
+                <a class="note-link" href="https://lp.partner.pickgo.town/partner/support/insurance" target="_blank" rel="noopener noreferrer">こちら</a>
+                （アフィリエイト制度は公式公開情報で未確認）
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <details class="p-5 rounded-2xl border border-white/10 bg-white/5 mb-6">
+          <summary class="cursor-pointer font-bold text-sm text-white/80">公開プロフィール（任意）</summary>
+
+          <div class="mt-5 space-y-5">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="text-sm font-bold mb-2 block" for="publicCity">市町村（公開）</label>
+                <input type="text" id="publicCity" class="field-input" placeholder="例：下関市" />
+              </div>
+              <div>
+                <label class="text-sm font-bold mb-2 block" for="publicVehicle">車種（公開）</label>
+                <input type="text" id="publicVehicle" class="field-input" placeholder="例：ハイゼットカーゴ など" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="text-sm font-bold mb-2 block" for="publicExp">経験（公開）</label>
+                <input type="text" id="publicExp" class="field-input" placeholder="例：軽貨物2年 / 宅配経験あり など" />
+              </div>
+              <div>
+                <label class="text-sm font-bold mb-2 block" for="publicTools">ツール/所属（公開）</label>
+                <input type="text" id="publicTools" class="field-input" placeholder="例：PickGo / Amazon Flex / 自社 など" />
+              </div>
+            </div>
+
+            <div>
+              <label class="text-sm font-bold mb-2 block" for="publicMsg">ひとこと（公開）</label>
+              <textarea id="publicMsg" class="field-input" placeholder="例：丁寧にやります。時間厳守。"></textarea>
+            </div>
+          </div>
+        </details>
+
+        <div class="p-5 rounded-2xl border border-white/10 bg-white/5 mb-6">
+          <label id="agreeLabel">
+            <input type="checkbox" id="agree" />
+            <span>内容に同意します（20%手数料／指名は希望のみ（確約なし）／電話導線なし）</span>
+          </label>
+          <div class="text-xs text-white/40 mt-2">※本人確認情報は公開しません。</div>
+        </div>
+
+        <button id="submitBtn" type="submit" class="w-full flex items-center justify-center gap-2 px-4 py-4 rounded-2xl bg-white text-black font-black text-sm shadow-lg shadow-white/10 hover:shadow-white/20 transition-all">
+          <i data-lucide="send" class="w-4 h-4"></i> 送信する
+        </button>
+        <div class="text-xs text-white/45 mt-3" id="hintText"></div>
+      </form>
+    </div>
+  </main>
+
+  <script>
+    lucide.createIcons();
+
+    (function applyConfig() {
+      if (!window.CONFIG) return;
+      var regionJa = document.getElementById("regionJa");
+      var regionEn = document.getElementById("regionEn");
+      var companyName = document.getElementById("companyName");
+      if (regionJa) regionJa.textContent = window.CONFIG.REGION_LABEL || "山口県";
+      if (regionEn) regionEn.textContent = (window.CONFIG.REGION_CODE || "YAMAGUCHI").toUpperCase();
+      if (companyName) companyName.textContent = window.CONFIG.COMPANY_NAME || "軽貨物TAKE";
+
+      var email = window.CONFIG.EMAIL_TO || "";
+      var mailLink = document.getElementById("headerMailLink");
+      if (mailLink && email) { mailLink.href = "mailto:" + email; mailLink.textContent = email; }
+
+      var lineUrl = window.CONFIG.LINE_URL || "https://line.me/R/ti/p/%40277rcesk";
+      var headerLineLink = document.getElementById("headerLineLink");
+      if (headerLineLink) headerLineLink.href = lineUrl;
+    })();
+
+    const MAX_MB = (window.CONFIG && window.CONFIG.MAX_FILE_MB) ? Number(window.CONFIG.MAX_FILE_MB) : 5;
+    const ENDPOINT = (window.CONFIG && window.CONFIG.GAS_ENDPOINT) ? String(window.CONFIG.GAS_ENDPOINT) : "";
+
+    const el = (id) => document.getElementById(id);
+    const form = el("fullRegisterForm");
+    const errorBox = el("errorBox");
+    const errorText = el("errorText");
+    const successBox = el("successBox");
+    const receiptIdEl = el("receiptId");
+    const hintText = el("hintText");
+    const submitBtn = el("submitBtn");
+
+    const fullName = el("fullName");
+    const address = el("address");
+    const age = el("age");
+    const facePhoto = el("facePhoto");
+    const licenseFront = el("licenseFront");
+    const licenseBack = el("licenseBack");
+    const autoInsurance = el("autoInsurance");
+    const cargoInsurance = el("cargoInsurance");
+
+    const publicCity = el("publicCity");
+    const publicVehicle = el("publicVehicle");
+    const publicExp = el("publicExp");
+    const publicTools = el("publicTools");
+    const publicMsg = el("publicMsg");
+    const agree = el("agree");
+
+    function makeReceiptId() {
+      const ts = Date.now().toString(36);
+      const r = Math.floor(Math.random()*1e6).toString(36).padStart(4,"0");
+      return "DRF-" + ts + "-" + r;
+    }
+
+    function clearInvalid() {
+      [fullName, address, age, facePhoto, licenseFront, licenseBack, autoInsurance, cargoInsurance, agree].forEach(x => {
+        if (!x) return;
+        x.classList.remove("is-invalid");
+      });
+    }
+
+    function setError(msg) {
+      errorText.textContent = msg;
+      errorBox.style.display = "";
+      successBox.style.display = "none";
+      errorBox.scrollIntoView({behavior:"smooth", block:"center"});
+    }
+
+    function fileToDataUrl(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(String(reader.result || ""));
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function getFile(input) {
+      return (input && input.files && input.files[0]) ? input.files[0] : null;
+    }
+
+    function checkSize(file, inputEl) {
+      if (!file) return true;
+      if (file.size <= MAX_MB * 1024 * 1024) return true;
+      if (inputEl) inputEl.classList.add("is-invalid");
+      setError("ファイルが大きすぎます（上限 " + MAX_MB + "MB）。：" + (file.name || "file"));
+      return false;
+    }
+
+    function validate() {
+      clearInvalid();
+      errorBox.style.display = "none";
+
+      const n = (fullName.value || "").trim();
+      const a = (address.value || "").trim();
+      const ag = (age.value || "").trim();
+
+      const fFace = getFile(facePhoto);
+      const fLf = getFile(licenseFront);
+      const fLb = getFile(licenseBack);
+      const fAi = getFile(autoInsurance);
+      const fCi = getFile(cargoInsurance);
+
+      if (!n) { fullName.classList.add("is-invalid"); return {ok:false, msg:"氏名を入力してください。"}; }
+      if (!a) { address.classList.add("is-invalid"); return {ok:false, msg:"住所を入力してください。"}; }
+      if (!ag) { age.classList.add("is-invalid"); return {ok:false, msg:"年齢を入力してください。"}; }
+
+      if (!fFace) { facePhoto.classList.add("is-invalid"); return {ok:false, msg:"顔写真を添付してください。"}; }
+      if (!fLf) { licenseFront.classList.add("is-invalid"); return {ok:false, msg:"免許証（表）を添付してください。"}; }
+      if (!fLb) { licenseBack.classList.add("is-invalid"); return {ok:false, msg:"免許証（裏）を添付してください。"}; }
+      if (!fAi) { autoInsurance.classList.add("is-invalid"); return {ok:false, msg:"自動車保険（任意保険）証券写真を添付してください。"}; }
+
+      if (!checkSize(fFace, facePhoto)) return {ok:false};
+      if (!checkSize(fLf, licenseFront)) return {ok:false};
+      if (!checkSize(fLb, licenseBack)) return {ok:false};
+      if (!checkSize(fAi, autoInsurance)) return {ok:false};
+      if (fCi && !checkSize(fCi, cargoInsurance)) return {ok:false};
+
+      if (!agree.checked) { agree.classList.add("is-invalid"); return {ok:false, msg:"同意にチェックしてください。"}; }
+
+      if (!ENDPOINT || ENDPOINT === "あとで貼る") {
+        return { ok:false, msg:"送信先（GAS_ENDPOINT）が未設定です（config.js を確認してください）。"};
+      }
+
+      return { ok:true, data: { n, a, ag, fFace, fLf, fLb, fAi, fCi } };
+    }
+
+    function updateHint() {
+      hintText.textContent = "上限：" + MAX_MB + "MB（各ファイル）。";
+    }
+    updateHint();
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const v = validate();
+      if (!v.ok) { if (v.msg) setError(v.msg); return; }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "送信中…";
+      errorBox.style.display = "none";
+      successBox.style.display = "none";
+
+      try {
+        const rid = makeReceiptId();
+
+        const faceUrl = await fileToDataUrl(v.data.fFace);
+        const lfUrl = await fileToDataUrl(v.data.fLf);
+        const lbUrl = await fileToDataUrl(v.data.fLb);
+        const aiUrl = await fileToDataUrl(v.data.fAi);
+        const ciUrl = v.data.fCi ? await fileToDataUrl(v.data.fCi) : "";
+
+        const bodyObj = {
+          type: "driver_full_register",
+          receiptId: rid,
+          data: {
+            fullName: v.data.n,
+            address: v.data.a,
+            age: v.data.ag,
+            publicProfile: {
+              city: (publicCity.value || "").trim(),
+              vehicle: (publicVehicle.value || "").trim(),
+              experience: (publicExp.value || "").trim(),
+              tools: (publicTools.value || "").trim(),
+              message: (publicMsg.value || "").trim()
+            },
+            consent: true
+          },
+          files: {
+            facePhoto: { name: v.data.fFace.name || "facePhoto", type: v.data.fFace.type || "", dataUrl: faceUrl },
+            licenseFront: { name: v.data.fLf.name || "licenseFront", type: v.data.fLf.type || "", dataUrl: lfUrl },
+            licenseBack: { name: v.data.fLb.name || "licenseBack", type: v.data.fLb.type || "", dataUrl: lbUrl },
+            autoInsurance: { name: v.data.fAi.name || "autoInsurance", type: v.data.fAi.type || "", dataUrl: aiUrl }
+          }
+        };
+
+        if (v.data.fCi) {
+          bodyObj.files.cargoInsurance = { name: v.data.fCi.name || "cargoInsurance", type: v.data.fCi.type || "", dataUrl: ciUrl };
+        }
+
+        await fetch(ENDPOINT, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain" },
+          body: JSON.stringify(bodyObj)
+        });
+
+        receiptIdEl.textContent = rid;
+        successBox.style.display = "";
+        successBox.scrollIntoView({behavior:"smooth", block:"start"});
+        form.reset();
+        updateHint();
+      } catch (err) {
+        setError("通信エラーで送信できませんでした。時間をおいて再度お試しください。");
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i data-lucide="send" class="w-4 h-4"></i> 送信する';
+        lucide.createIcons();
+      }
+    });
+
+    // Spotlight Effect
+    document.addEventListener('mousemove', (e) => {
+      document.querySelectorAll('.glass-card').forEach(card => {
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+        card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+      });
+    });
+
+    // Entrance Animation
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('reveal-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.05, rootMargin: "0px 0px -40px 0px" });
+    document.querySelectorAll('.reveal-hidden').forEach(elm => observer.observe(elm));
+  </script>
+</body>
+</html>
