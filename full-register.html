@@ -28,6 +28,7 @@
   <link rel="stylesheet" href="./drivers.css" />
   <link rel="stylesheet" href="./assets/effects.css">
   <script src="./config.js"></script>
+  <script src="./assets/vehicle-linkage.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
@@ -202,8 +203,8 @@
               </div>
               <div>
                 <label class="text-sm font-bold mb-2 block" for="model">車種（軽）</label>
-                <select id="model" class="field-input">
-                  <option value="">メーカーを選択</option>
+                <select id="model" class="field-input vehicle-select" disabled>
+                  <option value="">メーカーを選択すると車種が出ます</option>
                 </select>
               </div>
             </div>
@@ -294,8 +295,8 @@
               </div>
               <div>
                 <label class="text-sm font-bold mb-2 block" for="publicModel">車種（公開）</label>
-                <select id="publicModel" class="field-input">
-                  <option value="">メーカーを選択</option>
+                <select id="publicModel" class="field-input vehicle-select" disabled>
+                  <option value="">メーカーを選択すると車種が出ます</option>
                 </select>
               </div>
             </div>
@@ -348,16 +349,6 @@
 
     const PREFECTURES = ["北海道","青森県","岩手県","宮城県","秋田県","山形県","福島県","茨城県","栃木県","群馬県","埼玉県","千葉県","東京都","神奈川県","新潟県","富山県","石川県","福井県","山梨県","長野県","岐阜県","静岡県","愛知県","三重県","滋賀県","京都府","大阪府","兵庫県","奈良県","和歌山県","鳥取県","島根県","岡山県","広島県","山口県","徳島県","香川県","愛媛県","高知県","福岡県","佐賀県","長崎県","熊本県","大分県","宮崎県","鹿児島県","沖縄県"];
 
-    const VEHICLE_MODELS = {
-      "ダイハツ": ["ハイゼットカーゴ", "ハイゼットトラック", "アトレー"],
-      "スズキ": ["エブリイ", "キャリイ"],
-      "日産": ["NV100クリッパー"],
-      "三菱": ["ミニキャブ"],
-      "ホンダ": ["N-VAN"],
-      "マツダ": ["スクラム"],
-      "スバル": ["サンバー"]
-    };
-
     const el = (id) => document.getElementById(id);
     const form = el("fullRegisterForm");
     const errorBox = el("errorBox");
@@ -396,16 +387,12 @@
     fillPrefectureSelect(publicPrefecture);
 
     function updateModelSelect(makerSelect, modelSelect) {
-      const m = (makerSelect && makerSelect.value) || "";
-      modelSelect.innerHTML = "<option value=\"\">" + (m ? "選択" : "メーカーを選択") + "</option>";
-      if (m && VEHICLE_MODELS[m]) {
-        VEHICLE_MODELS[m].forEach(mod => {
-          modelSelect.innerHTML += "<option value=\"" + mod + "\">" + mod + "</option>";
-        });
+      if (window.VehicleLinkage && window.VehicleLinkage.updateLightVehicleSelect) {
+        window.VehicleLinkage.updateLightVehicleSelect(makerSelect, modelSelect);
       }
     }
-    maker.addEventListener("change", () => { updateModelSelect(maker, model); syncPublicVehicle(); });
-    publicMaker.addEventListener("change", () => updateModelSelect(publicMaker, publicModel));
+    if (maker && model) { updateModelSelect(maker, model); maker.addEventListener("change", () => { updateModelSelect(maker, model); syncPublicVehicle(); }); }
+    if (publicMaker && publicModel) { updateModelSelect(publicMaker, publicModel); publicMaker.addEventListener("change", () => updateModelSelect(publicMaker, publicModel)); }
 
     function syncPublicVehicle() {
       if (publicPrefecture && prefecture) publicPrefecture.value = prefecture.value;

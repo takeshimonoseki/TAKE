@@ -31,6 +31,7 @@
   <link rel="stylesheet" href="./assets/effects.css">
   <script src="./config.js"></script>
   <script src="./drivers.js" defer></script>
+  <script src="./assets/vehicle-linkage.js" defer></script>
 
   <!-- Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -365,18 +366,15 @@
                   <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400">公開</span>
                   <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-red-500/10 text-red-400">必須</span>
                 </div>
-                <select id="vehicleMaker" class="field-input">
+                <select id="vehicleMaker" class="field-input vehicle-select">
                   <option value="">選択してください</option>
-                  <option value="トヨタ">トヨタ</option>
-                  <option value="ホンダ">ホンダ</option>
-                  <option value="日産">日産</option>
-                  <option value="スズキ">スズキ</option>
                   <option value="ダイハツ">ダイハツ</option>
-                  <option value="マツダ">マツダ</option>
+                  <option value="スズキ">スズキ</option>
+                  <option value="日産">日産</option>
                   <option value="三菱">三菱</option>
+                  <option value="ホンダ">ホンダ</option>
+                  <option value="マツダ">マツダ</option>
                   <option value="スバル">スバル</option>
-                  <option value="いすゞ">いすゞ</option>
-                  <option value="その他">その他</option>
                 </select>
               </div>
               <div>
@@ -385,8 +383,9 @@
                   <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400">公開</span>
                   <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-red-500/10 text-red-400">必須</span>
                 </div>
-                <input type="text" id="vehicleModel" list="vehicleModelList" class="field-input" autocomplete="off" placeholder="例：ハイゼットカーゴ／N-VAN／NV200" />
-                <datalist id="vehicleModelList"></datalist>
+                <select id="vehicleModel" class="field-input vehicle-select" disabled>
+                  <option value="">メーカーを選択すると車種が出ます</option>
+                </select>
               </div>
             </div>
 
@@ -633,12 +632,15 @@
     });
     publicCityOtherEl.addEventListener("input", function(){ updateSubmitHint(); if (hasTriedSubmit) validateAndPaint_(); });
 
-    // maker -> vehicle datalist update
-    if (vehicleMakerEl && vehicleModelEl && window.DriversRegister && window.DriversRegister.updatePurchaseModelDatalist) {
-      var datalistEl = document.getElementById("vehicleModelList");
-      window.DriversRegister.updatePurchaseModelDatalist(vehicleMakerEl, datalistEl);
+    // メーカー→車種（軽のみ・本登録と同じ連動）
+    if (vehicleMakerEl && vehicleModelEl && window.VehicleLinkage && window.VehicleLinkage.updateLightVehicleSelect) {
+      window.VehicleLinkage.updateLightVehicleSelect(vehicleMakerEl, vehicleModelEl);
       vehicleMakerEl.addEventListener("change", function () {
-        window.DriversRegister.updatePurchaseModelDatalist(vehicleMakerEl, datalistEl);
+        window.VehicleLinkage.updateLightVehicleSelect(vehicleMakerEl, vehicleModelEl);
+        updateSubmitHint();
+        if (hasTriedSubmit) validateAndPaint_();
+      });
+      vehicleModelEl.addEventListener("change", function () {
         updateSubmitHint();
         if (hasTriedSubmit) validateAndPaint_();
       });
@@ -764,7 +766,7 @@
       var vehicleMaker = (vehicleMakerEl.value || "").trim();
       var vehicleModel = (vehicleModelEl.value || "").trim();
       if (!vehicleMaker) { errors.push("公開プロフィールのメーカーを選択してください。"); if (paintUI) { addFieldError_(vehicleMakerEl, "必須です"); setFirst(vehicleMakerEl); } }
-      if (!vehicleModel) { errors.push("公開プロフィールの車種を入力してください。"); if (paintUI) { addFieldError_(vehicleModelEl, "必須です"); setFirst(vehicleModelEl); } }
+      if (!vehicleModel) { errors.push("公開プロフィールの車種を選択してください。"); if (paintUI) { addFieldError_(vehicleModelEl, "必須です"); setFirst(vehicleModelEl); } }
 
       if (!agreeTermsEl.checked) { errors.push("同意にチェックを入れてください。"); if (paintUI) { addAgreeError_("必須です"); setFirst(agreeTermsEl); } }
 
