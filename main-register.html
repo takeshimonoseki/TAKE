@@ -27,6 +27,7 @@
   </script>
 
   <link rel="stylesheet" href="./drivers.css" />
+  <link rel="stylesheet" href="./assets/effects.css">
   <script src="./config.js"></script>
   <script src="./drivers.js" defer></script>
 
@@ -98,7 +99,6 @@
     .submit-hint { font-size: 12px; color: rgba(255,255,255,0.4); margin-bottom: 8px; }
     .is-disabled { opacity: 0.4; pointer-events: none; }
   </style>
-  <link rel="stylesheet" href="./assets/sakura.css">
 </head>
 <body class="bg-deep text-white min-h-screen">
 
@@ -985,6 +985,6 @@
     }, { threshold: 0.05, rootMargin: "0px 0px -40px 0px" });
     document.querySelectorAll('.reveal-hidden').forEach(el => observer.observe(el));
   </script>
-  <script defer src="./assets/sakura.js"></script>
+  <script src="./assets/transition.js" defer></script>
 </body>
 </html>
