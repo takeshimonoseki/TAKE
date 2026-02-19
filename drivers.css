@@ -437,7 +437,24 @@ select {
 @media (min-width: 1024px) {
   #headerLineLink,
   a[href*="line.me"],
-  a[href^="line:"] {
+  a[href^="line:"],
+  [data-line-ui="1"] {
     display: none !important;
   }
 }
+
+/* ===== startup.html：フラッシュ防止（初期非表示→表示を無効化） ===== */
+body[data-page="startup"] .reveal-hidden,
+body[data-page="startup"] [data-reveal],
+body[data-page="startup"] .fade,
+body[data-page="startup"] .opacity-0 {
+  opacity: 1 !important;
+  transform: none !important;
+  filter: none !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+/* ===== ヘッダーずれ対策（全ページ共通） ===== */
+html { scrollbar-gutter: stable; }
+body { overflow-y: scroll; }
