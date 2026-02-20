@@ -4,13 +4,8 @@
   var root = document.documentElement;
   var body = document.body;
 
-  function isStartupPage() {
-    try {
-      return body && body.getAttribute("data-page") === "startup";
-    } catch (e) {
-      return false;
-    }
-  }
+  if (root && root.dataset && root.dataset.takeTransitionInited === "1") return;
+  if (root && root.dataset) root.dataset.takeTransitionInited = "1";
 
   function prefersReducedMotion() {
     try {
@@ -20,17 +15,49 @@
     }
   }
 
+  function forceDarkBackground() {
+    try {
+      if (root) root.style.backgroundColor = "#0f1915";
+      if (document.body) document.body.style.backgroundColor = "#0f1915";
+    } catch (e) {}
+  }
+
+  function injectLineBadgeFixCssOnce() {
+    try {
+      if (document.getElementById("take-linebadge-fix")) return;
+      var style = document.createElement("style");
+      style.id = "take-linebadge-fix";
+      style.textContent =
+        "div:has(img[data-qr=\"line\"])::after{content:none !important;display:none !important;}" +
+        ".line-qr-box{position:relative;}" +
+        ".line-qr-box::after{content:\"LINE\";position:absolute;top:-10px;right:-10px;padding:2px 8px;border-radius:9999px;background:#06C755;color:#fff;font-size:10px;font-weight:800;letter-spacing:0.08em;box-shadow:0 10px 24px rgba(0,0,0,0.25);}";
+      document.head.appendChild(style);
+    } catch (e) {}
+  }
+
+  function ensureLineQrBoxClass() {
+    try {
+      var img = document.querySelector("img[data-qr=\"line\"]");
+      if (!img) return;
+      var p = img.parentElement;
+      if (!p) return;
+      if (!p.classList.contains("line-qr-box")) p.classList.add("line-qr-box");
+    } catch (e) {}
+  }
+
   function markEnter() {
-    root.classList.add("is-enter");
-    root.classList.remove("is-leave");
+    try {
+      root.classList.add("is-enter");
+      root.classList.remove("is-leave");
+    } catch (e) {}
   }
 
   function handleReady() {
-    if (isStartupPage()) {
-      root.classList.remove("is-leave");
-      root.classList.add("is-enter");
-      return;
-    }
+    forceDarkBackground();
+    injectLineBadgeFixCssOnce();
+    ensureLineQrBoxClass();
+
+    if (!root) return;
     if (prefersReducedMotion()) {
       root.classList.remove("is-leave");
       root.classList.add("is-enter");
@@ -41,75 +68,15 @@
     });
   }
 
-  document.addEventListener("DOMContentLoaded", handleReady, { once: true });
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", handleReady, { once: true });
+  } else {
+    handleReady();
+  }
 
-  window.addEventListener("pageshow", function (ev) {
-    if (ev.persisted) handleReady();
-    else root.classList.remove("is-leave");
+  window.addEventListener("pageshow", function () {
+    forceDarkBackground();
+    try { if (root) root.classList.remove("is-leave"); } catch (e) {}
+    handleReady();
   });
-
-  function isModifiedClick(e) {
-    return e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0;
-  }
-
-  function isSamePageAnchorOnly(a) {
-    try {
-      var url = new URL(a.href, window.location.href);
-      return (
-        url.origin === location.origin &&
-        url.pathname === location.pathname &&
-        url.search === location.search &&
-        !!url.hash
-      );
-    } catch (e) {
-      return false;
-    }
-  }
-
-  function isInternal(a) {
-    try {
-      var url = new URL(a.href, window.location.href);
-      return url.origin === window.location.origin;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  function shouldHandleLink(a, e) {
-    if (!a || !a.href) return false;
-    if (a.target && a.target.toLowerCase() === "_blank") return false;
-    if (a.hasAttribute("download")) return false;
-    if (isModifiedClick(e)) return false;
-    if (!isInternal(a)) return false;
-    if (isSamePageAnchorOnly(a)) return false;
-    return true;
-  }
-
-  document.addEventListener(
-    "click",
-    function (e) {
-      var a = e.target && e.target.closest ? e.target.closest("a[href]") : null;
-      if (!a) return;
-      if (isStartupPage()) return;
-      if (prefersReducedMotion()) return;
-      if (!shouldHandleLink(a, e)) return;
-
-      e.preventDefault();
-
-      root.classList.remove("is-enter");
-      root.classList.add("is-leave");
-
-      var href = a.href;
-      var leaveDur = 240;
-      try {
-        var cs = getComputedStyle(document.documentElement);
-        var v = cs.getPropertyValue("--page-dur-leave");
-        if (v) leaveDur = Math.max(220, Math.min(300, parseFloat(v) || 240));
-      } catch (e) {}
-      setTimeout(function () {
-        window.location.href = href;
-      }, leaveDur);
-    },
-    { capture: true }
-  );
 })();

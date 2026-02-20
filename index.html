@@ -4,6 +4,8 @@
   <style id="critical">html,body{background:#0f1915!important;color:rgba(255,255,255,0.88)!important;min-height:100%!important;}</style>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#0f1915" />
   <title>協力ドライバー登録プール｜drivers-site（山口県）</title>
   <meta name="description" content="協力ドライバー登録プール（求人ではありません）。公開は「アニメ風アイコン＋ニックネーム＋プロフィール（任意）」を前提に、お客さまページに掲載される場合があります。案件成立時は報酬の20%を運営・調整費として頂きます。指名は希望のみ（確約なし）。" />
   <link rel="canonical" href="https://takeshimonoseki.github.io/TAKE/" />
@@ -146,7 +148,6 @@
             <span class="px-3 py-1 rounded-full text-[11px] font-bold border border-white/10 bg-white/5 text-white/60">指名希望OK（確約なし）</span>
           </div>
 
-          <!-- 説明付き導線（優先順：仮登録 → 開業トータル相談 → 車両の相談） -->
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 max-w-4xl mt-8">
             <a href="./register.html" class="group block p-5 sm:p-6 rounded-2xl border-2 border-white/20 bg-white/5 hover:bg-white/10 hover:border-white/30 transition-all text-left">
               <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/10 text-[10px] font-bold text-white/80 mb-3">いちばん人気</span>
@@ -186,7 +187,7 @@
           </div>
           </div>
           <div class="flex-shrink-0 mt-6 lg:mt-0">
-            <div class="p-4 rounded-2xl border border-white/15 bg-white/5 inline-block">
+            <div class="line-qr-box p-4 rounded-2xl border border-white/15 bg-white/5 inline-block">
               <p class="text-xs font-bold text-white/80 mb-2">LINEで相談・登録</p>
               <img id="topLineQrImg" data-qr="line" alt="LINE友だち追加QRコード" width="180" height="180" class="rounded-xl bg-white" />
               <p class="text-[10px] text-white/50 mt-2">QRを読み取って追加</p>
@@ -250,7 +251,6 @@
           <a href="./privacy.html" class="underline underline-offset-4 decoration-white/20 hover:decoration-white/50 transition-colors">プライバシー・個人情報の取扱い</a>
         </p>
 
-        <!-- 本登録リンク：最下部に極小文字（目立たせない） -->
         <p class="text-[10px] text-white/20">
           <a href="./full-register.html" class="hover:text-white/40 transition-colors">本人確認（本登録）はこちら（案内された方のみ）</a>
         </p>
@@ -259,67 +259,98 @@
   </main>
 
   <script>
-    lucide.createIcons();
+    (function () {
+      "use strict";
 
-    (function applyConfig() {
-      if (!window.CONFIG) return;
+      function initOnce() {
+        if (document.documentElement.dataset.takeIndexInited === "1") return;
+        document.documentElement.dataset.takeIndexInited = "1";
 
-      var regionJa = document.getElementById("regionJa");
-      var regionEn = document.getElementById("regionEn");
-      var regionKicker = document.getElementById("regionKicker");
-      var companyName = document.getElementById("companyName");
-      var footerCompany = document.getElementById("footerCompany");
+        try {
+          if (window.lucide && typeof window.lucide.createIcons === "function") window.lucide.createIcons();
+        } catch (e) {}
 
-      if (regionJa) regionJa.textContent = window.CONFIG.REGION_LABEL || "山口県";
-      if (regionEn) regionEn.textContent = (window.CONFIG.REGION_CODE || "YAMAGUCHI").toUpperCase();
-      if (regionKicker) regionKicker.textContent = (window.CONFIG.REGION_LABEL || "山口県") + "エリア";
-      if (companyName) companyName.textContent = window.CONFIG.COMPANY_NAME || "軽貨物TAKE";
-      if (footerCompany) {
-        footerCompany.textContent = (window.CONFIG.COMPANY_NAME || "drivers-site") + "｜協力ドライバー登録プール（" + (window.CONFIG.REGION_LABEL || "山口県") + "）";
+        applyConfig();
+        initReveal();
+        initNavOverlay();
       }
 
-      var email = window.CONFIG.EMAIL_TO || "";
-      var mailLink = document.getElementById("headerMailLink");
-      if (mailLink && email) { mailLink.href = "mailto:" + email; mailLink.textContent = email; }
+      function applyConfig() {
+        if (!window.CONFIG) return;
 
-      var lineUrl = window.CONFIG.LINE_URL || "https://line.me/R/ti/p/%40277rcesk";
-      var headerLineLink = document.getElementById("headerLineLink");
-      if (headerLineLink) headerLineLink.href = lineUrl;
-      var qrImg = document.getElementById("topLineQrImg");
-      if (qrImg && lineUrl) qrImg.src = "https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=" + encodeURIComponent(lineUrl);
-    })();
+        var regionJa = document.getElementById("regionJa");
+        var regionEn = document.getElementById("regionEn");
+        var regionKicker = document.getElementById("regionKicker");
+        var companyName = document.getElementById("companyName");
+        var footerCompany = document.getElementById("footerCompany");
 
-    document.querySelectorAll('a[data-scroll-top]').forEach(function(a){
-      a.addEventListener("click", function(e){
-        e.preventDefault();
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      });
-    });
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('reveal-visible');
-          observer.unobserve(entry.target);
+        if (regionJa) regionJa.textContent = window.CONFIG.REGION_LABEL || "山口県";
+        if (regionEn) regionEn.textContent = (window.CONFIG.REGION_CODE || "YAMAGUCHI").toUpperCase();
+        if (regionKicker) regionKicker.textContent = (window.CONFIG.REGION_LABEL || "山口県") + "エリア";
+        if (companyName) companyName.textContent = window.CONFIG.COMPANY_NAME || "軽貨物TAKE";
+        if (footerCompany) {
+          footerCompany.textContent = (window.CONFIG.COMPANY_NAME || "drivers-site") + "｜協力ドライバー登録プール（" + (window.CONFIG.REGION_LABEL || "山口県") + "）";
         }
-      });
-    }, { threshold: 0.05, rootMargin: "0px 0px -40px 0px" });
 
-    document.querySelectorAll('.reveal-hidden').forEach((el) => observer.observe(el));
+        var email = window.CONFIG.EMAIL_TO || "";
+        var mailLink = document.getElementById("headerMailLink");
+        if (mailLink && email) { mailLink.href = "mailto:" + email; mailLink.textContent = email; }
 
-    (function initNavOverlay() {
-      var overlay = document.getElementById("nav-overlay");
-      var toggle = document.getElementById("menu-toggle");
-      var closeBtn = document.getElementById("menu-close");
-      if (!overlay || !toggle) return;
-      function openMenu() { overlay.setAttribute("aria-hidden", "false"); toggle.setAttribute("aria-expanded", "true"); }
-      function closeMenu() { overlay.setAttribute("aria-hidden", "true"); toggle.setAttribute("aria-expanded", "false"); }
-      toggle.addEventListener("click", function() { overlay.getAttribute("aria-hidden") === "true" ? openMenu() : closeMenu(); });
-      if (closeBtn) closeBtn.addEventListener("click", closeMenu);
-      overlay.querySelectorAll("a").forEach(function(a) { a.addEventListener("click", closeMenu); });
-      document.addEventListener("keydown", function(e) { if (e.key === "Escape") closeMenu(); });
+        var lineUrl = window.CONFIG.LINE_URL || "https://line.me/R/ti/p/%40277rcesk";
+        var headerLineLink = document.getElementById("headerLineLink");
+        if (headerLineLink) headerLineLink.href = lineUrl;
+
+        var qrImg = document.getElementById("topLineQrImg");
+        if (qrImg && lineUrl) {
+          var desired = "https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=" + encodeURIComponent(lineUrl);
+          var cur = qrImg.getAttribute("src") || "";
+          if (cur !== desired) {
+            try { qrImg.decoding = "async"; } catch (e) {}
+            try { qrImg.loading = "lazy"; } catch (e) {}
+            qrImg.src = desired;
+          }
+        }
+      }
+
+      function initReveal() {
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("reveal-visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.05, rootMargin: "0px 0px -40px 0px" });
+
+        document.querySelectorAll(".reveal-hidden").forEach(function (el) { observer.observe(el); });
+      }
+
+      function initNavOverlay() {
+        var overlay = document.getElementById("nav-overlay");
+        var toggle = document.getElementById("menu-toggle");
+        var closeBtn = document.getElementById("menu-close");
+        if (!overlay || !toggle) return;
+
+        function openMenu() { overlay.setAttribute("aria-hidden", "false"); toggle.setAttribute("aria-expanded", "true"); }
+        function closeMenu() { overlay.setAttribute("aria-hidden", "true"); toggle.setAttribute("aria-expanded", "false"); }
+
+        toggle.addEventListener("click", function () {
+          overlay.getAttribute("aria-hidden") === "true" ? openMenu() : closeMenu();
+        });
+
+        if (closeBtn) closeBtn.addEventListener("click", closeMenu);
+        overlay.querySelectorAll("a").forEach(function (a) { a.addEventListener("click", closeMenu); });
+        document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeMenu(); });
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initOnce, { once: true });
+      } else {
+        initOnce();
+      }
     })();
   </script>
+
   <script src="./assets/transition.js" defer></script>
 </body>
 </html>
