@@ -49,7 +49,9 @@
       box-shadow: 0 0 0 3px rgba(56,189,248,0.1);
     }
     textarea.field-input { resize: vertical; min-height: 90px; }
-    select.field-input { appearance: none; cursor: pointer; }
+    select.field-input { appearance: none; cursor: pointer; padding-right: 36px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.6)' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; }
+    #cityWrap, #publicCityWrap { overflow: visible; }
+    #cityWrap select#city, #publicCityWrap select#publicCity { min-height: 42px; }
     .is-invalid { border-color: rgba(239,68,68,0.6) !important; }
     .is-invalid:focus { box-shadow: 0 0 0 3px rgba(239,68,68,0.15) !important; }
 
@@ -137,7 +139,7 @@
       </div>
     </div>
 
-    <div class="glass-card p-6 md:p-10 reveal-hidden delay-100">
+    <div class="glass-card p-6 md:p-10 reveal-hidden delay-100 overflow-visible">
       <form id="fullRegisterForm" novalidate>
 
         <div id="errorBox" class="error-banner mb-6" style="display:none;">
@@ -554,13 +556,14 @@
       }
       Enhance.getCitiesForPrefecture(pref, function(err, cities) {
         if (loadEl) loadEl.style.display = "none";
-        if (err || !cities || !cities.length) {
+        if (err || !cities || !Array.isArray(cities) || cities.length === 0) {
           sel.style.display = "none";
           if (wrap && manualEl) { manualEl.style.display = ""; manualEl.placeholder = "市区町村を手入力（API取得に失敗しました）"; }
           if (isPublic) publicCityManualMode = true; else cityManualMode = true;
           return;
         }
         sel.style.display = "";
+        sel.disabled = false;
         fillCitySelect(sel, cities, thenSelectValue || "");
       });
     }
