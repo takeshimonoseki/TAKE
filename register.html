@@ -40,6 +40,7 @@
   <link rel="stylesheet" href="./assets/effects.css">
   <script src="./config.js"></script>
   <script src="./drivers.js" defer></script>
+  <script src="./assets/vehicle-linkage.js" defer></script>
 
   <!-- Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -265,7 +266,7 @@
               </div>
             </div>
 
-            <!-- 車種（メーカー＋車種自由入力） -->
+            <!-- 車種（メーカー→車種は軽のみ・本登録と同じ連動） -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <div class="flex items-center gap-2 mb-2">
@@ -273,18 +274,15 @@
                   <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400">公開</span>
                   <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-red-500/10 text-red-400">必須</span>
                 </div>
-                <select id="vehicleMaker" name="vehicleMaker" class="field-input">
+                <select id="vehicleMaker" name="vehicleMaker" class="field-input vehicle-select">
                   <option value="">選択してください</option>
-                  <option value="トヨタ">トヨタ</option>
-                  <option value="ホンダ">ホンダ</option>
-                  <option value="日産">日産</option>
-                  <option value="スズキ">スズキ</option>
                   <option value="ダイハツ">ダイハツ</option>
-                  <option value="マツダ">マツダ</option>
+                  <option value="スズキ">スズキ</option>
+                  <option value="日産">日産</option>
                   <option value="三菱">三菱</option>
+                  <option value="ホンダ">ホンダ</option>
+                  <option value="マツダ">マツダ</option>
                   <option value="スバル">スバル</option>
-                  <option value="いすゞ">いすゞ</option>
-                  <option value="その他">その他</option>
                 </select>
               </div>
               <div>
@@ -293,9 +291,10 @@
                   <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400">公開</span>
                   <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-red-500/10 text-red-400">必須</span>
                 </div>
-                <input type="text" id="vehicleModel" name="vehicleModel" list="vehicleModelList" autocomplete="off" placeholder="例：ハイゼットカーゴ／N-VAN／NV200" class="field-input" />
-                <datalist id="vehicleModelList"></datalist>
-                <div class="text-xs text-muted mt-1">軽バン・軽乗用もOKです。</div>
+                <select id="vehicleModel" name="vehicleModel" class="field-input vehicle-select" disabled aria-describedby="vehicleModelHint">
+                  <option value="">メーカーを選択すると車種が出ます</option>
+                </select>
+                <div id="vehicleModelHint" class="text-xs text-muted mt-1">軽バン・軽乗用もOKです。</div>
               </div>
             </div>
 
@@ -592,12 +591,15 @@
       if (hasTriedSubmit) validateAndPaint_();
     });
 
-    // maker -> vehicle datalist update
-    if (vehicleMakerEl && vehicleModelEl && window.DriversRegister && window.DriversRegister.updatePurchaseModelDatalist) {
-      var datalistEl = document.getElementById("vehicleModelList");
-      window.DriversRegister.updatePurchaseModelDatalist(vehicleMakerEl, datalistEl);
+    // メーカー→車種（軽のみ・本登録と同じ連動）
+    if (vehicleMakerEl && vehicleModelEl && window.VehicleLinkage && window.VehicleLinkage.updateLightVehicleSelect) {
+      window.VehicleLinkage.updateLightVehicleSelect(vehicleMakerEl, vehicleModelEl);
       vehicleMakerEl.addEventListener("change", function () {
-        window.DriversRegister.updatePurchaseModelDatalist(vehicleMakerEl, datalistEl);
+        window.VehicleLinkage.updateLightVehicleSelect(vehicleMakerEl, vehicleModelEl);
+        updateSubmitHint();
+        if (hasTriedSubmit) validateAndPaint_();
+      });
+      vehicleModelEl.addEventListener("change", function () {
         updateSubmitHint();
         if (hasTriedSubmit) validateAndPaint_();
       });
@@ -695,7 +697,7 @@
         if (paintUI && vehicleMakerEl) { addFieldError_(vehicleMakerEl, "必須です"); setFirst(vehicleMakerEl); }
       }
       if (!vehicleModel) {
-        errors.push("車種を入力してください。");
+        errors.push("車種を選択してください。");
         if (paintUI && vehicleModelEl) { addFieldError_(vehicleModelEl, "必須です"); setFirst(vehicleModelEl); }
       }
 
@@ -761,7 +763,7 @@
       if (city === "その他" && (cityOtherEl.value || "").trim()) cityOk = true;
       if (!cityOk) missing.push("市町村");
 
-      if (!(vehicleMakerEl && vehicleMakerEl.value && vehicleModelEl && vehicleModelEl.value.trim())) missing.push("メーカー・車種");
+      if (!(vehicleMakerEl && vehicleMakerEl.value && vehicleModelEl && vehicleModelEl.value)) missing.push("メーカー・車種");
 
       if (!getWorkVehicleStatus()) missing.push("黒ナンバー状況");
 
