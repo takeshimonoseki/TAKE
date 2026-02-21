@@ -1,6 +1,7 @@
 /**
  * full-register 拡張: 市区町村(HeartRails)・銀行支店(teraren) API / キャッシュ / サジェスト
  * initOnce ガード済み。TTL 7日、タイムアウト8秒。
+ * データソース固定: banks.json?page=1&per=500 / banks/{bankCode}/branches.json?page=1&per=500
  */
 (function() {
   "use strict";
@@ -139,11 +140,28 @@
     return out;
   }
 
-  function createSuggestDropdown(container, items, getLabel, onSelect) {
+  function getBankLabel(b) {
+    return (b && (b.name || b.bank_name)) || String(b || "");
+  }
+
+  /** 支店表示形式: 「支店コード(3桁) 支店名」例 001 本店 */
+  function getBranchDisplayLabel(b) {
+    var code = (b && (b.code || b.branch_code)) != null ? String(b.code || b.branch_code) : "";
+    var three = code.length >= 3 ? code.slice(-3) : code.padStart(3, "0");
+    var name = (b && (b.name || b.branch_name)) || String(b || "");
+    return (three ? three + " " : "") + name;
+  }
+
+  /**
+   * 検索可能コンボボックス用ドロップダウン。
+   * 原因（文字が消える）: blur が click より先に発火し得るため、value は mousedown で確定。show(list) は listbox(ul) のみ更新し input.value は一切触らない（再描画・input 再生成禁止）。
+   */
+  function createSuggestDropdown(container, items, getLabel, onSelect, listboxId) {
     getLabel = getLabel || function(x) { return (x && (x.name || x.bank_name || x.branch_name || x.city)) || String(x); };
     var ul = document.createElement("ul");
-    ul.className = "absolute left-0 right-0 top-full mt-1 max-h-48 overflow-auto rounded-xl border border-white/20 bg-deep z-[100] py-1";
+    ul.className = "absolute left-0 right-0 top-full mt-1 max-h-64 overflow-auto rounded-xl border border-white/20 bg-deep z-[100] py-1";
     ul.setAttribute("role", "listbox");
+    if (listboxId) ul.id = listboxId;
     container.style.position = "relative";
     container.appendChild(ul);
 
@@ -156,7 +174,11 @@
         li.textContent = getLabel(item);
         li.setAttribute("role", "option");
         li.setAttribute("data-index", idx);
-        li.addEventListener("click", function() { onSelect(item); hide(); });
+        li.addEventListener("mousedown", function(e) {
+          e.preventDefault();
+          onSelect(item);
+          hide();
+        });
         ul.appendChild(li);
       });
     }
@@ -172,6 +194,8 @@
     loadBranchesForBank: loadBranchesForBank,
     filterSuggest: filterSuggest,
     createSuggestDropdown: createSuggestDropdown,
+    getBankLabel: getBankLabel,
+    getBranchDisplayLabel: getBranchDisplayLabel,
     getCache: getCache,
     setCache: setCache
   };

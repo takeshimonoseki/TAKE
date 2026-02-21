@@ -29,6 +29,7 @@
   <link rel="stylesheet" href="./assets/effects.css">
   <script src="./config.js"></script>
   <script src="./assets/vehicle-linkage.js"></script>
+  <script src="./assets/bank-data.js"></script>
   <script src="./assets/full-register-enhance.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -49,11 +50,15 @@
       box-shadow: 0 0 0 3px rgba(56,189,248,0.1);
     }
     textarea.field-input { resize: vertical; min-height: 90px; }
-    select.field-input { appearance: none; cursor: pointer; padding-right: 36px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.6)' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; }
+    select.field-input { appearance: none; cursor: pointer; padding-right: 36px; background-color: rgba(255,255,255,0.03); color-scheme: dark; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.6)' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; }
+    select.field-input option { background: #1e293b; color: #fff; }
     #cityWrap, #publicCityWrap { overflow: visible; }
     #cityWrap select#city, #publicCityWrap select#publicCity { min-height: 42px; }
     .is-invalid { border-color: rgba(239,68,68,0.6) !important; }
     .is-invalid:focus { box-shadow: 0 0 0 3px rgba(239,68,68,0.15) !important; }
+    .bank-active { background: rgba(255,255,255,0.12); }
+    .field-error-text { color: #fca5a5; font-size: 12px; margin-top: 4px; }
+    #agreeLabel.is-invalid { color: #fca5a5; }
 
     .error-banner {
       padding: 16px; border-radius: 16px;
@@ -280,20 +285,17 @@
                 </label>
               </div>
               <div id="bankFields" class="space-y-4">
-                <input type="hidden" id="bankCode" value="" />
-                <input type="hidden" id="branchCode" value="" />
-                <input type="hidden" id="bankManualMode" value="0" />
-                <div id="bankSuggestWrap" class="relative">
-                  <label class="text-sm font-bold mb-2 block" for="bankName">銀行名（必須）</label>
-                  <input type="text" id="bankName" class="field-input" placeholder="銀行名で検索" autocomplete="off" />
-                  <span id="bankLoading" class="text-xs text-white/50" style="display:none;">読み込み中…</span>
-                  <button type="button" id="bankRetry" class="text-xs text-sky-300 hover:underline ml-2" style="display:none;">再試行</button>
+                <div class="relative" id="bankSearchWrap">
+                  <label class="text-sm font-bold mb-2 block" for="bankSearch">銀行名（必須・入力で検索）</label>
+                  <input type="text" id="bankSearch" class="field-input" placeholder="例：山口　と入力して検索" autocomplete="off" />
+                  <input type="hidden" id="bankCode" value="" />
+                  <ul id="bankDropdown" class="absolute left-0 right-0 top-full mt-1 max-h-56 overflow-auto rounded-xl border border-white/20 bg-deep z-[100] py-1 text-sm" style="display:none;" role="listbox"></ul>
                 </div>
-                <div id="branchSuggestWrap" class="relative">
-                  <label class="text-sm font-bold mb-2 block" for="branchName">支店名（必須）</label>
-                  <input type="text" id="branchName" class="field-input" placeholder="支店名で検索 または 店番3桁を入力" autocomplete="off" />
-                  <input type="text" id="branchCodeInput" class="field-input mt-2" placeholder="店番（3桁）で確定" maxlength="3" pattern="[0-9]*" inputmode="numeric" style="max-width:120px;" />
-                  <span id="branchLoading" class="text-xs text-white/50" style="display:none;">読み込み中…</span>
+                <div>
+                  <label class="text-sm font-bold mb-2 block" for="branchSelect">支店名（必須）</label>
+                  <select id="branchSelect" class="field-input" disabled>
+                    <option value="">先に銀行を選択</option>
+                  </select>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
@@ -413,6 +415,7 @@
             <input type="checkbox" id="agree" />
             <span>内容に同意します（20%手数料／指名は希望のみ（確約なし）／電話導線なし）</span>
           </label>
+          <div id="agreeErrorText" class="field-error-text" role="alert" style="display:none;"></div>
           <div class="text-xs text-white/40 mt-2">※本人確認情報は公開しません。</div>
         </div>
 
@@ -483,8 +486,10 @@
     const bankKindYucho = el("bankKindYucho");
     const bankFields = el("bankFields");
     const yuchoFields = el("yuchoFields");
-    const bankName = el("bankName");
-    const branchName = el("branchName");
+    const bankSearch = el("bankSearch");
+    const bankCodeHidden = el("bankCode");
+    const bankDropdownUl = el("bankDropdown");
+    const branchSelect = el("branchSelect");
     const accountType = el("accountType");
     const accountNumber = el("accountNumber");
     const accountHolderKana = el("accountHolderKana");
@@ -498,9 +503,6 @@
     const publicCityWrap = el("publicCityWrap");
     const publicCityLoading = el("publicCityLoading");
     const publicCityManual = el("publicCityManual");
-    const bankCodeEl = el("bankCode");
-    const branchCodeEl = el("branchCode");
-    const branchCodeInput = el("branchCodeInput");
     const otherTypeWrap = el("otherTypeWrap");
     const otherTypeText = el("otherTypeText");
     const errorDebugIdEl = el("errorDebugId");
@@ -601,140 +603,120 @@
       if (otherTypeWrap) otherTypeWrap.style.display = (accountType.value === "その他") ? "" : "none";
     });
 
-    var bankManualModeEl = el("bankManualMode");
-    var bankRetryBtn = el("bankRetry");
-    var bankSuggestWrap = el("bankSuggestWrap");
-    var branchSuggestWrap = el("branchSuggestWrap");
-    var banksList = [];
-    var branchesList = [];
-    var bankDropdown = null;
-    var branchDropdown = null;
-    var selectedBankCode = null;
+    var BANKS = window.BANK_DATA || [];
 
-    function getBankLabel(b) { return (b && (b.name || b.bank_name)) || String(b || ""); }
-    function getBranchLabel(b) { return (b && (b.name || b.branch_name)) || String(b || ""); }
-    function getBankCode(b) { return (b && (b.code || b.bank_code)) || ""; }
-    function getBranchCode(b) { return (b && (b.code || b.branch_code)) || ""; }
-
-    function setBankManualMode(on) {
-      if (bankManualModeEl) bankManualModeEl.value = on ? "1" : "0";
-      if (bankRetryBtn) bankRetryBtn.style.display = on ? "" : "none";
+    function filterBanks(query) {
+      var q = (query || "").trim().toLowerCase();
+      if (!q) return BANKS.slice(0, 30);
+      return BANKS.filter(function(b) {
+        return (b.name || "").toLowerCase().indexOf(q) >= 0 ||
+               (b.code || "").indexOf(q) >= 0;
+      }).slice(0, 50);
     }
 
-    function attachBankSuggest() {
-      if (!bankName || !bankSuggestWrap || !Enhance) return;
-      if (bankDropdown && bankDropdown.ul && bankDropdown.ul.parentNode) return;
-      bankDropdown = Enhance.createSuggestDropdown(bankSuggestWrap, [], getBankLabel, function(item) {
-        var code = getBankCode(item);
-        if (bankCodeEl) bankCodeEl.value = code;
-        bankName.value = getBankLabel(item);
-        bankDropdown.hide();
-        selectedBankCode = code;
-        branchName.value = ""; branchName.disabled = false;
-        if (branchCodeEl) branchCodeEl.value = "";
-        if (branchCodeInput) branchCodeInput.value = "";
-        branchesList = [];
-        if (branchDropdown) branchDropdown.hide();
-        if (code) Enhance.loadBranchesForBank(code, function(err, list) {
-          branchesList = list || [];
-        });
-      });
-    }
-
-    function loadBanksAndSuggest() {
-      if (!Enhance || !bankName) return;
-      var loadEl = el("bankLoading");
-      if (loadEl) loadEl.style.display = "";
-      if (bankRetryBtn) bankRetryBtn.style.display = "none";
-      Enhance.loadBanksAll(function(err, list) {
-        if (loadEl) loadEl.style.display = "none";
-        if (err || !list || !list.length) {
-          setBankManualMode(true);
-          return;
-        }
-        banksList = list;
-        setBankManualMode(false);
-        attachBankSuggest();
-      });
-    }
-
-    if (bankName) {
-      bankName.addEventListener("focus", function onFirstBankFocus() {
-        if (banksList.length) return;
-        loadBanksAndSuggest();
-      });
-      bankName.addEventListener("input", function() {
-        if (!bankDropdown || !Enhance) return;
-        var q = (bankName.value || "").trim();
-        var hits = Enhance.filterSuggest(banksList, q, 20);
-        bankDropdown.show(hits);
-      });
-      bankName.addEventListener("blur", function() { setTimeout(function() { if (bankDropdown) bankDropdown.hide(); }, 150); });
-      bankName.addEventListener("keydown", function(e) {
-        if (!bankDropdown || !bankDropdown.ul) return;
-        var opts = bankDropdown.ul.querySelectorAll("[role=option]");
-        if (e.key === "ArrowDown" && opts.length) { e.preventDefault(); var cur = bankDropdown.ul.querySelector("[aria-selected=true]"); var next = cur ? cur.nextElementSibling : opts[0]; if (next) { if (cur) cur.removeAttribute("aria-selected"); next.setAttribute("aria-selected", "true"); next.scrollIntoView({ block: "nearest" }); } return; }
-        if (e.key === "ArrowUp" && opts.length) { e.preventDefault(); var cur = bankDropdown.ul.querySelector("[aria-selected=true]"); var prev = cur ? cur.previousElementSibling : opts[opts.length-1]; if (prev) { if (cur) cur.removeAttribute("aria-selected"); prev.setAttribute("aria-selected", "true"); prev.scrollIntoView({ block: "nearest" }); } return; }
-        if (e.key === "Enter") { var cur = bankDropdown.ul.querySelector("[aria-selected=true]"); if (cur) { var idx = parseInt(cur.getAttribute("data-index"), 10); var items = Enhance.filterSuggest(banksList, bankName.value, 20); var item = items[idx]; if (item) { var code = getBankCode(item); bankCodeEl.value = code; bankName.value = getBankLabel(item); bankDropdown.hide(); selectedBankCode = code; branchName.value = ""; branchName.disabled = false; if (branchCodeEl) branchCodeEl.value = ""; if (branchCodeInput) branchCodeInput.value = ""; branchesList = []; if (branchDropdown) branchDropdown.hide(); if (code) Enhance.loadBranchesForBank(code, function(err, list) { branchesList = list || []; }); } } e.preventDefault(); return; }
-        if (e.key === "Escape") { bankDropdown.hide(); e.preventDefault(); }
-      });
-    }
-    if (bankRetryBtn) bankRetryBtn.addEventListener("click", function() { loadBanksAndSuggest(); });
-
-    function attachBranchSuggest() {
-      if (!branchName || !branchSuggestWrap || !Enhance) return;
-      if (branchDropdown && branchDropdown.ul && branchDropdown.ul.parentNode) return;
-      branchDropdown = Enhance.createSuggestDropdown(branchSuggestWrap, [], getBranchLabel, function(item) {
-        var code = getBranchCode(item);
-        if (branchCodeEl) branchCodeEl.value = code;
-        branchName.value = getBranchLabel(item);
-        if (branchCodeInput) branchCodeInput.value = (code + "").slice(0, 3);
-        branchDropdown.hide();
-      });
-    }
-
-    if (branchName) branchName.disabled = true;
-    if (branchName) {
-      branchName.addEventListener("focus", function() {
-        if (selectedBankCode && branchesList.length === 0 && bankCodeEl && bankCodeEl.value) {
-          var loadEl = el("branchLoading");
-          if (loadEl) loadEl.style.display = "";
-          Enhance.loadBranchesForBank(bankCodeEl.value, function(err, list) {
-            if (loadEl) loadEl.style.display = "none";
-            branchesList = list || [];
-            if (!branchDropdown) attachBranchSuggest();
-          });
-        } else if (branchesList.length) { if (!branchDropdown) attachBranchSuggest(); }
-      });
-      branchName.addEventListener("input", function() {
-        if (!branchDropdown || !Enhance) return;
-        var hits = Enhance.filterSuggest(branchesList, branchName.value || "", 20);
-        branchDropdown.show(hits);
-      });
-      branchName.addEventListener("blur", function() { setTimeout(function() { if (branchDropdown) branchDropdown.hide(); }, 150); });
-      branchName.addEventListener("keydown", function(e) {
-        if (!branchDropdown || !branchDropdown.ul) return;
-        var opts = branchDropdown.ul.querySelectorAll("[role=option]");
-        if (e.key === "ArrowDown" && opts.length) { e.preventDefault(); var cur = branchDropdown.ul.querySelector("[aria-selected=true]"); var next = cur ? cur.nextElementSibling : opts[0]; if (next) { if (cur) cur.removeAttribute("aria-selected"); next.setAttribute("aria-selected", "true"); next.scrollIntoView({ block: "nearest" }); } return; }
-        if (e.key === "ArrowUp" && opts.length) { e.preventDefault(); var cur = branchDropdown.ul.querySelector("[aria-selected=true]"); var prev = cur ? cur.previousElementSibling : opts[opts.length-1]; if (prev) { if (cur) cur.removeAttribute("aria-selected"); prev.setAttribute("aria-selected", "true"); prev.scrollIntoView({ block: "nearest" }); } return; }
-        if (e.key === "Enter") { var cur = branchDropdown.ul.querySelector("[aria-selected=true]"); if (cur) { var idx = parseInt(cur.getAttribute("data-index"), 10); var items = Enhance.filterSuggest(branchesList, branchName.value, 20); var item = items[idx]; if (item) { branchCodeEl.value = getBranchCode(item); branchName.value = getBranchLabel(item); if (branchCodeInput) branchCodeInput.value = (getBranchCode(item) + "").slice(0, 3); branchDropdown.hide(); } } e.preventDefault(); return; }
-        if (e.key === "Escape") { branchDropdown.hide(); e.preventDefault(); }
-      });
-    }
-
-    if (branchCodeInput) branchCodeInput.addEventListener("input", function() {
-      this.value = (this.value || "").replace(/\D/g, "").slice(0, 3);
-      var code3 = (this.value || "").trim();
-      if (code3.length !== 3) return;
-      var match = (branchesList || []).filter(function(b) { return (getBranchCode(b) + "").slice(-3) === code3 || (getBranchCode(b) + "").padStart(3, "0") === code3; })[0];
-      if (match) {
-        if (branchCodeEl) branchCodeEl.value = getBranchCode(match);
-        branchName.value = getBranchLabel(match);
-        branchCodeInput.classList.remove("is-invalid");
-      } else {
-        branchCodeInput.classList.add("is-invalid");
+    function showBankDropdown(items) {
+      if (!bankDropdownUl) return;
+      bankDropdownUl.innerHTML = "";
+      if (!items.length) {
+        var li0 = document.createElement("li");
+        li0.className = "px-3 py-2 text-white/40";
+        li0.textContent = "該当なし";
+        bankDropdownUl.appendChild(li0);
+        bankDropdownUl.style.display = "";
+        return;
       }
-    });
+      items.forEach(function(b) {
+        var li = document.createElement("li");
+        li.className = "px-3 py-2 cursor-pointer hover:bg-white/10 transition-colors";
+        li.textContent = b.name;
+        li.setAttribute("data-code", b.code);
+        li.setAttribute("role", "option");
+        li.addEventListener("mousedown", function(e) {
+          e.preventDefault();
+          selectBank(b);
+        });
+        bankDropdownUl.appendChild(li);
+      });
+      bankDropdownUl.style.display = "";
+    }
+
+    function hideBankDropdown() {
+      if (bankDropdownUl) bankDropdownUl.style.display = "none";
+    }
+
+    function selectBank(bank) {
+      if (bankSearch) bankSearch.value = bank.name;
+      if (bankCodeHidden) bankCodeHidden.value = bank.code;
+      hideBankDropdown();
+      updateBranchSelect(bank.code);
+    }
+
+    function updateBranchSelect(bankCode) {
+      if (!branchSelect) return;
+      var code = (bankCode || "").trim();
+      var bank = BANKS.filter(function(b) { return (b.code || "").toString() === code; })[0];
+      var branches = (bank && bank.branches) ? bank.branches : [];
+
+      branchSelect.innerHTML = "";
+      var opt0 = document.createElement("option");
+      opt0.value = "";
+      opt0.textContent = branches.length ? "選択してください" : "先に銀行を選択";
+      branchSelect.appendChild(opt0);
+
+      branches.forEach(function(br) {
+        var opt = document.createElement("option");
+        var code3 = (br.code || "").toString();
+        code3 = code3.length >= 3 ? code3.slice(-3) : code3.padStart(3, "0");
+        opt.value = code3;
+        opt.textContent = code3 + " " + (br.name || br.branch_name || "");
+        branchSelect.appendChild(opt);
+      });
+
+      branchSelect.disabled = !code;
+      branchSelect.value = "";
+    }
+
+    if (bankSearch) {
+      bankSearch.addEventListener("focus", function() {
+        showBankDropdown(filterBanks(bankSearch.value));
+      });
+      bankSearch.addEventListener("input", function() {
+        if (bankCodeHidden) bankCodeHidden.value = "";
+        updateBranchSelect("");
+        showBankDropdown(filterBanks(bankSearch.value));
+      });
+      bankSearch.addEventListener("blur", function() {
+        setTimeout(hideBankDropdown, 180);
+      });
+      bankSearch.addEventListener("keydown", function(e) {
+        if (!bankDropdownUl) return;
+        var opts = bankDropdownUl.querySelectorAll("[role=option]");
+        if (!opts.length) return;
+        var cur = bankDropdownUl.querySelector(".bank-active");
+        var idx = cur ? [].indexOf.call(opts, cur) : -1;
+        if (e.key === "ArrowDown") {
+          e.preventDefault();
+          if (cur) cur.classList.remove("bank-active");
+          var next = opts[idx + 1] || opts[0];
+          if (next) { next.classList.add("bank-active"); next.scrollIntoView({ block: "nearest" }); }
+        } else if (e.key === "ArrowUp") {
+          e.preventDefault();
+          if (cur) cur.classList.remove("bank-active");
+          var prev = opts[idx - 1] || opts[opts.length - 1];
+          if (prev) { prev.classList.add("bank-active"); prev.scrollIntoView({ block: "nearest" }); }
+        } else if (e.key === "Enter") {
+          e.preventDefault();
+          if (cur) {
+            var code = cur.getAttribute("data-code");
+            var bank = BANKS.filter(function(b) { return b.code === code; })[0];
+            if (bank) selectBank(bank);
+          }
+        } else if (e.key === "Escape") {
+          hideBankDropdown();
+        }
+      });
+    }
+    updateBranchSelect("");
 
     function updateModelSelect(makerSelect, modelSelect) {
       if (window.VehicleLinkage && window.VehicleLinkage.updateLightVehicleSelect) {
@@ -797,6 +779,10 @@
         return "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワン゛゜".charAt(k);
       });
     }
+    function isKanaOnly(str) {
+      if (typeof str !== "string" || !str.length) return false;
+      return /^[\u30A1-\u30F6\u30FC\u30FB\u309B\u309C\u0020\u00A0]+$/.test(str);
+    }
 
     function makeReceiptId() {
       const ts = Date.now().toString(36);
@@ -809,12 +795,16 @@
       return "DBG-" + ts + "-" + r;
     }
 
-    const allInputs = [fullName, postalCode, prefecture, city, addressLine, maker, model, experienceYears, licenseFront, licenseBack, vehicleFront, vehicleInspection, compulsoryInsurance, voluntaryInsurance, keiCargoNotification, bankName, branchName, accountType, accountNumber, accountHolderKana, yuchoStoreName, yuchoStoreCode, yuchoAccountNumber, yuchoAccountHolderKana, cargoInsurance, nickname, publicPrefecture, publicCity, publicMaker, publicModel, publicAppeal, agree, cityManual, publicCityManual, branchCodeInput];
+    const allInputs = [fullName, postalCode, prefecture, city, addressLine, maker, model, experienceYears, licenseFront, licenseBack, vehicleFront, vehicleInspection, compulsoryInsurance, voluntaryInsurance, keiCargoNotification, bankSearch, branchSelect, accountType, accountNumber, accountHolderKana, yuchoStoreName, yuchoStoreCode, yuchoAccountNumber, yuchoAccountHolderKana, cargoInsurance, nickname, publicPrefecture, publicCity, publicMaker, publicModel, publicAppeal, agree, cityManual, publicCityManual];
+    const agreeLabelEl = el("agreeLabel");
+    const agreeErrorTextEl = el("agreeErrorText");
     function clearInvalid() {
       allInputs.forEach(x => {
         if (!x) return;
         x.classList.remove("is-invalid");
       });
+      if (agreeLabelEl) agreeLabelEl.classList.remove("is-invalid");
+      if (agreeErrorTextEl) { agreeErrorTextEl.textContent = ""; agreeErrorTextEl.style.display = "none"; }
     }
 
     function setError(msg, debugId) {
@@ -849,6 +839,7 @@
     function validate() {
       clearInvalid();
       errorBox.style.display = "none";
+      var firstInvalidEl = null;
 
       var n = (fullName.value || "").trim();
       var pc = (postalCode.value || "").replace(/\D/g, "");
@@ -874,8 +865,12 @@
       var fKei = getFile(keiCargoNotification);
       var fCi = getFile(cargoInsurance);
       var bankKind = (document.querySelector("input[name=bankKind]:checked") && document.querySelector("input[name=bankKind]:checked").value) || "bank";
-      var bName = (bankName && bankName.value || "").trim();
-      var bBranch = (branchName && branchName.value || "").trim();
+      var bCode = (bankCodeHidden && bankCodeHidden.value || "").trim();
+      var brCode = (branchSelect && branchSelect.value || "").trim();
+      var bankObj = BANKS.filter(function(b) { return (b.code || "").toString() === bCode; })[0];
+      var branchObj = (bankObj && bankObj.branches) ? bankObj.branches.filter(function(br) { var c = (br.code || "").toString(); c = c.length >= 3 ? c.slice(-3) : c.padStart(3, "0"); return c === brCode; })[0] : null;
+      var bName = (bankObj && (bankObj.name || bankObj.bank_name)) || "";
+      var bBranch = (branchObj && (branchObj.name || branchObj.branch_name)) || "";
       var bType = (accountType && accountType.value || "").trim();
       var bNum = (accountNumber && accountNumber.value || "").replace(/\D/g, "");
       var bKana = normalizeKana((accountHolderKana && accountHolderKana.value || "").trim());
@@ -883,69 +878,68 @@
       var yCode = (yuchoStoreCode && yuchoStoreCode.value || "").replace(/\D/g, "");
       var yNum = (yuchoAccountNumber && yuchoAccountNumber.value || "").replace(/\D/g, "");
       var yKana = normalizeKana((yuchoAccountHolderKana && yuchoAccountHolderKana.value || "").trim());
-      var isBankManual = (bankManualModeEl && bankManualModeEl.value === "1");
-      var bCode = (bankCodeEl && bankCodeEl.value || "").trim();
-      var brCode = (branchCodeEl && branchCodeEl.value || "").trim();
 
-      if (!n) { fullName.classList.add("is-invalid"); return {ok:false, msg:"氏名を入力してください。"}; }
-      if (pc.length !== 7) { postalCode.classList.add("is-invalid"); return {ok:false, msg:"郵便番号を7桁で入力してください。"}; }
-      if (!pref) { prefecture.classList.add("is-invalid"); return {ok:false, msg:"都道府県を選択してください。"}; }
-      if (!c) { (cityManualMode && cityManual ? cityManual : city).classList.add("is-invalid"); return {ok:false, msg:"市区町村を入力してください。"}; }
-      if (!al) { addressLine.classList.add("is-invalid"); return {ok:false, msg:"町名・番地以降を入力してください。"}; }
-      if (!m) { maker.classList.add("is-invalid"); return {ok:false, msg:"車両メーカーを選択してください。"}; }
-      if (!mod) { model.classList.add("is-invalid"); return {ok:false, msg:"車種を選択してください。"}; }
-      if (!exp) { experienceYears.classList.add("is-invalid"); return {ok:false, msg:"経験年数を選択してください。"}; }
+      if (!n) { fullName.classList.add("is-invalid"); return {ok:false, msg:"氏名を入力してください。", firstInvalidEl: fullName}; }
+      if (pc.length !== 7) { postalCode.classList.add("is-invalid"); return {ok:false, msg:"郵便番号を7桁で入力してください。", firstInvalidEl: postalCode}; }
+      if (!pref) { prefecture.classList.add("is-invalid"); return {ok:false, msg:"都道府県を選択してください。", firstInvalidEl: prefecture}; }
+      if (!c) { (cityManualMode && cityManual ? cityManual : city).classList.add("is-invalid"); return {ok:false, msg:"市区町村を入力してください。", firstInvalidEl: (cityManualMode && cityManual) ? cityManual : city}; }
+      if (!al) { addressLine.classList.add("is-invalid"); return {ok:false, msg:"町名・番地以降を入力してください。", firstInvalidEl: addressLine}; }
+      if (!m) { maker.classList.add("is-invalid"); return {ok:false, msg:"車両メーカーを選択してください。", firstInvalidEl: maker}; }
+      if (!mod) { model.classList.add("is-invalid"); return {ok:false, msg:"車種を選択してください。", firstInvalidEl: model}; }
+      if (!exp) { experienceYears.classList.add("is-invalid"); return {ok:false, msg:"経験年数を選択してください。", firstInvalidEl: experienceYears}; }
 
-      if (!fLf) { licenseFront.classList.add("is-invalid"); return {ok:false, msg:"運転免許証（表）を添付してください。"}; }
-      if (!fLb) { licenseBack.classList.add("is-invalid"); return {ok:false, msg:"運転免許証（裏）を添付してください。"}; }
-      if (!fVf) { vehicleFront.classList.add("is-invalid"); return {ok:false, msg:"車両前面写真を添付してください。"}; }
-      if (!fVi) { vehicleInspection.classList.add("is-invalid"); return {ok:false, msg:"車検証を添付してください。"}; }
-      if (!fCo) { compulsoryInsurance.classList.add("is-invalid"); return {ok:false, msg:"自賠責を添付してください。"}; }
-      if (!fVo) { voluntaryInsurance.classList.add("is-invalid"); return {ok:false, msg:"任意保険を添付してください。"}; }
-      if (!fKei) { keiCargoNotification.classList.add("is-invalid"); return {ok:false, msg:"経営届出書（受領印あり）を添付してください。"}; }
+      if (!fLf) { licenseFront.classList.add("is-invalid"); return {ok:false, msg:"運転免許証（表）を添付してください。", firstInvalidEl: licenseFront}; }
+      if (!fLb) { licenseBack.classList.add("is-invalid"); return {ok:false, msg:"運転免許証（裏）を添付してください。", firstInvalidEl: licenseBack}; }
+      if (!fVf) { vehicleFront.classList.add("is-invalid"); return {ok:false, msg:"車両前面写真を添付してください。", firstInvalidEl: vehicleFront}; }
+      if (!fVi) { vehicleInspection.classList.add("is-invalid"); return {ok:false, msg:"車検証を添付してください。", firstInvalidEl: vehicleInspection}; }
+      if (!fCo) { compulsoryInsurance.classList.add("is-invalid"); return {ok:false, msg:"自賠責を添付してください。", firstInvalidEl: compulsoryInsurance}; }
+      if (!fVo) { voluntaryInsurance.classList.add("is-invalid"); return {ok:false, msg:"任意保険を添付してください。", firstInvalidEl: voluntaryInsurance}; }
+      if (!fKei) { keiCargoNotification.classList.add("is-invalid"); return {ok:false, msg:"経営届出書（受領印あり）を添付してください。", firstInvalidEl: keiCargoNotification}; }
 
       if (bankKind === "bank") {
-        if (!bName) { if (bankName) bankName.classList.add("is-invalid"); return {ok:false, msg:"銀行名を入力してください。"}; }
-        if (!bBranch) { if (branchName) branchName.classList.add("is-invalid"); return {ok:false, msg:"支店名を入力してください。"}; }
-        if (bType !== "普通" && bType !== "当座" && bType !== "その他") { if (accountType) accountType.classList.add("is-invalid"); return {ok:false, msg:"口座種別は「普通」「当座」「その他」のいずれかを選択してください。"}; }
-        if (bNum.length < 6 || bNum.length > 7) { if (accountNumber) accountNumber.classList.add("is-invalid"); return {ok:false, msg:"口座番号は6〜7桁で入力してください。"}; }
-        if (!bKana) { if (accountHolderKana) accountHolderKana.classList.add("is-invalid"); return {ok:false, msg:"口座名義（カナ）を入力してください。"}; }
-        if (!isBankManual && (!bCode || !brCode)) {
-          if (!bCode && bankName) bankName.classList.add("is-invalid");
-          if (!brCode && (branchName || branchCodeInput)) { if (branchName) branchName.classList.add("is-invalid"); if (branchCodeInput) branchCodeInput.classList.add("is-invalid"); }
-          return {ok:false, msg:"銀行・支店を一覧から選択するか、店番3桁で支店を確定してください。"};
-        }
+        if (!bCode) { if (bankSearch) bankSearch.classList.add("is-invalid"); return {ok:false, msg:"銀行名を検索して選択してください。", firstInvalidEl: bankSearch}; }
+        if (!brCode) { if (branchSelect) branchSelect.classList.add("is-invalid"); return {ok:false, msg:"支店を選択してください。", firstInvalidEl: branchSelect}; }
+        if (bType !== "普通" && bType !== "当座" && bType !== "その他") { if (accountType) accountType.classList.add("is-invalid"); return {ok:false, msg:"口座種別は「普通」「当座」「その他」のいずれかを選択してください。", firstInvalidEl: accountType}; }
+        if (bNum.length < 6 || bNum.length > 7) { if (accountNumber) accountNumber.classList.add("is-invalid"); return {ok:false, msg:"口座番号は6〜7桁で入力してください。", firstInvalidEl: accountNumber}; }
+        if (!bKana) { if (accountHolderKana) accountHolderKana.classList.add("is-invalid"); return {ok:false, msg:"口座名義（カナ）を入力してください。", firstInvalidEl: accountHolderKana}; }
+        if (!isKanaOnly(bKana)) { if (accountHolderKana) accountHolderKana.classList.add("is-invalid"); return {ok:false, msg:"口座名義はカタカナで入力してください。", firstInvalidEl: accountHolderKana}; }
       } else {
-        if (!yStore) { if (yuchoStoreName) yuchoStoreName.classList.add("is-invalid"); return {ok:false, msg:"ゆうちょの店名を入力してください。"}; }
-        if (yCode.length !== 3) { if (yuchoStoreCode) yuchoStoreCode.classList.add("is-invalid"); return {ok:false, msg:"ゆうちょの店番は3桁で入力してください。"}; }
-        if (yNum.length !== 7) { if (yuchoAccountNumber) yuchoAccountNumber.classList.add("is-invalid"); return {ok:false, msg:"ゆうちょの口座番号は7桁で入力してください。"}; }
-        if (!yKana) { if (yuchoAccountHolderKana) yuchoAccountHolderKana.classList.add("is-invalid"); return {ok:false, msg:"口座名義（カナ）を入力してください。"}; }
+        if (!yStore) { if (yuchoStoreName) yuchoStoreName.classList.add("is-invalid"); return {ok:false, msg:"ゆうちょの店名を入力してください。", firstInvalidEl: yuchoStoreName}; }
+        if (yCode.length !== 3) { if (yuchoStoreCode) yuchoStoreCode.classList.add("is-invalid"); return {ok:false, msg:"ゆうちょの店番は3桁で入力してください。", firstInvalidEl: yuchoStoreCode}; }
+        if (yNum.length !== 7) { if (yuchoAccountNumber) yuchoAccountNumber.classList.add("is-invalid"); return {ok:false, msg:"ゆうちょの口座番号は7桁で入力してください。", firstInvalidEl: yuchoAccountNumber}; }
+        if (!yKana) { if (yuchoAccountHolderKana) yuchoAccountHolderKana.classList.add("is-invalid"); return {ok:false, msg:"口座名義（カナ）を入力してください。", firstInvalidEl: yuchoAccountHolderKana}; }
+        if (!isKanaOnly(yKana)) { if (yuchoAccountHolderKana) yuchoAccountHolderKana.classList.add("is-invalid"); return {ok:false, msg:"口座名義はカタカナで入力してください。", firstInvalidEl: yuchoAccountHolderKana}; }
       }
 
-      if (!checkSize(fLf, licenseFront)) return {ok:false};
-      if (!checkSize(fLb, licenseBack)) return {ok:false};
-      if (!checkSize(fVf, vehicleFront)) return {ok:false};
-      if (!checkSize(fVi, vehicleInspection)) return {ok:false};
-      if (!checkSize(fCo, compulsoryInsurance)) return {ok:false};
-      if (!checkSize(fVo, voluntaryInsurance)) return {ok:false};
-      if (!checkSize(fKei, keiCargoNotification)) return {ok:false};
-      if (fCi && !checkSize(fCi, cargoInsurance)) return {ok:false};
+      if (!checkSize(fLf, licenseFront)) return {ok:false, firstInvalidEl: licenseFront};
+      if (!checkSize(fLb, licenseBack)) return {ok:false, firstInvalidEl: licenseBack};
+      if (!checkSize(fVf, vehicleFront)) return {ok:false, firstInvalidEl: vehicleFront};
+      if (!checkSize(fVi, vehicleInspection)) return {ok:false, firstInvalidEl: vehicleInspection};
+      if (!checkSize(fCo, compulsoryInsurance)) return {ok:false, firstInvalidEl: compulsoryInsurance};
+      if (!checkSize(fVo, voluntaryInsurance)) return {ok:false, firstInvalidEl: voluntaryInsurance};
+      if (!checkSize(fKei, keiCargoNotification)) return {ok:false, firstInvalidEl: keiCargoNotification};
+      if (fCi && !checkSize(fCi, cargoInsurance)) return {ok:false, firstInvalidEl: cargoInsurance};
 
-      if (!nick) { nickname.classList.add("is-invalid"); return {ok:false, msg:"ニックネーム（公開）を入力してください。"}; }
-      if (!pubPref) { publicPrefecture.classList.add("is-invalid"); return {ok:false, msg:"公開用の都道府県を選択してください。"}; }
-      if (!pubCity) { (publicCityManualMode && publicCityManual ? publicCityManual : publicCity).classList.add("is-invalid"); return {ok:false, msg:"公開用の市区町村を入力してください。"}; }
-      if (!pubMaker) { publicMaker.classList.add("is-invalid"); return {ok:false, msg:"公開用のメーカーを選択してください。"}; }
-      if (!pubModel) { publicModel.classList.add("is-invalid"); return {ok:false, msg:"公開用の車種を選択してください。"}; }
-      if (!pubAppeal) { publicAppeal.classList.add("is-invalid"); return {ok:false, msg:"アピールポイント（公開）を入力してください。"}; }
+      if (!nick) { nickname.classList.add("is-invalid"); return {ok:false, msg:"ニックネーム（公開）を入力してください。", firstInvalidEl: nickname}; }
+      if (!pubPref) { publicPrefecture.classList.add("is-invalid"); return {ok:false, msg:"公開用の都道府県を選択してください。", firstInvalidEl: publicPrefecture}; }
+      if (!pubCity) { (publicCityManualMode && publicCityManual ? publicCityManual : publicCity).classList.add("is-invalid"); return {ok:false, msg:"公開用の市区町村を入力してください。", firstInvalidEl: (publicCityManualMode && publicCityManual) ? publicCityManual : publicCity}; }
+      if (!pubMaker) { publicMaker.classList.add("is-invalid"); return {ok:false, msg:"公開用のメーカーを選択してください。", firstInvalidEl: publicMaker}; }
+      if (!pubModel) { publicModel.classList.add("is-invalid"); return {ok:false, msg:"公開用の車種を選択してください。", firstInvalidEl: publicModel}; }
+      if (!pubAppeal) { publicAppeal.classList.add("is-invalid"); return {ok:false, msg:"アピールポイント（公開）を入力してください。", firstInvalidEl: publicAppeal}; }
 
-      if (!agree.checked) { agree.classList.add("is-invalid"); return {ok:false, msg:"同意にチェックしてください。"}; }
+      if (!agree.checked) {
+        agree.classList.add("is-invalid");
+        if (agreeLabelEl) agreeLabelEl.classList.add("is-invalid");
+        if (agreeErrorTextEl) { agreeErrorTextEl.textContent = "同意にチェックを入れてください。"; agreeErrorTextEl.style.display = ""; }
+        return {ok:false, msg:"同意にチェックを入れてください。", firstInvalidEl: agree};
+      }
 
       if (!ENDPOINT || ENDPOINT === "あとで貼る") {
-        return { ok:false, msg:"送信先（GAS_ENDPOINT）が未設定です（config.js を確認してください）。"};
+        return { ok:false, msg:"送信先（GAS_ENDPOINT）が未設定です（config.js を確認してください）。", firstInvalidEl: null};
       }
 
       var addressFull = pref + c + al;
-      var manualMode = cityManualMode || publicCityManualMode || isBankManual;
+      var manualMode = cityManualMode || publicCityManualMode;
       var bankAccount = {
         manualMode: manualMode,
         bank: bankKind === "bank" ? {
@@ -986,7 +980,14 @@
       e.preventDefault();
 
       const v = validate();
-      if (!v.ok) { if (v.msg) setError(v.msg, ""); return; }
+      if (!v.ok) {
+        if (v.msg) setError(v.msg, "");
+        if (v.firstInvalidEl) {
+          if (v.firstInvalidEl.scrollIntoView) v.firstInvalidEl.scrollIntoView({ behavior: "smooth", block: "center" });
+          try { if (v.firstInvalidEl.focus) v.firstInvalidEl.focus({ preventScroll: false }); } catch (err) {}
+        }
+        return;
+      }
 
       submitBtn.disabled = true;
       submitBtn.innerHTML = "<span class=\"inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2\"></span>送信中…";

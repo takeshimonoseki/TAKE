@@ -35,6 +35,15 @@ html, body {
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans JP", sans-serif;
 }
 
+/* セレクトのドロップダウンを暗い背景にして文字を見えるように（白背景で文字が消えるのを防止） */
+select {
+  color-scheme: dark;
+}
+select option {
+  background: #1e293b;
+  color: #fff;
+}
+
 a { color: inherit; text-decoration: none; }
 img { max-width: 100%; display: block; }
 hr { border: 0; border-top: 1px solid rgba(255,255,255,0.10); margin: 24px 0; }
