@@ -127,7 +127,7 @@
   </div>
 
   <main class="pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-3xl mx-auto">
-    <div class="glass-card p-6 md:p-10 mb-6 reveal-hidden relative overflow-hidden">
+    <div class="glass-card p-6 md:p-10 mb-6 relative overflow-hidden" data-reveal>
       <div class="absolute -top-20 -right-20 w-[300px] h-[300px] bg-gradient-to-br from-blue-600/10 to-transparent rounded-full blur-3xl pointer-events-none"></div>
       <div class="relative z-10">
         <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[11px] font-bold text-muted mb-4">
@@ -144,7 +144,7 @@
       </div>
     </div>
 
-    <div class="glass-card p-6 md:p-10 reveal-hidden delay-100 overflow-visible">
+    <div class="glass-card p-6 md:p-10 overflow-visible" data-reveal data-reveal-delay="1">
       <form id="fullRegisterForm" novalidate>
 
         <div id="errorBox" class="error-banner mb-6" style="display:none;">
@@ -1122,5 +1122,6 @@
     })();
   </script>
   <script src="./assets/transition.js" defer></script>
+  <script src="./assets/effects.js" defer></script>
 </body>
 </html>
