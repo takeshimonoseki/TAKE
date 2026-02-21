@@ -1,3 +1,4 @@
+/* ② path: effects.css */
 :root{
   --page-dur-enter: 260ms;
   --page-dur-leave: 240ms;
@@ -17,7 +18,7 @@ html::before{
   mix-blend-mode: soft-light;
 }
 
-/* 抹茶ラテ・ゆっくり光のにじみ */
+/* Trust Navy + Teal：ゆっくり光のにじみ */
 body::before{
   content:"";
   position: fixed;
@@ -27,8 +28,8 @@ body::before{
   height:420px;
   border-radius:50%;
   background:
-    radial-gradient(circle at 30% 30%, rgba(122,160,122,0.22), transparent 60%),
-    radial-gradient(circle at 70% 70%, rgba(11,20,17,0.9), transparent 65%);
+    radial-gradient(circle at 30% 30%, rgba(45,212,191,0.20), transparent 60%),
+    radial-gradient(circle at 70% 70%, rgba(11,18,32,0.92), transparent 65%);
   opacity:0.4;
   filter: blur(32px);
   pointer-events:none;
@@ -44,8 +45,8 @@ body::after{
   height:360px;
   border-radius:50%;
   background:
-    radial-gradient(circle at 20% 80%, rgba(243,234,223,0.18), transparent 60%),
-    radial-gradient(circle at 80% 20%, rgba(21,28,22,0.95), transparent 70%);
+    radial-gradient(circle at 20% 80%, rgba(245,158,11,0.14), transparent 60%),
+    radial-gradient(circle at 80% 20%, rgba(11,31,59,0.92), transparent 70%);
   opacity:0.32;
   filter: blur(30px);
   pointer-events:none;

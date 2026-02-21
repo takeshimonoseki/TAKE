@@ -1,53 +1,44 @@
+// ② path: gas/Code.gs
 /**
  * Google Apps Script Webアプリ
  * 出力先：Script Properties の DRIVE_FOLDER_ID / SHEET_ID（未設定時は下記定数フォールバック）
  * - 登録一覧：仮登録（driver_register / driver_files）
- * - 本登録：本登録（driver_full_register）、Jobs シートに START→VALIDATE→SHEET_*→PHOTO_*→NOTIFY_*
- * Script Properties：DRIVE_FOLDER_ID, SHEET_ID, LINE_CHANNEL_ACCESS_TOKEN, ADMIN_LINE_USER_ID, ADMIN_EMAIL（任意）
+ * - 本登録：本登録（driver_full_register）、Jobs シートに START/VALIDATE/SHEET/PHOTO/NOTIFY を監査ログ
+ * - 公開一覧：doGet ?type=public_drivers（status=PUBLIC のみ）
+ *
+ * ★今回の変更点
+ * - Drive保存：フォルダ名を「本人名_受付ID」、ファイル名も「本人名_書類名.ext」
+ * - LINE通知：Script Properties のキー揺れを吸収（LINE_CHANNEL_ACCESS_TOKEN/LINE_ACCESS_TOKEN、ADMIN_LINE_USER_ID/LINE_TO_USER_ID）
+ * - health：lineConfigured/lineTokenSet/lineToSet を返す
  */
 
-var DRIVE_FOLDER_ID = "ここにDriveフォルダIDを貼る";
-var SHEET_ID = "ここにスプレッドシートIDを貼る";
-var SHEET_TAB = "登録一覧";
-var SHEET_TAB_FULL = "本登録";
-var JOBS_SHEET_NAME = "Jobs";
+var SHEET_ID_FALLBACK = "1mEPSJsN0Pt1GULgLIBqQXyUQg-L7a4QCvSLMvADejN8";
+var SHEET_TAB = "Drivers";
+var SHEET_TAB_FULL = "FullRegister";
+var JOBS_SHEET = "Jobs";
+
+// FullRegister URL列（14列目から）
+var FULL_SHEET_URL_HEADERS = ["driveFolderUrl", "licenseFrontUrl", "licenseBackUrl", "vehicleFrontUrl", "vehicleInspectionUrl", "compulsoryInsuranceUrl", "voluntaryInsuranceUrl", "keiCargoNotificationUrl", "bankAccountProofUrl", "cargoInsuranceUrl"];
+var FULL_SHEET_COL_BANK = 24;
+
 var MAX_FILE_BYTES = 5 * 1024 * 1024;
-var ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/gif", "image/webp"];
-var ALLOWED_EXT = [".jpg", ".jpeg", ".png", ".gif", ".webp", ".pdf"];
 
-function getDriveFolderId() {
-  return PropertiesService.getScriptProperties().getProperty("DRIVE_FOLDER_ID") || DRIVE_FOLDER_ID;
-}
 function getSheetId() {
-  return PropertiesService.getScriptProperties().getProperty("SHEET_ID") || SHEET_ID;
+  return PropertiesService.getScriptProperties().getProperty("SHEET_ID") || SHEET_ID_FALLBACK;
 }
-
-function getJobsSheet(ss) {
-  if (!ss) return null;
-  var sheet = ss.getSheetByName(JOBS_SHEET_NAME);
-  if (!sheet) {
-    sheet = ss.insertSheet(JOBS_SHEET_NAME);
-    sheet.getRange(1, 1, 1, 7).setValues([["timestamp", "stage", "ok", "message", "debugId", "receiptId", "type"]]);
-  }
-  return sheet;
+function getDriveFolderId() {
+  return PropertiesService.getScriptProperties().getProperty("DRIVE_FOLDER_ID") || "";
 }
-
 function appendJobLog(ss, stage, ok, message, debugId, receiptId, type) {
   try {
-    var sheet = getJobsSheet(ss);
-    if (!sheet) return;
-    sheet.appendRow([
-      new Date().toISOString(),
-      String(stage),
-      ok === true ? "TRUE" : "FALSE",
-      (message || "").toString().slice(0, 500),
-      (debugId || "").toString().slice(0, 100),
-      (receiptId || "").toString().slice(0, 100),
-      (type || "").toString().slice(0, 50)
-    ]);
-  } catch (err) {
-    Logger.log("appendJobLog error: " + err.toString());
-  }
+    if (!ss) return;
+    var sheet = ss.getSheetByName(JOBS_SHEET);
+    if (!sheet) sheet = ss.insertSheet(JOBS_SHEET);
+    if (sheet.getLastRow() === 0) {
+      sheet.appendRow(["ts", "stage", "ok", "message", "debugId", "receiptId", "type"]);
+    }
+    sheet.appendRow([new Date().toISOString(), stage, ok, message, debugId, receiptId, type]);
+  } catch (e) {}
 }
 
 function doPost(e) {
@@ -127,13 +118,18 @@ function doGet(e) {
   }
 
   if (type === "health") {
+    var lineTokenSet = false;
+    var lineToSet = false;
     var lineConfigured = false;
     try {
-      var token = PropertiesService.getScriptProperties().getProperty("LINE_CHANNEL_ACCESS_TOKEN");
-      var userId = PropertiesService.getScriptProperties().getProperty("ADMIN_LINE_USER_ID");
+      var props = PropertiesService.getScriptProperties();
+      var token = props.getProperty("LINE_CHANNEL_ACCESS_TOKEN") || props.getProperty("LINE_ACCESS_TOKEN") || "";
+      var userId = props.getProperty("ADMIN_LINE_USER_ID") || props.getProperty("LINE_TO_USER_ID") || props.getProperty("LINE_USER_ID") || "";
+      lineTokenSet = !!token;
+      lineToSet = !!userId;
       lineConfigured = !!(token && userId);
     } catch (err) {}
-    return ContentService.createTextOutput(JSON.stringify({ lineConfigured: lineConfigured }))
+    return ContentService.createTextOutput(JSON.stringify({ lineConfigured: lineConfigured, lineTokenSet: lineTokenSet, lineToSet: lineToSet }))
       .setMimeType(ContentService.MimeType.JSON);
   }
 
@@ -177,151 +173,6 @@ function setStatusByReceiptId(receiptId, status) {
   return false;
 }
 
-function getPublicDrivers() {
-  var out = [];
-  try {
-    var ss = SpreadsheetApp.openById(getSheetId());
-    var sheet = ss.getSheetByName(SHEET_TAB_FULL);
-    if (!sheet) return out;
-    var lastRow = sheet.getLastRow();
-    if (lastRow < 2) return out;
-    var data = sheet.getRange(2, 1, lastRow, 13).getValues();
-    for (var i = 0; i < data.length; i++) {
-      var row = data[i];
-      var status = (row[10] || "").toString().trim().toUpperCase();
-      if (status !== "PUBLIC") continue;
-      out.push({
-        nickname_public: "ドライバー",
-        city_public: (row[5] || "").toString().trim(),
-        profile: (row[9] || "").toString().trim().slice(0, 500),
-        experience: (row[7] || "").toString().trim().slice(0, 300),
-        vehicleType: (row[6] || "").toString().trim().slice(0, 100)
-      });
-    }
-  } catch (err) {
-    Logger.log("getPublicDrivers: " + err.toString());
-  }
-  return out;
-}
-
-function getLineStatusByReceiptId(receiptId) {
-  var out = { linePushed: false, lineError: "" };
-  try {
-    var ss = SpreadsheetApp.openById(getSheetId());
-    var sheet = ss.getSheetByName(SHEET_TAB_FULL);
-    if (!sheet) return out;
-    var lastRow = sheet.getLastRow();
-    for (var r = 1; r <= lastRow; r++) {
-      if (sheet.getRange(r, 1).getValue() === receiptId) {
-        var lp = sheet.getRange(r, 12).getValue();
-        var le = (sheet.getRange(r, 13).getValue() || "").toString().trim();
-        out.linePushed = lp === true || lp === "true" || lp === "TRUE" || lp === 1;
-        out.lineError = le;
-        break;
-      }
-    }
-  } catch (err) {
-    out.lineError = "取得できませんでした";
-  }
-  return out;
-}
-
-function handleDriverRegister(body, debugId) {
-  debugId = debugId || Utilities.getUuid();
-  var data = body.data || {};
-  var receiptId = "R" + new Date().getTime() + "-" + Math.random().toString(36).slice(2, 8);
-  try {
-    var sheet = SpreadsheetApp.openById(getSheetId()).getSheetByName(SHEET_TAB);
-    if (!sheet) {
-      Logger.log("[%s] driver_register SHEET_WRITE sheet_not_found", debugId);
-      return { ok: false, step: "SHEET_WRITE", message: "sheet_not_found", debugId: debugId };
-    }
-    var vehicleStr = data.vehicle || ((data.vehicleMaker || "") + " " + (data.vehicleModel || "")).trim() || "";
-    var row = [
-      receiptId,
-      new Date().toISOString(),
-      data.nickname || "",
-      data.fullName || (data.lastName + " " + data.firstName) || "",
-      data.address || "",
-      data.city || "",
-      vehicleStr,
-      data.plateNumber || "",
-      data.autoInsurance || "",
-      data.cargoInsurance || "",
-      data.availability ? data.availability.join(" ") : "",
-      data.specialties ? data.specialties.join(" ") : "",
-      (data.profile || "").slice(0, 500),
-      data.contactPhone || "",
-      data.contactEmail || "",
-      data.contactLineName || ""
-    ];
-    sheet.appendRow(row);
-    Logger.log("[%s] driver_register SHEET_WRITE ok receiptId=%s", debugId, receiptId);
-  } catch (err) {
-    Logger.log("[%s] driver_register SHEET_WRITE error %s", debugId, err.toString());
-    return { ok: false, step: "SHEET_WRITE", message: err.toString().slice(0, 200), debugId: debugId };
-  }
-  var folder = null;
-  try {
-    folder = DriveApp.getFolderById(getDriveFolderId());
-  } catch (e) {}
-  if (folder && body.licenseFront && body.licenseFront.data) {
-    try {
-      var subFolder = folder.createFolder(receiptId);
-      saveBase64(subFolder, "免許証_表.jpg", body.licenseFront.data);
-      if (body.licenseBack && body.licenseBack.data) saveBase64(subFolder, "免許証_裏.jpg", body.licenseBack.data);
-      if (body.vehiclePhoto1 && body.vehiclePhoto1.data) saveBase64(subFolder, "車両1.jpg", body.vehiclePhoto1.data);
-      if (body.vehiclePhoto2 && body.vehiclePhoto2.data) saveBase64(subFolder, "車両2.jpg", body.vehiclePhoto2.data);
-      if (body.autoInsuranceFile && body.autoInsuranceFile.data) saveBase64(subFolder, "自賠責証券." + getExt(body.autoInsuranceFile.name), body.autoInsuranceFile.data);
-      if (body.cargoInsuranceFile && body.cargoInsuranceFile.data) saveBase64(subFolder, "貨物保険." + getExt(body.cargoInsuranceFile.name), body.cargoInsuranceFile.data);
-    } catch (photoErr) {
-      Logger.log("[%s] driver_register PHOTO_SAVE error %s", debugId, photoErr.toString());
-      return { ok: true, receiptId: receiptId, step: "PHOTO_SAVE", message: photoErr.toString().slice(0, 200), debugId: debugId };
-    }
-  }
-  return { ok: true, receiptId: receiptId, step: "SHEET_WRITE", message: "登録しました", debugId: debugId };
-}
-
-function handleDriverFiles(body, debugId) {
-  debugId = debugId || Utilities.getUuid();
-  var receiptId = body.receiptId;
-  if (!receiptId) return { ok: false, step: "VALIDATE", message: "no_receipt_id", debugId: debugId };
-
-  var folder;
-  try {
-    var main = DriveApp.getFolderById(getDriveFolderId());
-    var it = main.getFoldersByName(receiptId);
-    folder = it.hasNext() ? it.next() : main.createFolder(receiptId);
-  } catch (e) {
-    Logger.log("[%s] driver_files PHOTO_SAVE drive_error %s", debugId, e.toString());
-    return { ok: false, step: "PHOTO_SAVE", message: "drive_error: " + e.toString().slice(0, 100), debugId: debugId };
-  }
-
-  if (body.extraFile1 && body.extraFile1.data) saveBase64(folder, "追加1_" + (body.extraFile1.name || "file"), body.extraFile1.data);
-  if (body.extraFile2 && body.extraFile2.data) saveBase64(folder, "追加2_" + (body.extraFile2.name || "file"), body.extraFile2.data);
-  if (body.extraFile3 && body.extraFile3.data) saveBase64(folder, "追加3_" + (body.extraFile3.name || "file"), body.extraFile3.data);
-
-  try {
-    var sheet = SpreadsheetApp.openById(getSheetId()).getSheetByName(SHEET_TAB);
-    if (sheet) {
-      var lastRow = sheet.getLastRow();
-      for (var r = 1; r <= lastRow; r++) {
-        if (sheet.getRange(r, 1).getValue() === receiptId) {
-          sheet.getRange(r, 17).setValue("追加書類受付済 " + new Date().toISOString());
-          break;
-        }
-      }
-    }
-  } catch (err) {
-    Logger.log("[%s] driver_files SHEET_WRITE error %s", debugId, err.toString());
-    return { ok: false, step: "SHEET_WRITE", message: err.toString().slice(0, 200), debugId: debugId };
-  }
-  return { ok: true, receiptId: receiptId, step: "PHOTO_SAVE", message: "受付済", debugId: debugId };
-}
-
-var FULL_SHEET_URL_HEADERS = ["driveFolderUrl", "licenseFrontUrl", "licenseBackUrl", "vehicleFrontUrl", "vehicleInspectionUrl", "compulsoryInsuranceUrl", "voluntaryInsuranceUrl", "keiCargoNotificationUrl", "bankAccountProofUrl", "cargoInsuranceUrl"];
-var FULL_SHEET_COL_BANK = 24; // 振込口座（入力）は24列目に保存（既存シートと互換）
-
 function ensureFullSheetUrlColumns(sheet) {
   if (!sheet) return;
   try {
@@ -349,6 +200,77 @@ function formatBankAccountForSheet(bankAccount) {
     }
   } catch (e) {}
   return JSON.stringify(bankAccount);
+}
+
+function sanitizeDriveName_(s) {
+  var t = (s || "").toString().trim();
+  if (!t) return "";
+  t = t.replace(/[\\\/\:\*\?\"\<\>\|\r\n\t]/g, "_");
+  t = t.replace(/\s+/g, " ").trim();
+  if (t.length > 40) t = t.slice(0, 40);
+  return t;
+}
+
+function isChildOfFolder_(childFolder, parentFolder) {
+  try {
+    var parents = childFolder.getParents();
+    while (parents.hasNext()) {
+      if (parents.next().getId() === parentFolder.getId()) return true;
+    }
+  } catch (e) {}
+  return false;
+}
+
+function findReceiptFolderInParent_(parentFolder, receiptId) {
+  if (!parentFolder || !receiptId) return null;
+  try {
+    var it1 = parentFolder.getFoldersByName(receiptId);
+    if (it1.hasNext()) return it1.next();
+  } catch (e) {}
+
+  try {
+    var q = receiptId.toString().replace(/"/g, "");
+    var it2 = DriveApp.searchFolders('title contains "' + q + '"');
+    while (it2.hasNext()) {
+      var f = it2.next();
+      if (isChildOfFolder_(f, parentFolder)) return f;
+    }
+  } catch (e2) {}
+
+  return null;
+}
+
+function getOrCreateReceiptFolder_(parentFolder, receiptId, fullName) {
+  if (!parentFolder) return { folder: null, safeName: "", folderName: "" };
+
+  var safeName = sanitizeDriveName_(fullName);
+  var preferredName = safeName ? (safeName + "_" + receiptId) : receiptId;
+
+  var folder = null;
+  try {
+    var itPref = parentFolder.getFoldersByName(preferredName);
+    if (itPref.hasNext()) folder = itPref.next();
+  } catch (e) {}
+
+  if (!folder) {
+    folder = findReceiptFolderInParent_(parentFolder, receiptId);
+  }
+
+  if (!folder) {
+    try {
+      folder = parentFolder.createFolder(preferredName);
+    } catch (e2) {
+      folder = parentFolder.createFolder(receiptId);
+    }
+  } else {
+    try {
+      if (safeName && folder.getName && folder.getName() !== preferredName && folder.setName) {
+        folder.setName(preferredName);
+      }
+    } catch (e3) {}
+  }
+
+  return { folder: folder, safeName: safeName, folderName: preferredName };
 }
 
 var FULL_REGISTER_FILE_KEYS = ["licenseFront", "licenseBack", "vehicleFront", "vehicleInspection", "compulsoryInsurance", "voluntaryInsurance", "keiCargoNotification", "bankAccountProof", "cargoInsurance"];
@@ -412,10 +334,13 @@ function handleDriverFullRegister(body, debugId, ss) {
     lineError = "写真保存スキップ（フォルダ未設定）";
   } else {
     var subFolder = null;
+    var safeNameForFiles = "";
     try {
-      var it = folder.getFoldersByName(receiptId);
-      subFolder = it.hasNext() ? it.next() : folder.createFolder(receiptId);
-      driveFolderUrl = subFolder.getUrl() || "";
+      var meta = getOrCreateReceiptFolder_(folder, receiptId, (data.fullName || "").toString().trim());
+      subFolder = meta.folder;
+      safeNameForFiles = meta.safeName || "";
+      driveFolderUrl = subFolder ? (subFolder.getUrl() || "") : "";
+      if (!subFolder) throw new Error("folder_not_found");
     } catch (e) {
       if (ss) appendJobLog(ss, "PHOTO_NG", false, "subfolder error: " + (e.toString() || "").slice(0, 100), debugId, receiptId, type);
       return { ok: false, debugId: debugId, receiptId: receiptId, message: "Drive subfolder error" };
@@ -430,7 +355,7 @@ function handleDriverFullRegister(body, debugId, ss) {
       if (!fileObj || !fileObj.dataUrl) continue;
       var baseName = FULL_REGISTER_SAVE_NAMES[key] || key;
       try {
-        var f = saveDataUrl(subFolder, baseName, fileObj);
+        var f = saveDataUrl(subFolder, baseName, fileObj, safeNameForFiles);
         if (f) saved++;
       } catch (e) {
         failedKeys.push(key);
@@ -478,32 +403,180 @@ function handleDriverFullRegister(body, debugId, ss) {
   return { ok: true, debugId: debugId, receiptId: receiptId, message: message };
 }
 
-function saveDataUrl(folder, baseName, fileObj) {
+function handleDriverRegister(body, debugId) {
+  debugId = debugId || Utilities.getUuid();
+  var data = body.data || {};
+  var receiptId = "R" + new Date().getTime() + "-" + Math.random().toString(36).slice(2, 8);
+  try {
+    var sheet = SpreadsheetApp.openById(getSheetId()).getSheetByName(SHEET_TAB);
+    if (!sheet) {
+      Logger.log("[%s] driver_register SHEET_WRITE sheet_not_found", debugId);
+      return { ok: false, step: "SHEET_WRITE", message: "sheet_not_found", debugId: debugId };
+    }
+    var vehicleStr = data.vehicle || ((data.vehicleMaker || "") + " " + (data.vehicleModel || "")).trim() || "";
+    var row = [
+      receiptId,
+      new Date().toISOString(),
+      data.nickname || "",
+      data.fullName || (data.lastName + " " + data.firstName) || "",
+      data.address || "",
+      data.city || "",
+      vehicleStr,
+      data.plateNumber || "",
+      data.autoInsurance || "",
+      data.cargoInsurance || "",
+      data.availability ? data.availability.join(" ") : "",
+      data.specialties ? data.specialties.join(" ") : "",
+      (data.profile || "").slice(0, 500),
+      data.contactPhone || "",
+      data.contactEmail || "",
+      data.contactLineName || ""
+    ];
+    sheet.appendRow(row);
+    Logger.log("[%s] driver_register SHEET_WRITE ok receiptId=%s", debugId, receiptId);
+  } catch (err) {
+    Logger.log("[%s] driver_register SHEET_WRITE error %s", debugId, err.toString());
+    return { ok: false, step: "SHEET_WRITE", message: err.toString().slice(0, 200), debugId: debugId };
+  }
+  var folder = null;
+  try {
+    folder = DriveApp.getFolderById(getDriveFolderId());
+  } catch (e) {}
+  if (folder && body.licenseFront && body.licenseFront.data) {
+    try {
+      var meta = getOrCreateReceiptFolder_(folder, receiptId, (data.fullName || data.nickname || "").toString().trim());
+      var subFolder = meta.folder;
+      var safe = meta.safeName || "";
+      var prefix = safe ? (safe + "_") : "";
+      saveBase64(subFolder, prefix + "免許証_表.jpg", body.licenseFront.data);
+      if (body.licenseBack && body.licenseBack.data) saveBase64(subFolder, prefix + "免許証_裏.jpg", body.licenseBack.data);
+      if (body.vehiclePhoto1 && body.vehiclePhoto1.data) saveBase64(subFolder, prefix + "車両1.jpg", body.vehiclePhoto1.data);
+      if (body.vehiclePhoto2 && body.vehiclePhoto2.data) saveBase64(subFolder, prefix + "車両2.jpg", body.vehiclePhoto2.data);
+      if (body.autoInsuranceFile && body.autoInsuranceFile.data) saveBase64(subFolder, prefix + "自賠責証券." + getExt(body.autoInsuranceFile.name), body.autoInsuranceFile.data);
+      if (body.cargoInsuranceFile && body.cargoInsuranceFile.data) saveBase64(subFolder, prefix + "貨物保険." + getExt(body.cargoInsuranceFile.name), body.cargoInsuranceFile.data);
+    } catch (photoErr) {
+      Logger.log("[%s] driver_register PHOTO_SAVE error %s", debugId, photoErr.toString());
+      return { ok: true, receiptId: receiptId, step: "PHOTO_SAVE", message: photoErr.toString().slice(0, 200), debugId: debugId };
+    }
+  }
+  return { ok: true, receiptId: receiptId, step: "SHEET_WRITE", message: "登録しました", debugId: debugId };
+}
+
+function handleDriverFiles(body, debugId) {
+  debugId = debugId || Utilities.getUuid();
+  var receiptId = body.receiptId;
+  if (!receiptId) return { ok: false, step: "VALIDATE", message: "no_receipt_id", debugId: debugId };
+
+  var folder;
+  try {
+    var main = DriveApp.getFolderById(getDriveFolderId());
+    var found = findReceiptFolderInParent_(main, receiptId);
+    folder = found ? found : main.createFolder(receiptId);
+  } catch (e) {
+    Logger.log("[%s] driver_files PHOTO_SAVE drive_error %s", debugId, e.toString());
+    return { ok: false, step: "PHOTO_SAVE", message: "drive_error: " + e.toString().slice(0, 100), debugId: debugId };
+  }
+
+  if (body.extraFile1 && body.extraFile1.data) saveBase64(folder, "追加1_" + (body.extraFile1.name || "file"), body.extraFile1.data);
+  if (body.extraFile2 && body.extraFile2.data) saveBase64(folder, "追加2_" + (body.extraFile2.name || "file"), body.extraFile2.data);
+  if (body.extraFile3 && body.extraFile3.data) saveBase64(folder, "追加3_" + (body.extraFile3.name || "file"), body.extraFile3.data);
+
+  try {
+    var sheet = SpreadsheetApp.openById(getSheetId()).getSheetByName(SHEET_TAB);
+    if (!sheet) return { ok: true, receiptId: receiptId, step: "PHOTO_SAVE", message: "ok_no_sheet", debugId: debugId };
+  } catch (e2) {}
+  return { ok: true, receiptId: receiptId, step: "PHOTO_SAVE", message: "ok", debugId: debugId };
+}
+
+function getLineStatusByReceiptId(receiptId) {
+  try {
+    var sheet = SpreadsheetApp.openById(getSheetId()).getSheetByName(SHEET_TAB_FULL);
+    if (!sheet) return { ok: false };
+    var lastRow = sheet.getLastRow();
+    for (var r = 2; r <= lastRow; r++) {
+      if (sheet.getRange(r, 1).getValue() === receiptId) {
+        return {
+          ok: true,
+          linePushed: !!sheet.getRange(r, 12).getValue(),
+          lineError: (sheet.getRange(r, 13).getValue() || "").toString()
+        };
+      }
+    }
+  } catch (e) {}
+  return { ok: false };
+}
+
+function getPublicDrivers() {
+  var out = [];
+  try {
+    var ss = SpreadsheetApp.openById(getSheetId());
+    var sheet = ss.getSheetByName(SHEET_TAB_FULL);
+    if (!sheet) return out;
+    var lastRow = sheet.getLastRow();
+    if (lastRow < 2) return out;
+    var data = sheet.getRange(2, 1, lastRow, 13).getValues();
+    for (var i = 0; i < data.length; i++) {
+      var row = data[i];
+      var status = (row[10] || "").toString().trim().toUpperCase();
+      if (status !== "PUBLIC") continue;
+      out.push({
+        nickname_public: "ドライバー",
+        city_public: (row[5] || "").toString().trim(),
+        profile: (row[9] || "").toString().trim().slice(0, 500),
+        experience: (row[7] || "").toString().trim().slice(0, 300),
+        vehicleType: (row[6] || "").toString().trim().slice(0, 100)
+      });
+    }
+  } catch (e) {}
+  return out;
+}
+
+function saveDataUrl(folder, baseName, fileObj, namePrefix) {
+  if (!folder || !fileObj) return null;
+
   var dataUrl = (fileObj.dataUrl || "").toString();
   var idx = dataUrl.indexOf(",");
   if (idx < 0) return null;
+
   var base64 = dataUrl.slice(idx + 1);
   if (!base64 || base64.length > MAX_FILE_BYTES * 1.4) return null;
-  var ext = getExt(fileObj.name || "");
-  if (ext === ".pdf") {
+
+  var ext = (getExt(fileObj.name || "") || "jpg").toString().toLowerCase();
+  if (!ext) ext = "jpg";
+
+  var safePrefix = sanitizeDriveName_(namePrefix);
+  var core = baseName;
+  if (safePrefix) core = safePrefix + "_" + baseName;
+
+  var fileName = core + "." + ext;
+
+  if (ext === "pdf") {
     try {
-      var blob = Utilities.newBlob(Utilities.base64Decode(base64), "application/pdf", baseName + ext);
-      return folder.createFile(blob);
-    } catch (e) { return null; }
+      var blobPdf = Utilities.newBlob(Utilities.base64Decode(base64), "application/pdf", fileName);
+      return folder.createFile(blobPdf);
+    } catch (e) {
+      return null;
+    }
   }
-  return saveBase64(folder, baseName + (ext || ".jpg"), base64);
+
+  return saveBase64(folder, fileName, base64);
 }
 
 function sendLineNotify(receiptId, fullName) {
   var result = { pushed: false, error: "" };
   try {
-    var token = PropertiesService.getScriptProperties().getProperty("LINE_CHANNEL_ACCESS_TOKEN");
-    var userId = PropertiesService.getScriptProperties().getProperty("ADMIN_LINE_USER_ID");
+    var props = PropertiesService.getScriptProperties();
+    var token = props.getProperty("LINE_CHANNEL_ACCESS_TOKEN") || props.getProperty("LINE_ACCESS_TOKEN") || "";
+    var userId = props.getProperty("ADMIN_LINE_USER_ID") || props.getProperty("LINE_TO_USER_ID") || props.getProperty("LINE_USER_ID") || "";
+
     if (!token || !userId) {
-      result.error = "未設定（運営側でLINE_CHANNEL_ACCESS_TOKEN / ADMIN_LINE_USER_ID を設定してください）";
+      result.error = "未設定（LINE_CHANNEL_ACCESS_TOKEN/LINE_ACCESS_TOKEN と ADMIN_LINE_USER_ID/LINE_TO_USER_ID を設定してください）";
       return result;
     }
-    var text = "【本登録】受付ID: " + receiptId + (fullName ? " / " + fullName : "");
+
+    var namePart = (fullName || "").toString().trim();
+    var text = "【本登録】受付ID: " + receiptId + (namePart ? " / " + namePart : "");
+
     var options = {
       method: "post",
       contentType: "application/json",
@@ -511,16 +584,22 @@ function sendLineNotify(receiptId, fullName) {
       payload: JSON.stringify({ to: userId, messages: [{ type: "text", text: text }] }),
       muteHttpExceptions: true
     };
+
     var resp = UrlFetchApp.fetch("https://api.line.me/v2/bot/message/push", options);
     var code = resp.getResponseCode();
+    var bodyText = "";
+    try { bodyText = (resp.getContentText() || "").toString(); } catch (e2) {}
+
     Logger.log("LINE push response code: " + code);
+
     if (code >= 200 && code < 300) {
       result.pushed = true;
+      result.error = "";
     } else {
-      result.error = "HTTP " + code;
+      result.error = "HTTP " + code + (bodyText ? (" / " + bodyText.slice(0, 180)) : "");
     }
   } catch (err) {
-    result.error = (err.toString() || "送信失敗").slice(0, 80);
+    result.error = (err.toString() || "送信失敗").slice(0, 180);
     Logger.log("LINE notify error: " + result.error);
   }
   return result;
@@ -534,6 +613,8 @@ function saveBase64(folder, fileName, base64Data) {
 
 function getExt(name) {
   if (!name) return "jpg";
-  var i = name.lastIndexOf(".");
-  return i >= 0 ? name.slice(i).toLowerCase() : "jpg";
+  var s = name.toString();
+  var i = s.lastIndexOf(".");
+  if (i < 0) return "jpg";
+  return s.slice(i + 1).toLowerCase();
 }

@@ -1,11 +1,19 @@
+/* ① path: drivers.css */
 :root {
-  --bg: #0f1915;
+  /* Trust Navy + Teal (+ CTA Amber) */
+  --bg: #0B1220;
   --surface: rgba(255, 255, 255, 0.06);
-  --text: rgba(255, 255, 255, 0.88);
-  --muted: rgba(255, 255, 255, 0.60);
-  --accent: #7aa07a;
-  --cream: #f3eadf;
-  --border: rgba(255, 255, 255, 0.10);
+  --text: rgba(232, 238, 246, 0.92);
+  --muted: rgba(169, 183, 198, 0.72);
+  --accent: #2DD4BF;
+  --cream: #F5F7FB;
+  --border: rgba(255, 255, 255, 0.12);
+
+  /* optional helpers (safe: CSS変数を増やすだけ) */
+  --navy: #0B1220;
+  --navy-2: #0B1F3B;
+  --primary: #2E6EF7;
+  --cta: #F59E0B;
 
   --bg-deep: var(--bg);
   --bg-card: var(--surface);
@@ -22,7 +30,7 @@
   --ease: cubic-bezier(.2,.8,.2,1);
 
   --line-green: #06C755;
-  --focus: rgba(122,160,122,0.35);
+  --focus: rgba(45,212,191,0.35);
 }
 
 * { box-sizing: border-box; }
@@ -53,7 +61,7 @@ body > header {
   position: sticky !important;
   top: 0 !important;
   z-index: 1000 !important;
-  background: rgba(11, 20, 17, 0.92) !important;
+  background: rgba(11, 31, 59, 0.92) !important;
   backdrop-filter: blur(16px);
   border-bottom: 1px solid rgba(255,255,255,0.12);
 }

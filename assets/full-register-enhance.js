@@ -1,3 +1,4 @@
+// ② path: assets/full-register-enhance.js
 /**
  * full-register 拡張: 市区町村(HeartRails)・銀行支店(teraren) API / キャッシュ / サジェスト
  * initOnce ガード済み。TTL 7日、タイムアウト8秒。
@@ -49,130 +50,111 @@
     var url = "https://geoapi.heartrails.com/api/json?method=getCities&prefecture=" + encodeURIComponent(pref);
     fetchWithTimeout(url)
       .then(function(json) {
-        var list = [];
-        if (json && json.response && json.response.location && Array.isArray(json.response.location)) {
-          list = json.response.location.map(function(loc) { return (loc && loc.city) ? String(loc.city).trim() : ""; }).filter(Boolean);
-        }
-        cityCache[key] = list;
-        setCache(key, list);
-        callback(null, list);
+        var arr = (json && json.response && json.response.location) ? json.response.location : [];
+        var names = arr.map(function(x) { return x.city; }).filter(Boolean);
+        cityCache[key] = names;
+        setCache(key, names);
+        callback(null, names);
       })
-      .catch(function(err) { callback(err, null); });
+      .catch(function(err) { callback(err, []); });
   }
 
   function loadBanksAll(callback) {
-    if (banksCache && Array.isArray(banksCache)) { callback(null, banksCache); return; }
+    if (banksCache) { callback(null, banksCache); return; }
     var cached = getCache(BANKS_CACHE_KEY);
     if (cached && Array.isArray(cached)) { banksCache = cached; callback(null, cached); return; }
-    var list = [];
-    var page = 1;
-    var per = 500;
 
-    function next() {
-      var url = "https://bank.teraren.com/banks.json?page=" + page + "&per=" + per;
-      fetchWithTimeout(url)
-        .then(function(json) {
-          var arr = json;
-          if (json && Array.isArray(json)) arr = json;
-          else if (json && json.banks && Array.isArray(json.banks)) arr = json.banks;
-          else if (json && json.data && Array.isArray(json.data)) arr = json.data;
-          else arr = [];
-          list = list.concat(arr);
-          if (arr.length >= per) { page++; next(); }
-          else {
-            banksCache = list;
-            setCache(BANKS_CACHE_KEY, list);
-            callback(null, list);
-          }
-        })
-        .catch(function(err) { callback(err, null); });
-    }
-    next();
+    var url = "https://bank.teraren.com/banks.json?page=1&per=500";
+    fetchWithTimeout(url)
+      .then(function(json) {
+        var banks = (json && json.data) ? json.data : [];
+        banksCache = banks;
+        setCache(BANKS_CACHE_KEY, banks);
+        callback(null, banks);
+      })
+      .catch(function(err) { callback(err, []); });
   }
 
   function loadBranchesForBank(bankCode, callback) {
     if (!bankCode) { callback(null, []); return; }
     var key = BRANCHES_CACHE_PREFIX + bankCode + BRANCHES_CACHE_SUFFIX;
-    if (branchesCache[bankCode]) { callback(null, branchesCache[bankCode]); return; }
+    if (branchesCache[key]) { callback(null, branchesCache[key]); return; }
     var cached = getCache(key);
-    if (cached && Array.isArray(cached)) { branchesCache[bankCode] = cached; callback(null, cached); return; }
-    var list = [];
-    var page = 1;
-    var per = 500;
+    if (cached && Array.isArray(cached)) { branchesCache[key] = cached; callback(null, cached); return; }
 
-    function next() {
-      var url = "https://bank.teraren.com/banks/" + encodeURIComponent(bankCode) + "/branches.json?page=" + page + "&per=" + per;
-      fetchWithTimeout(url)
-        .then(function(json) {
-          var arr = json;
-          if (json && Array.isArray(json)) arr = json;
-          else if (json && json.branches && Array.isArray(json.branches)) arr = json.branches;
-          else if (json && json.data && Array.isArray(json.data)) arr = json.data;
-          else arr = [];
-          list = list.concat(arr);
-          if (arr.length >= per) { page++; next(); }
-          else {
-            branchesCache[bankCode] = list;
-            setCache(key, list);
-            callback(null, list);
-          }
-        })
-        .catch(function(err) { callback(err, null); });
-    }
-    next();
+    var url = "https://bank.teraren.com/banks/" + encodeURIComponent(bankCode) + "/branches.json?page=1&per=500";
+    fetchWithTimeout(url)
+      .then(function(json) {
+        var branches = (json && json.data) ? json.data : [];
+        branchesCache[key] = branches;
+        setCache(key, branches);
+        callback(null, branches);
+      })
+      .catch(function(err) { callback(err, []); });
   }
 
-  function filterSuggest(list, query, limit) {
-    limit = limit || 20;
-    var q = (query || "").trim().toLowerCase();
-    if (!q) return list.slice(0, limit);
-    var getStr = function(item) {
-      var s = (item && (item.name || item.bank_name || item.branch_name || item.city || item)) || "";
-      if (typeof s !== "string") s = String(s);
-      var k = (item && (item.kana || item.name_kana)) || "";
-      var h = (item && (item.hira || item.name_hira)) || "";
-      return (s + " " + k + " " + h).toLowerCase();
-    };
+  function filterSuggest(arr, query, limit) {
+    limit = limit || 12;
+    var q = (query || "").trim();
+    if (!q) return arr.slice(0, limit);
+
+    q = q.toLowerCase();
     var out = [];
-    for (var i = 0; i < list.length && out.length < limit; i++) {
-      if (getStr(list[i]).indexOf(q) !== -1) out.push(list[i]);
+    for (var i = 0; i < arr.length; i++) {
+      var name = (arr[i] && arr[i].name) ? String(arr[i].name) : "";
+      var code = (arr[i] && arr[i].code) ? String(arr[i].code) : "";
+      var key = (code + " " + name).toLowerCase();
+      if (key.indexOf(q) !== -1) out.push(arr[i]);
+      if (out.length >= limit) break;
     }
     return out;
   }
 
-  function getBankLabel(b) {
-    return (b && (b.name || b.bank_name)) || String(b || "");
+  function getBankLabel(bank) {
+    var code = bank && bank.code ? String(bank.code) : "";
+    var name = bank && bank.name ? String(bank.name) : "";
+    return code ? (code + " " + name) : name;
   }
 
-  /** 支店表示形式: 「支店コード(3桁) 支店名」例 001 本店 */
-  function getBranchDisplayLabel(b) {
-    var code = (b && (b.code || b.branch_code)) != null ? String(b.code || b.branch_code) : "";
-    var three = code.length >= 3 ? code.slice(-3) : code.padStart(3, "0");
-    var name = (b && (b.name || b.branch_name)) || String(b || "");
-    return (three ? three + " " : "") + name;
+  function getBranchDisplayLabel(branch) {
+    var code = branch && branch.code ? String(branch.code).padStart(3, "0") : "";
+    var name = branch && branch.name ? String(branch.name) : "";
+    return code ? (code + " " + name) : name;
   }
 
-  /**
-   * 検索可能コンボボックス用ドロップダウン。
-   * 原因（文字が消える）: blur が click より先に発火し得るため、value は mousedown で確定。show(list) は listbox(ul) のみ更新し input.value は一切触らない（再描画・input 再生成禁止）。
-   */
-  function createSuggestDropdown(container, items, getLabel, onSelect, listboxId) {
-    getLabel = getLabel || function(x) { return (x && (x.name || x.bank_name || x.branch_name || x.city)) || String(x); };
+  function createSuggestDropdown(inputEl, onSelect) {
     var ul = document.createElement("ul");
-    ul.className = "absolute left-0 right-0 top-full mt-1 max-h-64 overflow-auto rounded-xl border border-white/20 bg-deep z-[100] py-1";
-    ul.setAttribute("role", "listbox");
-    if (listboxId) ul.id = listboxId;
-    container.style.position = "relative";
-    container.appendChild(ul);
+    ul.style.position = "absolute";
+    ul.style.zIndex = "1000";
+    ul.style.left = "0";
+    ul.style.right = "0";
+    ul.style.top = "calc(100% + 6px)";
+    ul.style.maxHeight = "240px";
+    ul.style.overflow = "auto";
+    ul.style.borderRadius = "12px";
+    ul.style.border = "1px solid rgba(255,255,255,0.12)";
+    ul.style.background = "#0b1220";
+    ul.style.padding = "6px";
+    ul.style.boxShadow = "0 10px 30px rgba(0,0,0,0.35)";
+    ul.style.display = "none";
 
-    function show(list) {
+    var wrap = inputEl.parentNode;
+    if (wrap) {
+      wrap.style.position = "relative";
+      wrap.appendChild(ul);
+    }
+
+    function show(items) {
       ul.innerHTML = "";
-      ul.style.display = list.length ? "block" : "none";
-      list.forEach(function(item, idx) {
+      if (!items || !items.length) { hide(); return; }
+      ul.style.display = "block";
+      items.forEach(function(item, idx) {
         var li = document.createElement("li");
-        li.className = "px-3 py-2 cursor-pointer hover:bg-white/10 text-sm";
-        li.textContent = getLabel(item);
-        li.setAttribute("role", "option");
+        li.style.padding = "10px 10px";
+        li.style.borderRadius = "10px";
+        li.style.cursor = "pointer";
+        li.style.color = "rgba(255,255,255,0.92)";
+        li.textContent = item.label || "";
         li.setAttribute("data-index", idx);
         li.addEventListener("mousedown", function(e) {
           e.preventDefault();
@@ -184,6 +166,174 @@
     }
     function hide() { ul.style.display = "none"; }
     return { show: show, hide: hide, ul: ul };
+  }
+
+  // ============================================================
+  // 追加UI: 公開プロフィールの固定項目ロック / アピール例文 / 送信待機メッセージ
+  // ============================================================
+
+  function lockElForViewOnly(el) {
+    if (!el) return;
+    if (el.getAttribute("data-view-only") === "1") return;
+    el.setAttribute("data-view-only", "1");
+    el.setAttribute("aria-disabled", "true");
+    el.style.pointerEvents = "none";
+    el.tabIndex = -1;
+  }
+
+  function lockPublicFixedFields() {
+    // 公開プロフィールの「確定項目」は編集不可（ただし disabled にしない＝送信に含めるため）
+    var publicPrefecture = document.getElementById("publicPrefecture");
+    var publicCity = document.getElementById("publicCity");
+    var publicCityManual = document.getElementById("publicCityManual");
+
+    lockElForViewOnly(publicPrefecture);
+    lockElForViewOnly(publicCity);
+
+    if (publicCityManual) {
+      if (publicCityManual.getAttribute("data-view-only") !== "1") {
+        publicCityManual.setAttribute("data-view-only", "1");
+        publicCityManual.readOnly = true;
+        publicCityManual.setAttribute("aria-disabled", "true");
+        publicCityManual.style.pointerEvents = "none";
+        publicCityManual.tabIndex = -1;
+      }
+    }
+  }
+
+  function insertAfter(el, node) {
+    if (!el || !el.parentNode) return;
+    if (el.nextSibling) el.parentNode.insertBefore(node, el.nextSibling);
+    else el.parentNode.appendChild(node);
+  }
+
+  function ensurePublicAppealExamples() {
+    var ta = document.getElementById("publicAppeal");
+    if (!ta) return;
+    if (document.getElementById("publicAppealExamples")) return;
+
+    var wrap = document.createElement("div");
+    wrap.id = "publicAppealExamples";
+    wrap.style.marginTop = "10px";
+
+    var title = document.createElement("div");
+    title.style.fontSize = "12px";
+    title.style.opacity = "0.75";
+    title.style.marginBottom = "8px";
+    title.textContent = "例文（クリックで入力／追加できます）";
+    wrap.appendChild(title);
+
+    var btnRow = document.createElement("div");
+    btnRow.style.display = "flex";
+    btnRow.style.flexWrap = "wrap";
+    btnRow.style.gap = "8px";
+
+    function makeChip(label, value, mode) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.textContent = label;
+      b.style.padding = "8px 10px";
+      b.style.borderRadius = "999px";
+      b.style.border = "1px solid rgba(255,255,255,0.14)";
+      b.style.background = "rgba(255,255,255,0.06)";
+      b.style.color = "rgba(255,255,255,0.92)";
+      b.style.fontSize = "12px";
+      b.style.fontWeight = "700";
+      b.style.cursor = "pointer";
+
+      b.addEventListener("click", function () {
+        var cur = (ta.value || "").trim();
+        var v = String(value || "").trim();
+        if (!v) return;
+
+        if (mode === "set") {
+          ta.value = v;
+          ta.focus();
+          return;
+        }
+
+        if (!cur) {
+          ta.value = v;
+        } else {
+          if (cur.indexOf(v) !== -1) return;
+          ta.value = cur + "／" + v;
+        }
+        ta.focus();
+      });
+
+      return b;
+    }
+
+    btnRow.appendChild(makeChip("時間厳守", "時間厳守で対応します", "append"));
+    btnRow.appendChild(makeChip("丁寧", "丁寧な対応・荷物の扱いを心がけています", "append"));
+    btnRow.appendChild(makeChip("柔軟対応", "急なご依頼にもできる限り柔軟に対応します", "append"));
+    btnRow.appendChild(makeChip("長距離OK", "長距離案件もご相談ください", "append"));
+    btnRow.appendChild(makeChip("即レス", "連絡は早めに返します（チャットOK）", "append"));
+    btnRow.appendChild(makeChip("夜間も可", "夜間帯の稼働もご相談ください", "append"));
+    btnRow.appendChild(makeChip("清潔感", "車内外は清潔に保っています", "append"));
+    btnRow.appendChild(makeChip("趣味", "趣味：ドライブ／アウトドア", "append"));
+
+    btnRow.appendChild(makeChip(
+      "例文を入れる",
+      "【強み】時間厳守／丁寧対応／柔軟対応\n【対応】スポット・チャーターどちらもOK\n【エリア】山口県・北九州（周辺）\n【一言】まずはお気軽にご相談ください。",
+      "set"
+    ));
+
+    wrap.appendChild(btnRow);
+
+    var note = document.createElement("div");
+    note.style.fontSize = "12px";
+    note.style.opacity = "0.6";
+    note.style.marginTop = "8px";
+    note.textContent = "※公開は承認後（status=PUBLIC）に反映されます。";
+    wrap.appendChild(note);
+
+    insertAfter(ta, wrap);
+  }
+
+  function ensureSubmitWaitingNote() {
+    var btn = document.getElementById("submitBtn");
+    if (!btn) return;
+    if (document.getElementById("submitWaitNote")) return;
+
+    var note = document.createElement("div");
+    note.id = "submitWaitNote";
+    note.style.fontSize = "12px";
+    note.style.opacity = "0.75";
+    note.style.marginTop = "10px";
+    note.style.display = "none";
+    note.textContent = "写真の変換→送信の順で処理します。少し時間がかかることがあります。送信完了までこのままお待ちください。";
+
+    insertAfter(btn, note);
+
+    try {
+      var form = btn.closest("form");
+      if (form) {
+        form.addEventListener("submit", function () {
+          note.style.display = "block";
+        }, true);
+      }
+    } catch (e) {}
+
+    try {
+      var mo = new MutationObserver(function () {
+        if (btn.disabled) note.style.display = "block";
+        else note.style.display = "none";
+      });
+      mo.observe(btn, { attributes: true, attributeFilter: ["disabled"] });
+    } catch (e2) {}
+  }
+
+  function initExtraUI() {
+    lockPublicFixedFields();
+    ensurePublicAppealExamples();
+    ensureSubmitWaitingNote();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initExtraUI);
+  } else {
+    initExtraUI();
   }
 
   window.FullRegisterEnhance = {
