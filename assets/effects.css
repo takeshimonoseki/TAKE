@@ -1,4 +1,5 @@
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 /* ② path: effects.css */
 :root{
   --page-dur-enter: 260ms;
@@ -30,6 +31,13 @@
   --page-blur: 2px;
   --grain-opacity: 0.03;
 >>>>>>> Stashed changes
+=======
+:root {
+  --page-dur-enter: 260ms;
+  --page-dur-leave: 240ms;
+  --page-blur: 2px;
+  --grain-opacity: 0.03;
+>>>>>>> Stashed changes
 }
 
 /* ごく薄いノイズ（粒状） */
@@ -45,9 +53,15 @@ html::before {
 }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 /* Trust Navy + Teal：ゆっくり光のにじみ */
 body::before{
   content:"";
+=======
+/* オパールグリーン・ゆっくり光のにじみ */
+body::before {
+  content: "";
+>>>>>>> Stashed changes
 =======
 /* オパールグリーン・ゆっくり光のにじみ */
 body::before {
@@ -61,9 +75,15 @@ body::before {
   border-radius: 50%;
   background:
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     radial-gradient(circle at 30% 30%, rgba(45,212,191,0.20), transparent 60%),
     radial-gradient(circle at 70% 70%, rgba(11,18,32,0.92), transparent 65%);
   opacity:0.4;
+=======
+    radial-gradient(circle at 30% 30%, rgba(91, 173, 151, 0.10), transparent 60%),
+    radial-gradient(circle at 70% 70%, rgba(242, 248, 245, 0.6), transparent 65%);
+  opacity: 0.5;
+>>>>>>> Stashed changes
 =======
     radial-gradient(circle at 30% 30%, rgba(91, 173, 151, 0.10), transparent 60%),
     radial-gradient(circle at 70% 70%, rgba(242, 248, 245, 0.6), transparent 65%);
@@ -85,9 +105,15 @@ body::after {
   border-radius: 50%;
   background:
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     radial-gradient(circle at 20% 80%, rgba(245,158,11,0.14), transparent 60%),
     radial-gradient(circle at 80% 20%, rgba(11,31,59,0.92), transparent 70%);
   opacity:0.32;
+=======
+    radial-gradient(circle at 20% 80%, rgba(91, 173, 151, 0.08), transparent 60%),
+    radial-gradient(circle at 80% 20%, rgba(242, 248, 245, 0.5), transparent 70%);
+  opacity: 0.4;
+>>>>>>> Stashed changes
 =======
     radial-gradient(circle at 20% 80%, rgba(91, 173, 151, 0.08), transparent 60%),
     radial-gradient(circle at 80% 20%, rgba(242, 248, 245, 0.5), transparent 70%);
@@ -169,6 +195,7 @@ html.is-leave {
   }
 }
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 /* ================================================
    (1) 上品マイクロ反応
@@ -462,6 +489,10 @@ html.is-leave {
 @media (prefers-reduced-motion: reduce) {
 
 >>>>>>> Stashed changes
+=======
+@media (prefers-reduced-motion: reduce) {
+
+>>>>>>> Stashed changes
   html.is-enter,
   html.is-leave {
     animation: none !important;
@@ -473,6 +504,7 @@ html.is-leave {
     animation: none !important;
     opacity: 0.2;
   }
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 
   .fx-active [data-reveal] {
@@ -508,6 +540,9 @@ html.is-leave {
     transition: none !important;
   }
 }
+=======
+}
+>>>>>>> Stashed changes
 =======
 }
 >>>>>>> Stashed changes

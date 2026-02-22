@@ -17,6 +17,7 @@
   }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   function getCssVar(name, fallback) {
     try {
       if (!root) return fallback;
@@ -35,6 +36,13 @@
       if (root) root.style.backgroundColor = bg;
       if (document.body) document.body.style.backgroundColor = bg;
     } catch (e) {}
+=======
+  function forceCreamBackground() {
+    try {
+      if (root) root.style.backgroundColor = "#F2F8F5";
+      if (document.body) document.body.style.backgroundColor = "#F2F8F5";
+    } catch (e) { }
+>>>>>>> Stashed changes
 =======
   function forceCreamBackground() {
     try {
@@ -65,6 +73,7 @@
       if (!p) return;
       if (!p.classList.contains("line-qr-box")) p.classList.add("line-qr-box");
     } catch (e) { }
+<<<<<<< Updated upstream
   }
 
   function injectSubmitGuardCssOnce() {
@@ -210,6 +219,8 @@
       if (btn.disabled) showOverlay();
       else hideOverlay();
     } catch (e) {}
+=======
+>>>>>>> Stashed changes
   }
 
   function markEnter() {

@@ -8,16 +8,22 @@
  * - 仮登録:   #vehicleMaker -> #vehicleModel
  * - 本登録:   #maker        -> #model
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
  * - 公開用:   #publicMaker  -> #publicModel（上の選択と同一＝表示専用・編集不可）
  *
  * 既存互換:
  * - window.VehicleLinkage.updateLightVehicleSelect(makerSelect, modelSelect)
 =======
+=======
+>>>>>>> Stashed changes
  * - 公開用:   #publicMaker  -> #publicModel（上と同一車両＝表示専用にする）
  *
  * 注意：
  * - 住所/銀行などは今回は触らない（車両だけ）
  * - 既存互換: window.VehicleLinkage.updateLightVehicleSelect(makerSelect, modelSelect)
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
  */
 (function (global) {
@@ -27,7 +33,11 @@
   // 1) 軽のみ：メーカー→車種（現行中心）
   // -----------------------------
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   var VEHICLE_LIGHT_ONLY = {
+=======
+  var VEHICLE_KEI_ONLY = {
+>>>>>>> Stashed changes
 =======
   var VEHICLE_KEI_ONLY = {
 >>>>>>> Stashed changes
@@ -79,8 +89,12 @@
       "クリッパーバン",
       "クリッパートラック",
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       "クリッパーリオ",
       "NV100クリッパー"
+=======
+      "クリッパーリオ"
+>>>>>>> Stashed changes
 =======
       "クリッパーリオ"
 >>>>>>> Stashed changes
@@ -155,7 +169,11 @@
 
   function getMakers() {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     return sortJP(Object.keys(VEHICLE_LIGHT_ONLY));
+=======
+    return sortJP(Object.keys(VEHICLE_KEI_ONLY));
+>>>>>>> Stashed changes
 =======
     return sortJP(Object.keys(VEHICLE_KEI_ONLY));
 >>>>>>> Stashed changes
@@ -164,7 +182,11 @@
   function getModels(maker) {
     var m = str(maker).trim();
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     return uniq(VEHICLE_LIGHT_ONLY[m] || []);
+=======
+    return uniq(VEHICLE_KEI_ONLY[m] || []);
+>>>>>>> Stashed changes
 =======
     return uniq(VEHICLE_KEI_ONLY[m] || []);
 >>>>>>> Stashed changes
@@ -190,6 +212,7 @@
     }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     if (current && VEHICLE_LIGHT_ONLY[current]) makerSelect.value = current;
     else makerSelect.value = "";
   }
@@ -198,11 +221,16 @@
   // 3) 既存互換: メーカー→車種（軽のみ）で select を作り直す
   // -----------------------------
 =======
+=======
+>>>>>>> Stashed changes
     if (current && VEHICLE_KEI_ONLY[current]) makerSelect.value = current;
     else makerSelect.value = "";
   }
 
   // 既存互換：メーカー→車種（軽のみ）で select を作り直す
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   function updateLightVehicleSelect(makerSelect, modelSelect) {
     if (!modelSelect) return;
@@ -229,7 +257,11 @@
 
   // -----------------------------
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   // 4) 単一入力コンボボックス（input + listbox）を select に被せる
+=======
+  // 3) 単一入力コンボボックス（input + listbox）を select に被せる
+>>>>>>> Stashed changes
 =======
   // 3) 単一入力コンボボックス（input + listbox）を select に被せる
 >>>>>>> Stashed changes
@@ -245,8 +277,12 @@
       + ".kei-combobox-item[aria-selected='true']{background:rgba(59,130,246,.25);}"
       + ".kei-combobox-item:hover{background:rgba(59,130,246,.18);}"
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       + ".kei-combobox-empty{padding:10px;color:rgba(255,255,255,.65);font-size:13px;}"
       + ".kei-readonly{pointer-events:none;}";
+=======
+      + ".kei-combobox-empty{padding:10px;color:rgba(255,255,255,.65);font-size:13px;}";
+>>>>>>> Stashed changes
 =======
       + ".kei-combobox-empty{padding:10px;color:rgba(255,255,255,.65);font-size:13px;}";
 >>>>>>> Stashed changes
@@ -319,10 +355,14 @@
     if (readOnly) {
       input.readOnly = true;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       input.tabIndex = -1;
       input.classList.add("kei-readonly");
       input.setAttribute("aria-readonly", "true");
       input.setAttribute("aria-disabled", "true");
+=======
+      input.setAttribute("aria-readonly", "true");
+>>>>>>> Stashed changes
 =======
       input.setAttribute("aria-readonly", "true");
 >>>>>>> Stashed changes
@@ -561,17 +601,23 @@
 
   // -----------------------------
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   // 5) カスケード（メーカー→車種）を “単一入力” で初期化
   // -----------------------------
   function initCascadingKeiComboboxPair(makerSelect, modelSelect, opts) {
     if (!makerSelect || !modelSelect) return null;
     if (makerSelect.getAttribute("data-kei-cascade-init") === "1") return null;
 =======
+=======
+>>>>>>> Stashed changes
   // 4) カスケード（メーカー→車種）を “単一入力” で初期化
   // -----------------------------
   function initCascadingKeiComboboxPair(makerSelect, modelSelect, opts) {
     if (!makerSelect || !modelSelect) return;
     if (makerSelect.getAttribute("data-kei-cascade-init") === "1") return;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     makerSelect.setAttribute("data-kei-cascade-init", "1");
 
@@ -606,15 +652,21 @@
     }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     if (!(opts && opts.makerReadOnly)) {
       makerSelect.addEventListener("change", function () {
         updateLightVehicleSelect(makerSelect, modelSelect);
 
 =======
+=======
+>>>>>>> Stashed changes
     var makerReadOnly = !!(opts && opts.makerReadOnly);
     if (!makerReadOnly) {
       makerSelect.addEventListener("change", function () {
         updateLightVehicleSelect(makerSelect, modelSelect);
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
         modelSelect.value = "";
         if (modelCombo && modelCombo.input) modelCombo.input.value = "";
@@ -629,6 +681,7 @@
       });
     }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
     return { makerCombo: makerCombo, modelCombo: modelCombo };
   }
@@ -636,10 +689,15 @@
   // -----------------------------
   // 6) select の値がプログラムから変わっても、表示（input）が追従するように監視
 =======
+=======
+>>>>>>> Stashed changes
   }
 
   // -----------------------------
   // 5) プログラムから select.value が変わった時も表示が追従するようにする（監視）
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   // -----------------------------
   var watchStarted = false;
@@ -674,6 +732,7 @@
   }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   // -----------------------------
   // 7) 本登録：上（maker/model）→ 公開（publicMaker/publicModel）へ同期（保険）
   // -----------------------------
@@ -700,12 +759,18 @@
 =======
   function autoInit() {
 >>>>>>> Stashed changes
+=======
+  function autoInit() {
+>>>>>>> Stashed changes
     var vm = document.getElementById("vehicleMaker");
     var vmod = document.getElementById("vehicleModel");
     if (vm && vmod) initCascadingKeiComboboxPair(vm, vmod, { makerReadOnly: false, modelReadOnly: false });
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     // 本登録
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
     var m = document.getElementById("maker");
@@ -713,7 +778,10 @@
     if (m && mod) initCascadingKeiComboboxPair(m, mod, { makerReadOnly: false, modelReadOnly: false });
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     // 公開用（表示専用）
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
     var pm = document.getElementById("publicMaker");
@@ -721,9 +789,12 @@
     if (pm && pmod) initCascadingKeiComboboxPair(pm, pmod, { makerReadOnly: true, modelReadOnly: true });
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     // 同期（保険）
     if (m && mod && pm && pmod) bindMirrorOnce(m, mod, pm, pmod);
 
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
     startWatchLoop();
@@ -736,7 +807,11 @@
 
   global.VehicleLinkage = {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     VEHICLE_LIGHT_ONLY: VEHICLE_LIGHT_ONLY,
+=======
+    VEHICLE_LIGHT_ONLY: VEHICLE_KEI_ONLY,
+>>>>>>> Stashed changes
 =======
     VEHICLE_LIGHT_ONLY: VEHICLE_KEI_ONLY,
 >>>>>>> Stashed changes

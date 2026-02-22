@@ -1,6 +1,7 @@
 /* ① path: drivers.css */
 :root {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   /* Trust Navy + Teal (+ CTA Amber) */
   --bg: #0B1220;
   --surface: rgba(255, 255, 255, 0.06);
@@ -16,6 +17,8 @@
   --primary: #2E6EF7;
   --cta: #F59E0B;
 =======
+=======
+>>>>>>> Stashed changes
   /* ===== Opal Green Palette ===== */
   --bg: #F2F8F5;
   --surface: rgba(255, 255, 255, 0.90);
@@ -24,6 +27,9 @@
   --accent: #5BAD97;
   --cream: #F2F8F5;
   --border: rgba(26, 58, 47, 0.12);
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
   --bg-deep: var(--bg);
@@ -42,7 +48,11 @@
 
   --line-green: #06C755;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   --focus: rgba(45,212,191,0.35);
+=======
+  --focus: rgba(91, 173, 151, 0.30);
+>>>>>>> Stashed changes
 =======
   --focus: rgba(91, 173, 151, 0.30);
 >>>>>>> Stashed changes
@@ -93,7 +103,11 @@ body>header {
   top: 0 !important;
   z-index: 1000 !important;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   background: rgba(11, 31, 59, 0.92) !important;
+=======
+  background: rgba(242, 248, 245, 0.94) !important;
+>>>>>>> Stashed changes
 =======
   background: rgba(242, 248, 245, 0.94) !important;
 >>>>>>> Stashed changes
