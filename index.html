@@ -1,11 +1,11 @@
 <!doctype html>
 <html lang="ja" class="scroll-smooth">
 <head>
-  <style id="critical">html,body{background:#0f1915!important;color:rgba(255,255,255,0.88)!important;min-height:100%!important;}</style>
+  <style id="critical">html,body{background:#FBF7EF!important;color:rgba(7,43,51,0.92)!important;min-height:100%!important;}</style>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="color-scheme" content="dark" />
-  <meta name="theme-color" content="#0f1915" />
+  <meta name="color-scheme" content="light" />
+  <meta name="theme-color" content="#FBF7EF" />
   <title>協力ドライバー登録プール｜drivers-site（山口県）</title>
   <meta name="description" content="協力ドライバー登録プール（求人ではありません）。公開は「アニメ風アイコン＋ニックネーム＋プロフィール（任意）」を前提に、お客さまページに掲載される場合があります。案件成立時は報酬の20%を運営・調整費として頂きます。指名は希望のみ（確約ではありません）。電話導線はありません（連絡はLINE/メール）。" />
   <link rel="canonical" href="https://takeshimonoseki.github.io/TAKE/index.html" />
@@ -23,12 +23,13 @@
       theme: {
         extend: {
           colors: {
-            deep: '#0f1915',
-            muted: 'rgba(255,255,255,0.60)',
-            cream: '#f3eadf',
-            accent: '#7aa07a',
-            surface: 'rgba(255,255,255,0.06)',
-            borderc: 'rgba(255,255,255,0.10)'
+            deep: '#072B33',
+            muted: 'rgba(7,43,51,0.55)',
+            cream: '#FBF7EF',
+            accent: '#1AA7A1',
+            surface: 'rgba(255,255,255,0.88)',
+            borderc: 'rgba(7,43,51,0.14)',
+            sakura: '#F6B8D0'
           },
           fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] }
         }
@@ -38,6 +39,14 @@
 
   <link rel="stylesheet" href="./drivers.css" />
   <link rel="stylesheet" href="./assets/effects.css">
+  <style>
+    #nav-overlay{position:fixed;inset:0;z-index:2000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:rgba(251,247,239,0.97);backdrop-filter:blur(12px);opacity:0;visibility:hidden;pointer-events:none;transition:opacity 200ms ease,visibility 200ms ease;}
+    #nav-overlay[aria-hidden="false"]{opacity:1;visibility:visible;pointer-events:auto;}
+    #nav-overlay a{display:block;padding:14px 24px;font-size:16px;font-weight:700;color:rgba(7,43,51,0.88);text-decoration:none;border-radius:12px;min-width:200px;text-align:center;transition:background 150ms ease;}
+    #nav-overlay a:hover{background:rgba(7,43,51,0.06);}
+    .nav-overlay-close{position:absolute;top:16px;right:16px;padding:8px;background:rgba(7,43,51,0.06);border:1px solid rgba(7,43,51,0.12);border-radius:10px;color:rgba(7,43,51,0.70);cursor:pointer;}
+    .nav-overlay-close:hover{background:rgba(7,43,51,0.10);}
+  </style>
   <script src="./config.js"></script>
   <script src="./drivers.js" defer></script>
   <script src="./assets/transition.js" defer></script>
@@ -46,66 +55,83 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
-<body class="min-h-screen bg-deep text-white/90" data-page="top">
+<body class="min-h-screen bg-cream text-deep" data-page="top">
   <header>
     <div class="header-inner max-w-6xl mx-auto px-5">
       <a href="./index.html" class="flex items-center gap-3">
-        <span class="text-xs font-black tracking-widest bg-white/10 border border-white/15 px-3 py-1 rounded-full">YAMAGUCHI<br><span class="opacity-70 font-semibold">山口県</span></span>
+        <span class="text-xs font-black tracking-widest bg-deep/5 border border-deep/10 px-3 py-1 rounded-full">YAMAGUCHI<br><span class="opacity-70 font-semibold">山口県</span></span>
         <div>
           <div class="text-sm font-black leading-none">軽貨物TAKE</div>
           <div class="text-[10px] tracking-widest opacity-60 font-bold">DRIVERS POOL</div>
         </div>
       </a>
-      <nav class="hidden md:flex items-center gap-5 text-sm font-bold">
-        <a href="#top" class="opacity-70 hover:opacity-100">トップ</a>
-        <a href="./consult.html" class="opacity-70 hover:opacity-100">相談スタート</a>
-        <a href="./startup.html" class="opacity-70 hover:opacity-100">開業トータル相談</a>
-        <a href="./vehicle.html" class="opacity-70 hover:opacity-100">車両の相談</a>
-        <a href="./register.html" class="opacity-70 hover:opacity-100">仮登録</a>
+      <nav class="hidden md:flex items-center gap-5 text-sm font-bold text-deep/70">
+        <a href="#top" class="hover:text-deep">トップ</a>
+        <a href="./consult.html" class="hover:text-deep">相談スタート</a>
+        <a href="./startup.html" class="hover:text-deep">開業トータル相談</a>
+        <a href="./vehicle.html" class="hover:text-deep">車両の相談</a>
+        <a href="./register.html" class="nav-cta">仮登録</a>
       </nav>
-      <button class="md:hidden p-2 rounded-xl border border-white/15 bg-white/5" id="menu-toggle">
+      <button type="button" class="md:hidden p-2 rounded-xl border border-deep/10 bg-deep/5" id="menu-toggle" aria-label="メニューを開く" aria-expanded="false" aria-controls="nav-overlay">
         <i data-lucide="menu" class="w-6 h-6"></i>
       </button>
     </div>
   </header>
 
+  <div id="nav-overlay" aria-hidden="true" role="dialog" aria-label="メニュー">
+    <button type="button" class="nav-overlay-close" aria-label="メニューを閉じる" id="menu-close">
+      <i data-lucide="x" class="w-6 h-6"></i>
+    </button>
+    <a href="#top">トップ</a>
+    <a href="./consult.html">相談スタート</a>
+    <a href="./startup.html">開業トータル相談</a>
+    <a href="./vehicle.html">車両の相談</a>
+    <a href="./register.html">仮登録</a>
+  </div>
+
   <main id="top" class="max-w-6xl mx-auto px-5 pt-10 pb-16">
     <section class="mb-12" data-reveal>
-      <div class="glass-card p-6 md:p-10">
+      <div class="glass-card top-hero-card p-6 md:p-10">
         <div class="flex flex-col lg:flex-row items-start justify-between gap-8">
           <div class="flex-1">
-            <p class="text-xs tracking-widest font-bold text-white/50 mb-2">山口県エリア｜協力ドライバー登録プール（求人ではありません）</p>
+            <p class="text-xs tracking-widest font-bold text-deep/50 mb-2">山口県エリア｜協力ドライバー登録プール（求人ではありません）</p>
             <h1 class="text-4xl md:text-5xl font-black tracking-tight mb-5">
-              協力ドライバー<br><span class="text-emerald-300/80">登録</span>
+              協力ドライバー<br><span class="text-accent">登録</span>
             </h1>
-            <p class="text-sm text-white/70 leading-relaxed mb-6 max-w-2xl">
+            <p class="text-sm text-deep/70 leading-relaxed mb-6 max-w-2xl">
               ここは協力ドライバーの登録プールです。案件が合いそうなタイミングで、運営からご相談します。<br>
               公開される可能性があるのは「アニメ風アイコン＋ニックネーム＋プロフィール（任意）」です（本名・住所は公開しません）。
+              <a href="./preview.html" class="text-xs text-deep/50 hover:text-deep/70 underline underline-offset-2 decoration-deep/20 hover:decoration-deep/40 transition-colors ml-1">表示例を見る</a>
             </p>
 
-            <div class="flex flex-wrap gap-3">
-              <a href="./register.html" class="chip inline-flex items-center gap-2">
-                <i data-lucide="user-plus"></i> 仮登録（協力ドライバー）
-              </a>
-              <a href="./startup.html" class="chip inline-flex items-center gap-2">
-                <i data-lucide="briefcase"></i> 開業トータル相談
-              </a>
-              <a href="./vehicle.html" class="chip inline-flex items-center gap-2">
-                <i data-lucide="car"></i> 車両の相談
-              </a>
+            <div class="top-cta-group flex flex-col sm:flex-row sm:items-end gap-5">
+              <div class="top-cta-primary">
+                <a href="./register.html" class="chip chip-primary inline-flex items-center gap-2">
+                  <i data-lucide="user-plus"></i> 仮登録（協力ドライバー）
+                </a>
+              </div>
+              <div class="top-cta-others flex flex-wrap items-center gap-3">
+                <span class="text-xs font-bold text-deep/50 tracking-widest uppercase">その他</span>
+                <a href="./startup.html" class="chip chip-secondary inline-flex items-center gap-2">
+                  <i data-lucide="briefcase"></i> 開業トータル相談
+                </a>
+                <a href="./vehicle.html" class="chip chip-secondary inline-flex items-center gap-2">
+                  <i data-lucide="car"></i> 車両の相談
+                </a>
+              </div>
             </div>
 
-            <div class="mt-6 max-w-4xl text-xs text-white/60">
+            <div class="mt-6 max-w-4xl text-xs text-deep/55">
               仮登録後、必要に応じて本人確認（本登録・書類）をご案内します。
             </div>
           </div>
 
           <div class="flex-shrink-0 mt-6 lg:mt-0">
             <!-- NOTE: line-qr-box は LINEバッジ増殖防止のため必須 -->
-            <div class="p-4 rounded-2xl border border-white/15 bg-white/5 inline-block line-qr-box">
-              <p class="text-xs font-bold text-white/80 mb-2">LINEで相談・登録</p>
+            <div class="p-4 rounded-2xl border border-deep/10 bg-white/60 inline-block line-qr-box">
+              <p class="text-xs font-bold text-deep/80 mb-2">LINEで相談・登録</p>
               <img id="topLineQrImg" data-qr="line" alt="LINE友だち追加QRコード" width="180" height="180" class="rounded-xl bg-white" />
-              <p class="text-[10px] text-white/50 mt-2">QRを読み取って追加</p>
+              <p class="text-[10px] text-deep/50 mt-2">QRを読み取って追加</p>
             </div>
           </div>
         </div>
@@ -115,46 +141,46 @@
     <section class="mb-12" id="registration-flow" data-reveal data-reveal-delay="1">
       <div class="glass-card p-6 md:p-10">
         <div class="flex items-center gap-3 mb-6">
-          <div class="p-2 rounded-lg bg-emerald-500/10 text-emerald-400">
+          <div class="p-2 rounded-lg bg-accent/10 text-accent">
             <i data-lucide="route" class="w-6 h-6"></i>
           </div>
           <h2 class="text-2xl font-black tracking-tight">登録の流れ</h2>
         </div>
 
         <p class="text-muted text-sm sm:text-base mb-6 max-w-3xl">
-          まずは <strong class="text-white">仮登録</strong> で「拠点・連絡先・条件」を把握します。<br>
-          運営が内容を確認し、通過後に <strong class="text-white">本登録（本人確認）</strong> をご案内します。
+          まずは <strong class="text-deep">仮登録</strong> で「拠点・連絡先・条件」を把握します。<br>
+          運営が内容を確認し、通過後に <strong class="text-deep">本登録（本人確認）</strong> をご案内します。
         </p>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div class="p-5 rounded-2xl border border-white/10 bg-white/5">
-            <div class="text-xs font-bold text-white/60 mb-2">STEP 1</div>
+          <div class="step-card step-card-start p-5 rounded-2xl border border-deep/10 bg-white/60">
+            <div class="text-xs font-bold text-deep/55 mb-2">STEP 1</div>
             <div class="text-base font-black mb-2">仮登録（基本情報）</div>
-            <div class="text-sm text-white/70">ニックネーム / 市町村 / 連絡先 / 条件 / 自動車保険（口頭確認・任意）</div>
+            <div class="text-sm text-deep/65">ニックネーム / 市町村 / 連絡先 / 条件 / 自動車保険（口頭確認・任意）</div>
           </div>
-          <div class="p-5 rounded-2xl border border-white/10 bg-white/5">
-            <div class="text-xs font-bold text-white/60 mb-2">STEP 2</div>
+          <div class="p-5 rounded-2xl border border-deep/10 bg-white/60">
+            <div class="text-xs font-bold text-deep/55 mb-2">STEP 2</div>
             <div class="text-base font-black mb-2">運営チェック</div>
-            <div class="text-sm text-white/70">条件が合うか確認。必要に応じて追加ヒアリング。</div>
+            <div class="text-sm text-deep/65">条件が合うか確認。必要に応じて追加ヒアリング。</div>
           </div>
-          <div class="p-5 rounded-2xl border border-white/10 bg-white/5">
-            <div class="text-xs font-bold text-white/60 mb-2">STEP 3</div>
+          <div class="p-5 rounded-2xl border border-deep/10 bg-white/60">
+            <div class="text-xs font-bold text-deep/55 mb-2">STEP 3</div>
             <div class="text-base font-black mb-2">本登録（本人確認）</div>
-            <div class="text-sm text-white/70">書類提出（免許など）→ 公開プロフィール（任意）</div>
+            <div class="text-sm text-deep/65">書類提出（免許など）→ 公開プロフィール（任意）</div>
           </div>
         </div>
       </div>
     </section>
-    <footer class="border-t border-white/5 pt-10 pb-8">
+    <footer class="border-t border-deep/8 pt-10 pb-8">
       <div class="text-center space-y-2">
         <div class="text-xs text-muted" id="footerCompany">drivers-site｜協力ドライバー登録プール（山口県）</div>
-        <div class="text-[11px] text-white/30">電話導線はありません（LINE / メール）。</div>
+        <div class="text-[11px] text-deep/30">電話導線はありません（LINE / メール）。</div>
         <p class="text-[11px] text-muted">
-          <a href="./privacy.html" class="underline underline-offset-4 decoration-white/20 hover:decoration-white/50 transition-colors">プライバシー・個人情報の取扱い</a>
+          <a href="./privacy.html" class="underline underline-offset-4 decoration-deep/20 hover:decoration-deep/50 transition-colors">プライバシー・個人情報の取扱い</a>
         </p>
 
-        <p class="text-[10px] text-white/20">
-          <a href="./full-register.html" class="hover:text-white/40 transition-colors">本人確認（本登録）はこちら（案内された方のみ）</a>
+        <p class="text-[10px] text-deep/20">
+          <a href="./full-register.html" class="hover:text-deep/40 transition-colors">本人確認（本登録）はこちら（案内された方のみ）</a>
         </p>
       </div>
     </footer>

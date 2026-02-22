@@ -1,7 +1,15 @@
 <!doctype html>
 <html lang="ja" class="scroll-smooth">
+
 <head>
-  <style id="critical">html,body{background:#0f1915!important;color:rgba(255,255,255,0.88)!important;min-height:100%!important;}</style>
+  <style id="critical">
+    html,
+    body {
+      background: #FBF7EF !important;
+      color: rgba(7, 43, 51, 0.92) !important;
+      min-height: 100% !important;
+    }
+  </style>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>本登録（本人確認）｜協力ドライバー登録｜drivers-site（山口県）</title>
@@ -12,7 +20,9 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap"
+    rel="stylesheet">
 
   <!-- Tailwind CSS (CDN) -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -20,7 +30,7 @@
     tailwind.config = {
       theme: {
         extend: {
-          colors: { deep: '#0f1915', muted: 'rgba(255,255,255,0.60)', cream: '#f3eadf', accent: '#7aa07a' },
+          colors: { deep: '#072B33', muted: 'rgba(7,43,51,0.55)', cream: '#FBF7EF', accent: '#1AA7A1', sakura: '#F6B8D0' },
           fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] }
         }
       }
@@ -39,80 +49,182 @@
   <style>
     .field-input {
       width: 100%;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(7, 43, 51, 0.14);
       border-radius: 12px;
       padding: 10px 14px;
-      color: white;
+      color: #072B33;
       font-size: 14px;
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
+
     .field-input:focus {
       outline: none;
-      border-color: rgba(56,189,248,0.5);
-      box-shadow: 0 0 0 3px rgba(56,189,248,0.1);
+      border-color: rgba(26, 167, 161, 0.5);
+      box-shadow: 0 0 0 3px rgba(26, 167, 161, 0.12);
     }
-    .field-input::placeholder { color: rgba(255,255,255,0.25); }
-    select.field-input { appearance: none; cursor: pointer; }
-    select.field-input option { background: #1e293b; color: white; }
-    textarea.field-input { resize: vertical; min-height: 80px; }
 
-    .is-invalid { border-color: rgba(239,68,68,0.6) !important; }
-    .is-invalid:focus { box-shadow: 0 0 0 3px rgba(239,68,68,0.15) !important; }
-    .field-error-text { color: #f87171; font-size: 12px; margin-top: 4px; }
+    .field-input::placeholder {
+      color: rgba(7, 43, 51, 0.30);
+    }
+
+    select.field-input {
+      appearance: none;
+      cursor: pointer;
+      color-scheme: light;
+    }
+
+    select.field-input option {
+      background: #fff;
+      color: #072B33;
+    }
+
+    textarea.field-input {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .is-invalid {
+      border-color: rgba(239, 68, 68, 0.6) !important;
+    }
+
+    .is-invalid:focus {
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15) !important;
+    }
+
+    .field-error-text {
+      color: #f87171;
+      font-size: 12px;
+      margin-top: 4px;
+    }
 
     .error-banner {
-      padding: 16px; border-radius: 16px;
-      background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3);
-      color: #fca5a5; font-size: 14px;
+      padding: 16px;
+      border-radius: 16px;
+      background: rgba(239, 68, 68, 0.06);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+      color: #b91c1c;
+      font-size: 14px;
     }
-    .error-banner strong { color: #f87171; }
-    .error-banner ul { margin-top: 8px; padding-left: 18px; }
-    .error-banner li { margin-bottom: 4px; }
+
+    .error-banner strong {
+      color: #dc2626;
+    }
+
+    .error-banner ul {
+      margin-top: 8px;
+      padding-left: 18px;
+    }
+
+    .error-banner li {
+      margin-bottom: 4px;
+    }
 
     .success-banner {
-      padding: 20px; border-radius: 16px;
-      background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3);
-      color: #86efac; font-size: 14px;
+      padding: 20px;
+      border-radius: 16px;
+      background: rgba(34, 197, 94, 0.06);
+      border: 1px solid rgba(34, 197, 94, 0.25);
+      color: #166534;
+      font-size: 14px;
     }
-    .success-banner strong { color: #4ade80; }
 
-    .summary-list { list-style: none; padding: 0; margin-top: 8px; }
+    .success-banner strong {
+      color: #15803d;
+    }
+
+    .summary-list {
+      list-style: none;
+      padding: 0;
+      margin-top: 8px;
+    }
+
     .summary-list li {
-      padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
-      font-size: 13px; color: rgba(255,255,255,0.7);
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(7, 43, 51, 0.06);
+      font-size: 13px;
+      color: rgba(7, 43, 51, 0.65);
     }
 
     .terms-box {
-      padding: 16px; border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.1);
-      background: rgba(255,255,255,0.02);
+      padding: 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(7, 43, 51, 0.10);
+      background: rgba(255, 255, 255, 0.50);
     }
-    .terms-box .terms-title { font-weight: 800; font-size: 14px; margin-bottom: 8px; }
-    .terms-box .terms-list { padding-left: 18px; font-size: 13px; color: rgba(255,255,255,0.6); }
-    .terms-box .terms-list li { margin-bottom: 6px; }
-    .terms-box .terms-note { font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 8px; }
-    .terms-box .terms-note a { color: #38bdf8; text-decoration: underline; }
 
-    #agreeLabel { font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; }
-    #agreeLabel.is-invalid { color: #f87171; }
-    #agreeLabel input { accent-color: #38bdf8; }
+    .terms-box .terms-title {
+      font-weight: 800;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
 
-    .submit-hint { font-size: 12px; color: rgba(255,255,255,0.4); margin-bottom: 8px; }
-    .is-disabled { opacity: 0.4; pointer-events: none; }
+    .terms-box .terms-list {
+      padding-left: 18px;
+      font-size: 13px;
+      color: rgba(7, 43, 51, 0.55);
+    }
+
+    .terms-box .terms-list li {
+      margin-bottom: 6px;
+    }
+
+    .terms-box .terms-note {
+      font-size: 12px;
+      color: rgba(7, 43, 51, 0.45);
+      margin-top: 8px;
+    }
+
+    .terms-box .terms-note a {
+      color: #1AA7A1;
+      text-decoration: underline;
+    }
+
+    #agreeLabel {
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    #agreeLabel.is-invalid {
+      color: #f87171;
+    }
+
+    #agreeLabel input {
+      accent-color: #1AA7A1;
+    }
+
+    .submit-hint {
+      font-size: 12px;
+      color: rgba(7, 43, 51, 0.40);
+      margin-bottom: 8px;
+    }
+
+    .is-disabled {
+      opacity: 0.4;
+      pointer-events: none;
+    }
   </style>
 </head>
-<body class="bg-deep text-white min-h-screen">
+
+<body class="bg-cream text-deep min-h-screen">
 
   <!-- HEADER -->
-  <header class="site-header sticky top-0 w-full z-[1000] bg-deep/80 backdrop-blur-xl border-b border-white/5" id="top">
+  <header class="site-header sticky top-0 w-full z-[1000] bg-cream/90 backdrop-blur-xl border-b border-deep/8" id="top">
     <div class="header-inner max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       <a href="./index.html" class="flex items-center gap-3 group">
-        <div class="hidden sm:flex flex-col items-center justify-center px-3 py-1 bg-white/5 border border-white/10 rounded-full" aria-label="対応地域">
-          <div class="text-[9px] tracking-widest font-extrabold text-white/80" id="regionEn">YAMAGUCHI</div>
-          <div class="text-[9px] font-bold text-white/50" id="regionJa">山口県</div>
+        <div
+          class="hidden sm:flex flex-col items-center justify-center px-3 py-1 bg-deep/5 border border-deep/10 rounded-full"
+          aria-label="対応地域">
+          <div class="text-[9px] tracking-widest font-extrabold text-deep/80" id="regionEn">YAMAGUCHI</div>
+          <div class="text-[9px] font-bold text-deep/50" id="regionJa">山口県</div>
         </div>
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#2b3a2f] to-accent flex items-center justify-center shadow-lg shadow-emerald-900/30" aria-hidden="true">
+        <div
+          class="w-9 h-9 rounded-xl bg-gradient-to-br from-accent/30 to-accent flex items-center justify-center shadow-lg shadow-accent/15"
+          aria-hidden="true">
           <span class="w-4 h-4 rounded-full border-2 border-white/90"></span>
         </div>
         <div>
@@ -123,15 +235,20 @@
 
       <div class="flex items-center gap-4">
         <div class="hidden lg:flex items-center gap-3 text-xs text-muted" aria-label="連絡先">
-          <a href="https://line.me/R/ti/p/%40277rcesk" id="headerLineLink" data-line-ui="1" class="hover:text-white transition-colors" target="_blank" rel="noopener noreferrer">LINE</a>
-          <span class="text-white/20">|</span>
-          <a href="#" id="headerMailLink" class="hover:text-white transition-colors">takeshimonoseki@gmail.com</a>
+          <a href="https://line.me/R/ti/p/%40277rcesk" id="headerLineLink" data-line-ui="1"
+            class="hover:text-deep transition-colors" target="_blank" rel="noopener noreferrer">LINE</a>
+          <span class="text-deep/20">|</span>
+          <a href="#" id="headerMailLink" class="hover:text-deep transition-colors">takeshimonoseki@gmail.com</a>
         </div>
 
         <nav class="hidden md:flex gap-1" aria-label="メイン">
-          <a href="./index.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-white hover:bg-white/5 transition-colors">トップ</a>
-          <a href="./register.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-white hover:bg-white/5 transition-colors">仮登録</a>
-          <a href="./main-register.html" class="px-4 py-2 rounded-full text-xs font-bold bg-white text-black shadow-lg shadow-white/10" aria-current="page">本登録</a>
+          <a href="./index.html"
+            class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-deep hover:bg-deep/5 transition-colors">トップ</a>
+          <a href="./register.html"
+            class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-deep hover:bg-deep/5 transition-colors">仮登録</a>
+          <a href="./main-register.html"
+            class="px-4 py-2 rounded-full text-xs font-bold bg-deep text-cream shadow-lg shadow-deep/10"
+            aria-current="page">本登録</a>
         </nav>
       </div>
     </div>
@@ -142,19 +259,22 @@
 
     <!-- Intro -->
     <div class="glass-card p-6 md:p-10 mb-6 relative overflow-hidden" data-reveal>
-      <div class="absolute -top-20 -right-20 w-[300px] h-[300px] bg-gradient-to-br from-blue-600/10 to-transparent rounded-full blur-3xl pointer-events-none"></div>
+      <div
+        class="absolute -top-20 -right-20 w-[300px] h-[300px] bg-gradient-to-br from-sakura/15 to-transparent rounded-full blur-3xl pointer-events-none">
+      </div>
       <div class="relative z-10">
-        <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[11px] font-bold text-muted mb-4">
+        <span
+          class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-deep/5 border border-deep/8 text-[11px] font-bold text-muted mb-4">
           <i data-lucide="shield-check" class="w-3 h-3"></i> noindex（検索に出ません）
         </span>
         <h1 class="text-2xl sm:text-3xl font-black tracking-tight mb-3">本登録（本人確認）フォーム</h1>
         <p class="text-sm text-muted leading-relaxed mb-2">
-          ここは<strong class="text-white">本人確認・安全運用</strong>のための提出フォームです。<br>
-          お客さまページに公開されるのは<strong class="text-white">「公開」ラベルの項目のみ</strong>です。
+          ここは<strong class="text-deep">本人確認・安全運用</strong>のための提出フォームです。<br>
+          お客さまページに公開されるのは<strong class="text-deep">「公開」ラベルの項目のみ</strong>です。
         </p>
-        <p class="text-xs text-white/40">
+        <p class="text-xs text-deep/40">
           ※性別入力はありません。<br>
-          ※年齢は任意（書かなくてもOK）です。
+          ※年齢は任意（書かなくてOK）です。
         </p>
       </div>
     </div>
@@ -175,7 +295,8 @@
           <div class="flex items-center gap-2 mb-5">
             <i data-lucide="zap" class="w-4 h-4 text-amber-400"></i>
             <span class="font-bold text-sm">必須（本人確認）</span>
-            <span class="px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 text-[10px] font-bold">この項目が揃うまで送信できません</span>
+            <span
+              class="px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 text-[10px] font-bold">この項目が揃うまで送信できません</span>
           </div>
 
           <div class="space-y-5">
@@ -217,7 +338,8 @@
                 <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-red-500/10 text-red-400">必須</span>
               </div>
               <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <input type="text" id="zip" class="field-input sm:col-span-1" inputmode="numeric" placeholder="郵便番号（7桁・ハイフンなし）" maxlength="7" pattern="[0-9]*" />
+                <input type="text" id="zip" class="field-input sm:col-span-1" inputmode="numeric"
+                  placeholder="郵便番号（7桁・ハイフンなし）" maxlength="7" pattern="[0-9]*" />
                 <input type="text" id="pref" class="field-input sm:col-span-1" placeholder="都道府県（例：山口県）" />
                 <input type="text" id="addrCity" class="field-input sm:col-span-1" placeholder="市区町村（例：下関市）" />
               </div>
@@ -244,7 +366,8 @@
                   <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-purple-500/10 text-purple-400">非公開</span>
                   <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-red-500/10 text-red-400">必須</span>
                 </div>
-                <input type="text" id="plateNumber" class="field-input" autocomplete="off" placeholder="例：山口 480 あ 12-34" />
+                <input type="text" id="plateNumber" class="field-input" autocomplete="off"
+                  placeholder="例：山口 480 あ 12-34" />
               </div>
             </div>
 
@@ -297,7 +420,8 @@
                 <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-purple-500/10 text-purple-400">非公開</span>
                 <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-red-500/10 text-red-400">必須</span>
               </div>
-              <input type="file" id="autoInsurance" accept="image/*,application/pdf" capture="environment" class="field-input" />
+              <input type="file" id="autoInsurance" accept="image/*,application/pdf" capture="environment"
+                class="field-input" />
               <div class="text-xs text-muted mt-1">任意保険加入が前提です。証券の写真（またはPDF）を添付してください。</div>
             </div>
 
@@ -307,14 +431,15 @@
                 <label class="text-sm font-bold" for="cargoInsurance">貨物保険（あれば・任意）</label>
                 <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-purple-500/10 text-purple-400">非公開</span>
               </div>
-              <input type="file" id="cargoInsurance" accept="image/*,application/pdf" capture="environment" class="field-input" />
+              <input type="file" id="cargoInsurance" accept="image/*,application/pdf" capture="environment"
+                class="field-input" />
               <div class="text-xs text-muted mt-1">なくても送信できます（任意）。</div>
             </div>
           </div>
         </div>
 
         <!-- 公開プロフィール -->
-        <div class="p-5 rounded-2xl border border-white/10 bg-white/[0.02]">
+        <div class="p-5 rounded-2xl border border-deep/10 bg-white/50">
           <div class="flex items-center gap-2 mb-5">
             <i data-lucide="sparkles" class="w-4 h-4 text-sky-300"></i>
             <span class="font-bold text-sm">公開プロフィール</span>
@@ -445,19 +570,23 @@
         <!-- Submit -->
         <div class="flex flex-col items-end gap-2 mt-6">
           <div class="submit-hint" id="submitHint" aria-live="polite"></div>
-          <button type="submit" class="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-white text-black font-bold text-sm shadow-lg shadow-white/10 hover:-translate-y-0.5 transition-all active:scale-95" id="submitBtn">
+          <button type="submit"
+            class="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-white text-black font-bold text-sm shadow-lg shadow-white/10 hover:-translate-y-0.5 transition-all active:scale-95"
+            id="submitBtn">
             <i data-lucide="send" class="w-4 h-4"></i> 本登録を送信する
           </button>
         </div>
 
         <!-- Back to pre-registration -->
         <details class="group mt-6">
-          <summary class="cursor-pointer text-sm font-bold text-white/60 hover:text-white transition-colors flex items-center gap-2 select-none p-4 rounded-2xl border border-white/10 bg-white/[0.02]">
+          <summary
+            class="cursor-pointer text-sm font-bold text-deep/60 hover:text-deep transition-colors flex items-center gap-2 select-none p-4 rounded-2xl border border-deep/10 bg-white/50">
             <i data-lucide="chevron-down" class="w-4 h-4 transition-transform group-open:rotate-180"></i>
             仮登録へ戻る
           </summary>
-          <div class="mt-4 p-5 rounded-2xl border border-white/5 bg-white/[0.01]">
-            <a href="./register.html" class="inline-flex items-center gap-2 text-sm text-muted hover:text-white transition-colors">
+          <div class="mt-4 p-5 rounded-2xl border border-deep/5 bg-white/40">
+            <a href="./register.html"
+              class="inline-flex items-center gap-2 text-sm text-muted hover:text-white transition-colors">
               <i data-lucide="arrow-left" class="w-4 h-4"></i> まずは仮登録へ
             </a>
           </div>
@@ -485,7 +614,7 @@
         </div>
         <p class="text-xs text-muted mt-2">※代表たけから確認の連絡が入ります。</p>
 
-        <div class="mt-4 p-4 rounded-xl border border-white/5 bg-white/[0.02]">
+        <div class="mt-4 p-4 rounded-xl border border-deep/6 bg-white/40">
           <div class="text-xs font-bold text-muted uppercase tracking-wider mb-2">送信内容（確認用・画像は省略）</div>
           <ul id="publicSummary" class="summary-list"></ul>
         </div>
@@ -493,10 +622,12 @@
     </div>
 
     <!-- Footer -->
-    <footer class="border-t border-white/5 mt-12 pt-8 pb-4 text-center">
+    <footer class="border-t border-deep/8 mt-12 pt-8 pb-4 text-center">
       <div class="text-xs text-muted" id="footerCompany">drivers-site｜協力ドライバー登録プール（山口県）</div>
-      <div class="text-[11px] text-white/30 mt-1">フォームからの登録に加え、LINE経由での登録内容修正・削除依頼も受け付けます。</div>
-      <p class="text-[11px] text-muted mt-2"><a href="./privacy.html" class="underline underline-offset-4 decoration-white/20 hover:decoration-white/50 transition-colors">プライバシー・個人情報の取扱い</a></p>
+      <div class="text-[11px] text-deep/30 mt-1">フォームからの登録に加え、LINE経由での登録内容修正・削除依頼も受け付けます。</div>
+      <p class="text-[11px] text-muted mt-2"><a href="./privacy.html"
+          class="underline underline-offset-4 decoration-deep/20 hover:decoration-deep/50 transition-colors">プライバシー・個人情報の取扱い</a>
+      </p>
     </footer>
   </main>
 
@@ -530,12 +661,12 @@
       var maxH = opts.maxH || 1280;
       var quality = typeof opts.quality === "number" ? opts.quality : 0.82;
 
-      return new Promise(function(resolve, reject) {
+      return new Promise(function (resolve, reject) {
         if (!file) return resolve(null);
 
         var reader = new FileReader();
-        reader.onerror = function(){ reject(new Error("file_read_failed")); };
-        reader.onload = function() {
+        reader.onerror = function () { reject(new Error("file_read_failed")); };
+        reader.onload = function () {
           var dataUrl = reader.result;
 
           if (!/^image\//.test(file.type || "")) {
@@ -543,10 +674,10 @@
           }
 
           var img = new Image();
-          img.onerror = function() {
+          img.onerror = function () {
             resolve({ name: file.name || "image", type: file.type || "image/*", dataUrl: String(dataUrl || "") });
           };
-          img.onload = function() {
+          img.onload = function () {
             var w = img.naturalWidth || img.width || 0;
             var h = img.naturalHeight || img.height || 0;
             if (!w || !h) {
@@ -624,15 +755,15 @@
     var publicSummaryEl = document.getElementById("publicSummary");
 
     // public city other toggle
-    publicCityEl.addEventListener("change", function(){
+    publicCityEl.addEventListener("change", function () {
       if (publicCityEl.value === "その他") publicCityOtherRow.style.display = "";
       else { publicCityOtherRow.style.display = "none"; publicCityOtherEl.value = ""; }
       updateSubmitHint();
       if (hasTriedSubmit) validateAndPaint_();
     });
-    publicCityOtherEl.addEventListener("input", function(){ updateSubmitHint(); if (hasTriedSubmit) validateAndPaint_(); });
+    publicCityOtherEl.addEventListener("input", function () { updateSubmitHint(); if (hasTriedSubmit) validateAndPaint_(); });
 
-    if (zipEl) zipEl.addEventListener("input", function() {
+    if (zipEl) zipEl.addEventListener("input", function () {
       this.value = (this.value || "").replace(/\D/g, "").slice(0, 7);
       updateSubmitHint();
       if (hasTriedSubmit) validateAndPaint_();
@@ -653,11 +784,11 @@
     }
 
     function clearValidationUI_() {
-      document.querySelectorAll(".is-invalid").forEach(function(el){
+      document.querySelectorAll(".is-invalid").forEach(function (el) {
         el.classList.remove("is-invalid");
-        try { el.removeAttribute("aria-invalid"); } catch(_) {}
+        try { el.removeAttribute("aria-invalid"); } catch (_) { }
       });
-      document.querySelectorAll(".field-error-text").forEach(function(el){ el.remove(); });
+      document.querySelectorAll(".field-error-text").forEach(function (el) { el.remove(); });
       if (agreeLabelEl) agreeLabelEl.classList.remove("is-invalid");
     }
 
@@ -673,7 +804,7 @@
       }
     }
 
-    function addAgreeError_(msg){
+    function addAgreeError_(msg) {
       if (agreeTermsEl) {
         agreeTermsEl.classList.add("is-invalid");
         agreeTermsEl.setAttribute("aria-invalid", "true");
@@ -698,7 +829,7 @@
     function buildPayload_(paintUI) {
       var errors = [];
       var firstInvalid = null;
-      function setFirst(el){ if(!firstInvalid && el) firstInvalid = el; }
+      function setFirst(el) { if (!firstInvalid && el) firstInvalid = el; }
 
       var nickname = (nicknameEl.value || "").trim();
       if (!nickname) { errors.push("ニックネームを入力してください。"); if (paintUI) { addFieldError_(nicknameEl, "必須です"); setFirst(nicknameEl); } }
@@ -814,7 +945,7 @@
       return { payload: payload, files: files, errors: errors, firstInvalidEl: firstInvalid };
     }
 
-    function validateAndPaint_(){
+    function validateAndPaint_() {
       clearValidationUI_();
       buildPayload_(true);
     }
@@ -859,12 +990,12 @@
       }
     }
 
-    ["input","change"].forEach(function(ev){
-      [nicknameEl,lastNameEl,firstNameEl,zipEl,prefEl,addrCityEl,addrLine1El,addrLine2El,ageEl,plateNumberEl,
-       vehicleFrontPhotoEl,facePhotoEl,licenseFrontEl,licenseBackEl,autoInsuranceEl,cargoInsuranceEl,
-       publicCityEl,publicCityOtherEl,vehicleMakerEl,vehicleModelEl,experienceEl,oneLineEl,toolsEl,agreeTermsEl].forEach(function(el){
-        if (el) el.addEventListener(ev, function(){ updateSubmitHint(); if (hasTriedSubmit) validateAndPaint_(); });
-      });
+    ["input", "change"].forEach(function (ev) {
+      [nicknameEl, lastNameEl, firstNameEl, zipEl, prefEl, addrCityEl, addrLine1El, addrLine2El, ageEl, plateNumberEl,
+        vehicleFrontPhotoEl, facePhotoEl, licenseFrontEl, licenseBackEl, autoInsuranceEl, cargoInsuranceEl,
+        publicCityEl, publicCityOtherEl, vehicleMakerEl, vehicleModelEl, experienceEl, oneLineEl, toolsEl, agreeTermsEl].forEach(function (el) {
+          if (el) el.addEventListener(ev, function () { updateSubmitHint(); if (hasTriedSubmit) validateAndPaint_(); });
+        });
     });
     updateSubmitHint();
 
@@ -897,7 +1028,7 @@
       });
     }
 
-    document.getElementById("fullRegisterForm").addEventListener("submit", function(e){
+    document.getElementById("fullRegisterForm").addEventListener("submit", function (e) {
       e.preventDefault();
 
       hasTriedSubmit = true;
@@ -909,7 +1040,7 @@
 
       var result = buildPayload_(true);
       if (result.errors.length > 0) {
-        result.errors.forEach(function(msg){
+        result.errors.forEach(function (msg) {
           var li = document.createElement("li");
           li.textContent = msg;
           errorListEl.appendChild(li);
@@ -917,7 +1048,7 @@
         errorBox.style.display = "";
         var target = result.firstInvalidEl || errorBox;
         if (target && target.scrollIntoView) target.scrollIntoView({ behavior: "smooth", block: "center" });
-        try { (result.firstInvalidEl || nicknameEl).focus({ preventScroll: true }); } catch(_) {}
+        try { (result.firstInvalidEl || nicknameEl).focus({ preventScroll: true }); } catch (_) { }
         return;
       }
 
@@ -936,16 +1067,16 @@
       submitBtn.textContent = "送信中…";
 
       // files -> dataUrl
-      var fileKeys = ["vehicleFrontPhoto","facePhoto","licenseFront","licenseBack","autoInsurance","cargoInsurance"];
-      var promises = fileKeys.map(function(k){
+      var fileKeys = ["vehicleFrontPhoto", "facePhoto", "licenseFront", "licenseBack", "autoInsurance", "cargoInsurance"];
+      var promises = fileKeys.map(function (k) {
         var f = result.files[k] || null;
         if (!f) return Promise.resolve([k, null]);
-        return fileToDataUrlSmart(f, { maxW: 1280, maxH: 1280, quality: 0.82 }).then(function(obj){ return [k, obj]; });
+        return fileToDataUrlSmart(f, { maxW: 1280, maxH: 1280, quality: 0.82 }).then(function (obj) { return [k, obj]; });
       });
 
-      Promise.all(promises).then(function(entries){
+      Promise.all(promises).then(function (entries) {
         var filesObj = {};
-        entries.forEach(function(pair){
+        entries.forEach(function (pair) {
           var k = pair[0];
           var v = pair[1];
           if (v) filesObj[k] = v;
@@ -962,10 +1093,10 @@
           method: "POST",
           headers: { "Content-Type": "text/plain" },
           body: JSON.stringify(bodyObj)
-        }).then(function(res) {
-          return res.text().then(function(text) {
+        }).then(function (res) {
+          return res.text().then(function (text) {
             var json = null;
-            try { if (text && text.trim()) json = JSON.parse(text); } catch (e) {}
+            try { if (text && text.trim()) json = JSON.parse(text); } catch (e) { }
             if (json && json.ok === true) {
               window.location.href = "thankyou.html?receiptId=" + encodeURIComponent(lastReceiptId);
             } else {
@@ -979,11 +1110,11 @@
             }
           });
         });
-      }).catch(function(){
+      }).catch(function () {
         networkReceiptIdEl.textContent = lastReceiptId;
         networkErrorBox.style.display = "";
         networkErrorBox.scrollIntoView({ behavior: "smooth", block: "center" });
-      }).finally(function(){
+      }).finally(function () {
         submitBtn.disabled = false;
         submitBtn.textContent = originalText;
         updateSubmitHint();
@@ -1011,4 +1142,5 @@
   <script src="./assets/transition.js" defer></script>
   <script src="./assets/effects.js" defer></script>
 </body>
+
 </html>

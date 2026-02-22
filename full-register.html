@@ -1,7 +1,15 @@
 <!doctype html>
 <html lang="ja" class="scroll-smooth">
+
 <head>
-  <style id="critical">html,body{background:#0f1915!important;color:rgba(255,255,255,0.88)!important;min-height:100%!important;}</style>
+  <style id="critical">
+    html,
+    body {
+      background: #FBF7EF !important;
+      color: rgba(7, 43, 51, 0.92) !important;
+      min-height: 100% !important;
+    }
+  </style>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="robots" content="noindex, nofollow" />
@@ -11,15 +19,17 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap"
+    rel="stylesheet">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
-          colors: { deep: '#0f1915', muted: 'rgba(255,255,255,0.60)', cream: '#f3eadf', accent: '#7aa07a' },
-          fontFamily: { sans: ['Inter','sans-serif'], mono: ['JetBrains Mono','monospace'] }
+          colors: { deep: '#072B33', muted: 'rgba(7,43,51,0.55)', cream: '#FBF7EF', accent: '#1AA7A1', sakura: '#F6B8D0' },
+          fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] }
         }
       }
     }
@@ -36,55 +46,126 @@
   <style>
     .field-input {
       width: 100%;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255, 255, 255, 0.80);
+      border: 1px solid rgba(7, 43, 51, 0.14);
       border-radius: 12px;
       padding: 10px 14px;
-      color: white;
+      color: #072B33;
       font-size: 14px;
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
+
     .field-input:focus {
       outline: none;
-      border-color: rgba(56,189,248,0.5);
-      box-shadow: 0 0 0 3px rgba(56,189,248,0.1);
+      border-color: rgba(26, 167, 161, 0.5);
+      box-shadow: 0 0 0 3px rgba(26, 167, 161, 0.12);
     }
-    textarea.field-input { resize: vertical; min-height: 90px; }
-    select.field-input { appearance: none; cursor: pointer; padding-right: 36px; background-color: rgba(255,255,255,0.03); color-scheme: dark; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.6)' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; }
-    select.field-input option { background: #1e293b; color: #fff; }
-    #cityWrap, #publicCityWrap { overflow: visible; }
-    #cityWrap select#city, #publicCityWrap select#publicCity { min-height: 42px; }
-    .is-invalid { border-color: rgba(239,68,68,0.6) !important; }
-    .is-invalid:focus { box-shadow: 0 0 0 3px rgba(239,68,68,0.15) !important; }
-    .bank-active { background: rgba(255,255,255,0.12); }
-    .field-error-text { color: #fca5a5; font-size: 12px; margin-top: 4px; }
-    #agreeLabel.is-invalid { color: #fca5a5; }
+
+    textarea.field-input {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    select.field-input {
+      appearance: none;
+      cursor: pointer;
+      padding-right: 36px;
+      background-color: rgba(255, 255, 255, 0.80);
+      color-scheme: light;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='rgba(7,43,51,0.5)' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+    }
+
+    select.field-input option {
+      background: #fff;
+      color: #072B33;
+    }
+
+    #cityWrap,
+    #publicCityWrap {
+      overflow: visible;
+    }
+
+    #cityWrap select#city,
+    #publicCityWrap select#publicCity {
+      min-height: 42px;
+    }
+
+    .is-invalid {
+      border-color: rgba(239, 68, 68, 0.6) !important;
+    }
+
+    .is-invalid:focus {
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15) !important;
+    }
+
+    .bank-active {
+      background: rgba(26, 167, 161, 0.08);
+    }
+
+    .field-error-text {
+      color: #dc2626;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    #agreeLabel.is-invalid {
+      color: #dc2626;
+    }
 
     .error-banner {
-      padding: 16px; border-radius: 16px;
-      background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3);
-      color: #fca5a5; font-size: 14px;
+      padding: 16px;
+      border-radius: 16px;
+      background: rgba(239, 68, 68, 0.06);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+      color: #b91c1c;
+      font-size: 14px;
     }
+
     .success-banner {
-      padding: 20px; border-radius: 16px;
-      background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3);
-      color: #86efac; font-size: 14px;
+      padding: 20px;
+      border-radius: 16px;
+      background: rgba(34, 197, 94, 0.06);
+      border: 1px solid rgba(34, 197, 94, 0.25);
+      color: #166534;
+      font-size: 14px;
     }
-    #agreeLabel { font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 10px; }
-    #agreeLabel input { accent-color: #38bdf8; }
-    .note-link { color: #38bdf8; text-decoration: underline; text-underline-offset: 2px; }
+
+    #agreeLabel {
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    #agreeLabel input {
+      accent-color: #1AA7A1;
+    }
+
+    .note-link {
+      color: #1AA7A1;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
   </style>
 </head>
 
-<body class="bg-deep text-white min-h-screen">
-  <header class="site-header sticky top-0 w-full z-[1000] bg-deep/80 backdrop-blur-xl border-b border-white/5" id="top">
+<body class="bg-cream text-deep min-h-screen">
+  <header class="site-header sticky top-0 w-full z-[1000] bg-cream/90 backdrop-blur-xl border-b border-deep/8" id="top">
     <div class="header-inner max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       <a href="./index.html" class="flex items-center gap-3 group">
-        <div class="hidden sm:flex flex-col items-center justify-center px-3 py-1 bg-white/5 border border-white/10 rounded-full" aria-label="対応地域">
-          <div class="text-[9px] tracking-widest font-extrabold text-white/80" id="regionEn">YAMAGUCHI</div>
-          <div class="text-[9px] font-bold text-white/50" id="regionJa">山口県</div>
+        <div
+          class="hidden sm:flex flex-col items-center justify-center px-3 py-1 bg-deep/5 border border-deep/10 rounded-full"
+          aria-label="対応地域">
+          <div class="text-[9px] tracking-widest font-extrabold text-deep/80" id="regionEn">YAMAGUCHI</div>
+          <div class="text-[9px] font-bold text-deep/50" id="regionJa">山口県</div>
         </div>
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#2b3a2f] to-accent flex items-center justify-center shadow-lg shadow-emerald-900/30" aria-hidden="true">
+        <div
+          class="w-9 h-9 rounded-xl bg-gradient-to-br from-accent/30 to-accent flex items-center justify-center shadow-lg shadow-accent/15"
+          aria-hidden="true">
           <span class="w-4 h-4 rounded-full border-2 border-white/90"></span>
         </div>
         <div>
@@ -95,20 +176,27 @@
 
       <div class="flex items-center gap-4 flex-wrap">
         <div class="hidden lg:flex items-center gap-3 text-xs text-muted" aria-label="連絡先">
-          <a href="https://line.me/R/ti/p/%40277rcesk" id="headerLineLink" data-line-ui="1" class="hover:text-white transition-colors" target="_blank" rel="noopener noreferrer">LINE</a>
-          <span class="text-white/20">|</span>
-          <a href="#" id="headerMailLink" class="hover:text-white transition-colors">takeshimonoseki@gmail.com</a>
+          <a href="https://line.me/R/ti/p/%40277rcesk" id="headerLineLink" data-line-ui="1"
+            class="hover:text-deep transition-colors" target="_blank" rel="noopener noreferrer">LINE</a>
+          <span class="text-deep/20">|</span>
+          <a href="#" id="headerMailLink" class="hover:text-deep transition-colors">takeshimonoseki@gmail.com</a>
         </div>
 
         <nav class="hidden md:flex gap-1 flex-wrap" aria-label="メイン">
-          <a href="./index.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-white hover:bg-white/5 transition-colors">トップ</a>
-          <a href="./consult.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-white hover:bg-white/5 transition-colors">相談スタート</a>
-          <a href="./startup.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-white hover:bg-white/5 transition-colors">開業トータル相談</a>
-          <a href="./vehicle.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-white hover:bg-white/5 transition-colors">車両の相談</a>
-          <a href="./register.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-white hover:bg-white/5 transition-colors">仮登録</a>
+          <a href="./index.html"
+            class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-deep hover:bg-deep/5 transition-colors">トップ</a>
+          <a href="./consult.html"
+            class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-deep hover:bg-deep/5 transition-colors">相談スタート</a>
+          <a href="./startup.html"
+            class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-deep hover:bg-deep/5 transition-colors">開業トータル相談</a>
+          <a href="./vehicle.html"
+            class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-deep hover:bg-deep/5 transition-colors">車両の相談</a>
+          <a href="./register.html"
+            class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-deep hover:bg-deep/5 transition-colors">仮登録</a>
         </nav>
 
-        <button type="button" class="md:hidden p-2 text-white bg-white/10 rounded-full hover:bg-white/20 transition-colors" aria-label="メニューを開く" aria-expanded="false" aria-controls="nav-overlay" id="menu-toggle">
+        <button type="button" class="md:hidden p-2 text-deep bg-deep/5 rounded-full hover:bg-deep/10 transition-colors"
+          aria-label="メニューを開く" aria-expanded="false" aria-controls="nav-overlay" id="menu-toggle">
           <i data-lucide="menu" class="w-5 h-5"></i>
         </button>
       </div>
@@ -128,9 +216,12 @@
 
   <main class="pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-3xl mx-auto">
     <div class="glass-card p-6 md:p-10 mb-6 relative overflow-hidden" data-reveal>
-      <div class="absolute -top-20 -right-20 w-[300px] h-[300px] bg-gradient-to-br from-blue-600/10 to-transparent rounded-full blur-3xl pointer-events-none"></div>
+      <div
+        class="absolute -top-20 -right-20 w-[300px] h-[300px] bg-gradient-to-br from-sakura/15 to-transparent rounded-full blur-3xl pointer-events-none">
+      </div>
       <div class="relative z-10">
-        <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[11px] font-bold text-muted mb-4">
+        <span
+          class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-deep/5 border border-deep/8 text-[11px] font-bold text-muted mb-4">
           <i data-lucide="shield" class="w-3 h-3"></i> noindex（案内された方のみ）
         </span>
 
@@ -138,7 +229,7 @@
         <p class="text-sm text-muted leading-relaxed mb-2">
           必須：氏名／住所／軽車両・経験年数／免許証（表・裏）／車両前面／車検証／自賠責／任意保険／経営届出書／振込口座（入力）。任意：貨物保険（あれば）。
         </p>
-        <p class="text-xs text-white/40">
+        <p class="text-xs text-deep/40">
           公開プロフィール（必須）は、お客さま向け掲載用です。住所・車両は上で入力した値が初期表示され、編集できます。
         </p>
       </div>
@@ -150,14 +241,14 @@
         <div id="errorBox" class="error-banner mb-6" style="display:none;">
           <strong>送信できませんでした。</strong>
           <div class="mt-2" id="errorText">赤枠の項目をご確認ください。</div>
-          <div class="mt-2 text-xs font-mono text-white/80" id="errorDebugId"></div>
+          <div class="mt-2 text-xs font-mono text-deep/60" id="errorDebugId"></div>
         </div>
 
         <div id="successBox" class="success-banner mb-6" style="display:none;">
           <strong>送信しました。</strong>
-          <div class="mt-2 text-white/70 text-sm">受付ID：<span id="receiptId" class="font-mono"></span></div>
-          <div class="mt-2 text-white/70 text-sm">追跡ID：<span id="successDebugId" class="font-mono"></span></div>
-          <div class="mt-2 text-white/60 text-xs">確認後、必要に応じて運営から連絡します。</div>
+          <div class="mt-2 text-deep/70 text-sm">受付ID：<span id="receiptId" class="font-mono"></span></div>
+          <div class="mt-2 text-deep/70 text-sm">追跡ID：<span id="successDebugId" class="font-mono"></span></div>
+          <div class="mt-2 text-deep/50 text-xs">確認後、必要に応じて運営から連絡します。</div>
         </div>
 
         <div class="p-5 rounded-2xl border border-amber-500/20 bg-amber-500/5 mb-6">
@@ -176,10 +267,12 @@
             <div>
               <label class="text-sm font-bold mb-2 block" for="postalCode">郵便番号（7桁）</label>
               <div class="flex gap-2">
-                <input type="text" id="postalCode" class="field-input" placeholder="例：7500023" maxlength="7" pattern="[0-9]*" inputmode="numeric" />
-                <button type="button" id="btnZipLookup" class="flex-shrink-0 px-4 py-2 rounded-xl bg-white/10 border border-white/20 text-sm font-bold hover:bg-white/20 transition-colors">住所を自動入力</button>
+                <input type="text" id="postalCode" class="field-input" placeholder="例：7500023" maxlength="7"
+                  pattern="[0-9]*" inputmode="numeric" />
+                <button type="button" id="btnZipLookup"
+                  class="flex-shrink-0 px-4 py-2 rounded-xl bg-deep/5 border border-deep/10 text-sm font-bold hover:bg-deep/8 transition-colors">住所を自動入力</button>
               </div>
-              <div class="text-xs text-white/40 mt-1">ハイフンなし7桁。失敗時は手入力で続行できます。</div>
+              <div class="text-xs text-deep/40 mt-1">ハイフンなし7桁。失敗時は手入力で続行できます。</div>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
@@ -191,12 +284,14 @@
                 <select id="city" class="field-input" disabled>
                   <option value="">都道府県を選択してください</option>
                 </select>
-                <span id="cityLoading" class="text-xs text-white/50 ml-2" style="display:none;">読み込み中…</span>
-                <input type="text" id="cityManual" class="field-input mt-2" placeholder="市区町村（手入力）" autocomplete="off" style="display:none;" />
+                <span id="cityLoading" class="text-xs text-deep/50 ml-2" style="display:none;">読み込み中…</span>
+                <input type="text" id="cityManual" class="field-input mt-2" placeholder="市区町村（手入力）" autocomplete="off"
+                  style="display:none;" />
               </div>
               <div>
                 <label class="text-sm font-bold mb-2 block" for="addressLine">町名・番地以降</label>
-                <input type="text" id="addressLine" class="field-input" placeholder="例：〇〇町1-2-3" autocomplete="street-address" />
+                <input type="text" id="addressLine" class="field-input" placeholder="例：〇〇町1-2-3"
+                  autocomplete="street-address" />
               </div>
             </div>
 
@@ -272,24 +367,27 @@
               </div>
             </div>
             <!-- 振込口座（入力・必須） -->
-            <div class="p-4 rounded-xl border border-white/10 bg-white/5 space-y-4">
+            <div class="p-4 rounded-xl border border-deep/10 bg-white/50 space-y-4">
               <div class="font-bold text-sm">振込口座（入力・必須）</div>
               <div class="flex flex-wrap gap-4">
                 <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="radio" name="bankKind" value="bank" id="bankKindBank" class="accent-[#38bdf8]" checked />
+                  <input type="radio" name="bankKind" value="bank" id="bankKindBank" class="accent-[#1AA7A1]" checked />
                   <span class="text-sm">通常の銀行</span>
                 </label>
                 <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="radio" name="bankKind" value="yucho" id="bankKindYucho" class="accent-[#38bdf8]" />
+                  <input type="radio" name="bankKind" value="yucho" id="bankKindYucho" class="accent-[#1AA7A1]" />
                   <span class="text-sm">ゆうちょ銀行（振込用）</span>
                 </label>
               </div>
               <div id="bankFields" class="space-y-4">
                 <div class="relative" id="bankSearchWrap">
                   <label class="text-sm font-bold mb-2 block" for="bankSearch">銀行名（必須・入力で検索）</label>
-                  <input type="text" id="bankSearch" class="field-input" placeholder="例：山口　と入力して検索" autocomplete="off" />
+                  <input type="text" id="bankSearch" class="field-input" placeholder="例：山口　と入力して検索"
+                    autocomplete="off" />
                   <input type="hidden" id="bankCode" value="" />
-                  <ul id="bankDropdown" class="absolute left-0 right-0 top-full mt-1 max-h-56 overflow-auto rounded-xl border border-white/20 bg-deep z-[100] py-1 text-sm" style="display:none;" role="listbox"></ul>
+                  <ul id="bankDropdown"
+                    class="absolute left-0 right-0 top-full mt-1 max-h-56 overflow-auto rounded-xl border border-deep/12 bg-white z-[100] py-1 text-sm shadow-lg shadow-deep/8"
+                    style="display:none;" role="listbox"></ul>
                 </div>
                 <div>
                   <label class="text-sm font-bold mb-2 block" for="branchSelect">支店名（必須）</label>
@@ -313,7 +411,8 @@
                   </div>
                   <div>
                     <label class="text-sm font-bold mb-2 block" for="accountNumber">口座番号（必須・6〜7桁）</label>
-                    <input type="text" id="accountNumber" class="field-input" placeholder="例：1234567" maxlength="7" pattern="[0-9]*" inputmode="numeric" />
+                    <input type="text" id="accountNumber" class="field-input" placeholder="例：1234567" maxlength="7"
+                      pattern="[0-9]*" inputmode="numeric" />
                   </div>
                 </div>
                 <div>
@@ -322,7 +421,7 @@
                 </div>
               </div>
               <div id="yuchoFields" class="space-y-4" style="display:none;">
-                <p class="text-xs text-amber-200/90">記号・番号は使わず、振込用の店名／店番／口座番号(7桁)のみ入力してください。</p>
+                <p class="text-xs text-amber-600/90">記号・番号は使わず、振込用の店名／店番／口座番号(7桁)のみ入力してください。</p>
                 <div>
                   <label class="text-sm font-bold mb-2 block" for="yuchoStoreName">店名（必須）</label>
                   <input type="text" id="yuchoStoreName" class="field-input" placeholder="例：一三八" />
@@ -330,11 +429,13 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label class="text-sm font-bold mb-2 block" for="yuchoStoreCode">店番（3桁・必須）</label>
-                    <input type="text" id="yuchoStoreCode" class="field-input" placeholder="例：138" maxlength="3" pattern="[0-9]*" inputmode="numeric" />
+                    <input type="text" id="yuchoStoreCode" class="field-input" placeholder="例：138" maxlength="3"
+                      pattern="[0-9]*" inputmode="numeric" />
                   </div>
                   <div>
                     <label class="text-sm font-bold mb-2 block" for="yuchoAccountNumber">口座番号（7桁・必須）</label>
-                    <input type="text" id="yuchoAccountNumber" class="field-input" placeholder="例：1234567" maxlength="7" pattern="[0-9]*" inputmode="numeric" />
+                    <input type="text" id="yuchoAccountNumber" class="field-input" placeholder="例：1234567" maxlength="7"
+                      pattern="[0-9]*" inputmode="numeric" />
                   </div>
                 </div>
                 <div>
@@ -346,9 +447,10 @@
             <div>
               <label class="text-sm font-bold mb-2 block" for="cargoInsurance">貨物保険（任意）</label>
               <input type="file" id="cargoInsurance" class="field-input" accept="image/*,application/pdf" />
-              <div class="text-xs text-white/40 mt-1">
+              <div class="text-xs text-deep/40 mt-1">
                 PickGoの「貨物の保障」公式説明：
-                <a class="note-link" href="https://lp.partner.pickgo.town/partner/support/insurance" target="_blank" rel="noopener noreferrer">こちら</a>
+                <a class="note-link" href="https://lp.partner.pickgo.town/partner/support/insurance" target="_blank"
+                  rel="noopener noreferrer">こちら</a>
               </div>
             </div>
           </div>
@@ -360,13 +462,13 @@
             <i data-lucide="user" class="w-4 h-4 text-amber-400"></i>
             <span class="font-bold text-sm">公開プロフィール（必須）</span>
           </div>
-          <p class="text-xs text-white/60 mb-4">お客さま向け掲載用。上の住所・車両が初期値で入ります（編集可）。</p>
+          <p class="text-xs text-deep/50 mb-4">お客さま向け掲載用。上の住所・車両が初期値で入ります（編集可）。</p>
 
           <div class="space-y-5">
             <div>
               <label class="text-sm font-bold mb-2 block" for="nickname">ニックネーム（公開）</label>
               <input type="text" id="nickname" class="field-input" placeholder="例：やまぐち便" autocomplete="off" />
-              <div class="text-xs text-white/40 mt-1">本名ではなくこちらを公開します。</div>
+              <div class="text-xs text-deep/40 mt-1">本名ではなくこちらを公開します。</div>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
@@ -378,8 +480,9 @@
                 <select id="publicCity" class="field-input" disabled>
                   <option value="">都道府県を選択してください</option>
                 </select>
-                <span id="publicCityLoading" class="text-xs text-white/50 ml-2" style="display:none;">読み込み中…</span>
-                <input type="text" id="publicCityManual" class="field-input mt-2" placeholder="市区町村（手入力）" autocomplete="off" style="display:none;" />
+                <span id="publicCityLoading" class="text-xs text-deep/50 ml-2" style="display:none;">読み込み中…</span>
+                <input type="text" id="publicCityManual" class="field-input mt-2" placeholder="市区町村（手入力）"
+                  autocomplete="off" style="display:none;" />
               </div>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -410,19 +513,20 @@
           </div>
         </div>
 
-        <div class="p-5 rounded-2xl border border-white/10 bg-white/5 mb-6">
+        <div class="p-5 rounded-2xl border border-deep/10 bg-white/50 mb-6">
           <label id="agreeLabel">
             <input type="checkbox" id="agree" />
             <span>内容に同意します（20%手数料／指名は希望のみ（確約なし）／電話導線なし）</span>
           </label>
           <div id="agreeErrorText" class="field-error-text" role="alert" style="display:none;"></div>
-          <div class="text-xs text-white/40 mt-2">※本人確認情報は公開しません。</div>
+          <div class="text-xs text-deep/40 mt-2">※本人確認情報は公開しません。</div>
         </div>
 
-        <button id="submitBtn" type="submit" class="w-full flex items-center justify-center gap-2 px-4 py-4 rounded-2xl bg-white text-black font-black text-sm shadow-lg shadow-white/10 hover:shadow-white/20 transition-all">
+        <button id="submitBtn" type="submit"
+          class="w-full flex items-center justify-center gap-2 px-4 py-4 rounded-2xl bg-deep text-cream font-black text-sm shadow-lg shadow-deep/10 hover:shadow-deep/20 transition-all">
           <i data-lucide="send" class="w-4 h-4"></i> 送信する
         </button>
-        <div class="text-xs text-white/45 mt-3" id="hintText"></div>
+        <div class="text-xs text-deep/40 mt-3" id="hintText"></div>
       </form>
     </div>
   </main>
@@ -451,7 +555,7 @@
     const MAX_MB = (window.CONFIG && window.CONFIG.MAX_FILE_MB) ? Number(window.CONFIG.MAX_FILE_MB) : 5;
     const ENDPOINT = (window.CONFIG && window.CONFIG.GAS_ENDPOINT) ? String(window.CONFIG.GAS_ENDPOINT) : "";
 
-    const PREFECTURES = ["北海道","青森県","岩手県","宮城県","秋田県","山形県","福島県","茨城県","栃木県","群馬県","埼玉県","千葉県","東京都","神奈川県","新潟県","富山県","石川県","福井県","山梨県","長野県","岐阜県","静岡県","愛知県","三重県","滋賀県","京都府","大阪府","兵庫県","奈良県","和歌山県","鳥取県","島根県","岡山県","広島県","山口県","徳島県","香川県","愛媛県","高知県","福岡県","佐賀県","長崎県","熊本県","大分県","宮崎県","鹿児島県","沖縄県"];
+    const PREFECTURES = ["北海道", "青森県", "岩手県", "宮城県", "秋田県", "山形県", "福島県", "茨城県", "栃木県", "群馬県", "埼玉県", "千葉県", "東京都", "神奈川県", "新潟県", "富山県", "石川県", "福井県", "山梨県", "長野県", "岐阜県", "静岡県", "愛知県", "三重県", "滋賀県", "京都府", "大阪府", "兵庫県", "奈良県", "和歌山県", "鳥取県", "島根県", "岡山県", "広島県", "山口県", "徳島県", "香川県", "愛媛県", "高知県", "福岡県", "佐賀県", "長崎県", "熊本県", "大分県", "宮崎県", "鹿児島県", "沖縄県"];
 
     const el = (id) => document.getElementById(id);
     const form = el("fullRegisterForm");
@@ -459,669 +563,670 @@
       if (!form || form.dataset.fullRegisterInited) return;
       form.dataset.fullRegisterInited = "1";
 
-    const errorBox = el("errorBox");
-    const errorText = el("errorText");
-    const successBox = el("successBox");
-    const receiptIdEl = el("receiptId");
-    const hintText = el("hintText");
-    const submitBtn = el("submitBtn");
+      const errorBox = el("errorBox");
+      const errorText = el("errorText");
+      const successBox = el("successBox");
+      const receiptIdEl = el("receiptId");
+      const hintText = el("hintText");
+      const submitBtn = el("submitBtn");
 
-    const fullName = el("fullName");
-    const postalCode = el("postalCode");
-    const prefecture = el("prefecture");
-    const city = el("city");
-    const addressLine = el("addressLine");
-    const maker = el("maker");
-    const model = el("model");
-    const experienceYears = el("experienceYears");
-    const licenseFront = el("licenseFront");
-    const licenseBack = el("licenseBack");
-    const vehicleFront = el("vehicleFront");
-    const vehicleInspection = el("vehicleInspection");
-    const compulsoryInsurance = el("compulsoryInsurance");
-    const voluntaryInsurance = el("voluntaryInsurance");
-    const keiCargoNotification = el("keiCargoNotification");
-    const cargoInsurance = el("cargoInsurance");
-    const bankKindBank = el("bankKindBank");
-    const bankKindYucho = el("bankKindYucho");
-    const bankFields = el("bankFields");
-    const yuchoFields = el("yuchoFields");
-    const bankSearch = el("bankSearch");
-    const bankCodeHidden = el("bankCode");
-    const bankDropdownUl = el("bankDropdown");
-    const branchSelect = el("branchSelect");
-    const accountType = el("accountType");
-    const accountNumber = el("accountNumber");
-    const accountHolderKana = el("accountHolderKana");
-    const yuchoStoreName = el("yuchoStoreName");
-    const yuchoStoreCode = el("yuchoStoreCode");
-    const yuchoAccountNumber = el("yuchoAccountNumber");
-    const yuchoAccountHolderKana = el("yuchoAccountHolderKana");
-    const cityWrap = el("cityWrap");
-    const cityLoading = el("cityLoading");
-    const cityManual = el("cityManual");
-    const publicCityWrap = el("publicCityWrap");
-    const publicCityLoading = el("publicCityLoading");
-    const publicCityManual = el("publicCityManual");
-    const otherTypeWrap = el("otherTypeWrap");
-    const otherTypeText = el("otherTypeText");
-    const errorDebugIdEl = el("errorDebugId");
-    const successDebugIdEl = el("successDebugId");
-    const nickname = el("nickname");
-    const publicPrefecture = el("publicPrefecture");
-    const publicCity = el("publicCity");
-    const publicMaker = el("publicMaker");
-    const publicModel = el("publicModel");
-    const publicAppeal = el("publicAppeal");
-    const agree = el("agree");
+      const fullName = el("fullName");
+      const postalCode = el("postalCode");
+      const prefecture = el("prefecture");
+      const city = el("city");
+      const addressLine = el("addressLine");
+      const maker = el("maker");
+      const model = el("model");
+      const experienceYears = el("experienceYears");
+      const licenseFront = el("licenseFront");
+      const licenseBack = el("licenseBack");
+      const vehicleFront = el("vehicleFront");
+      const vehicleInspection = el("vehicleInspection");
+      const compulsoryInsurance = el("compulsoryInsurance");
+      const voluntaryInsurance = el("voluntaryInsurance");
+      const keiCargoNotification = el("keiCargoNotification");
+      const cargoInsurance = el("cargoInsurance");
+      const bankKindBank = el("bankKindBank");
+      const bankKindYucho = el("bankKindYucho");
+      const bankFields = el("bankFields");
+      const yuchoFields = el("yuchoFields");
+      const bankSearch = el("bankSearch");
+      const bankCodeHidden = el("bankCode");
+      const bankDropdownUl = el("bankDropdown");
+      const branchSelect = el("branchSelect");
+      const accountType = el("accountType");
+      const accountNumber = el("accountNumber");
+      const accountHolderKana = el("accountHolderKana");
+      const yuchoStoreName = el("yuchoStoreName");
+      const yuchoStoreCode = el("yuchoStoreCode");
+      const yuchoAccountNumber = el("yuchoAccountNumber");
+      const yuchoAccountHolderKana = el("yuchoAccountHolderKana");
+      const cityWrap = el("cityWrap");
+      const cityLoading = el("cityLoading");
+      const cityManual = el("cityManual");
+      const publicCityWrap = el("publicCityWrap");
+      const publicCityLoading = el("publicCityLoading");
+      const publicCityManual = el("publicCityManual");
+      const otherTypeWrap = el("otherTypeWrap");
+      const otherTypeText = el("otherTypeText");
+      const errorDebugIdEl = el("errorDebugId");
+      const successDebugIdEl = el("successDebugId");
+      const nickname = el("nickname");
+      const publicPrefecture = el("publicPrefecture");
+      const publicCity = el("publicCity");
+      const publicMaker = el("publicMaker");
+      const publicModel = el("publicModel");
+      const publicAppeal = el("publicAppeal");
+      const agree = el("agree");
 
-    function fillPrefectureSelect(selectEl) {
-      if (!selectEl) return;
-      selectEl.innerHTML = "<option value=\"\">選択してください</option>" + PREFECTURES.map(p => "<option value=\"" + p + "\">" + p + "</option>").join("");
-    }
-    fillPrefectureSelect(prefecture);
-    fillPrefectureSelect(publicPrefecture);
-
-    var Enhance = window.FullRegisterEnhance;
-    var cityManualMode = false;
-    var publicCityManualMode = false;
-
-    function fillCitySelect(selectEl, cities, selectedValue) {
-      if (!selectEl) return;
-      selectEl.innerHTML = "<option value=\"\">選択してください</option>" + (cities || []).map(function(c){ return "<option value=\"" + (c || "").replace(/"/g, "&quot;") + "\">" + (c || "").replace(/</g, "&lt;") + "</option>"; }).join("");
-      selectEl.disabled = false;
-      if (selectedValue) {
-        var opt = [].slice.call(selectEl.options).filter(function(o){ return o.value === selectedValue; })[0];
-        if (opt) selectEl.value = selectedValue;
-        else if (cities && cities.length) { selectEl.insertBefore(new Option(selectedValue, selectedValue), selectEl.options[1]); selectEl.value = selectedValue; }
+      function fillPrefectureSelect(selectEl) {
+        if (!selectEl) return;
+        selectEl.innerHTML = "<option value=\"\">選択してください</option>" + PREFECTURES.map(p => "<option value=\"" + p + "\">" + p + "</option>").join("");
       }
-    }
+      fillPrefectureSelect(prefecture);
+      fillPrefectureSelect(publicPrefecture);
 
-    function loadCitiesForSelect(isPublic, pref, thenSelectValue) {
-      var sel = isPublic ? publicCity : city;
-      var loadEl = isPublic ? publicCityLoading : cityLoading;
-      var wrap = isPublic ? publicCityWrap : cityWrap;
-      var manualEl = isPublic ? publicCityManual : cityManual;
-      if (!pref || !sel) return;
-      if (loadEl) loadEl.style.display = "";
-      sel.disabled = true;
-      sel.innerHTML = "<option value=\"\">読み込み中…</option>";
-      if (manualEl) { manualEl.style.display = "none"; manualEl.value = ""; }
-      if (isPublic) publicCityManualMode = false; else cityManualMode = false;
+      var Enhance = window.FullRegisterEnhance;
+      var cityManualMode = false;
+      var publicCityManualMode = false;
 
-      if (!Enhance || !Enhance.getCitiesForPrefecture) {
-        if (loadEl) loadEl.style.display = "none";
-        sel.style.display = "none";
-        if (wrap && manualEl) { manualEl.style.display = ""; manualEl.placeholder = "市区町村を手入力"; }
-        if (isPublic) publicCityManualMode = true; else cityManualMode = true;
-        return;
+      function fillCitySelect(selectEl, cities, selectedValue) {
+        if (!selectEl) return;
+        selectEl.innerHTML = "<option value=\"\">選択してください</option>" + (cities || []).map(function (c) { return "<option value=\"" + (c || "").replace(/"/g, "&quot;") + "\">" + (c || "").replace(/</g, "&lt;") + "</option>"; }).join("");
+        selectEl.disabled = false;
+        if (selectedValue) {
+          var opt = [].slice.call(selectEl.options).filter(function (o) { return o.value === selectedValue; })[0];
+          if (opt) selectEl.value = selectedValue;
+          else if (cities && cities.length) { selectEl.insertBefore(new Option(selectedValue, selectedValue), selectEl.options[1]); selectEl.value = selectedValue; }
+        }
       }
-      Enhance.getCitiesForPrefecture(pref, function(err, cities) {
-        if (loadEl) loadEl.style.display = "none";
-        if (err || !cities || !Array.isArray(cities) || cities.length === 0) {
+
+      function loadCitiesForSelect(isPublic, pref, thenSelectValue) {
+        var sel = isPublic ? publicCity : city;
+        var loadEl = isPublic ? publicCityLoading : cityLoading;
+        var wrap = isPublic ? publicCityWrap : cityWrap;
+        var manualEl = isPublic ? publicCityManual : cityManual;
+        if (!pref || !sel) return;
+        if (loadEl) loadEl.style.display = "";
+        sel.disabled = true;
+        sel.innerHTML = "<option value=\"\">読み込み中…</option>";
+        if (manualEl) { manualEl.style.display = "none"; manualEl.value = ""; }
+        if (isPublic) publicCityManualMode = false; else cityManualMode = false;
+
+        if (!Enhance || !Enhance.getCitiesForPrefecture) {
+          if (loadEl) loadEl.style.display = "none";
           sel.style.display = "none";
-          if (wrap && manualEl) { manualEl.style.display = ""; manualEl.placeholder = "市区町村を手入力（API取得に失敗しました）"; }
+          if (wrap && manualEl) { manualEl.style.display = ""; manualEl.placeholder = "市区町村を手入力"; }
           if (isPublic) publicCityManualMode = true; else cityManualMode = true;
           return;
         }
-        sel.style.display = "";
-        sel.disabled = false;
-        fillCitySelect(sel, cities, thenSelectValue || "");
-      });
-    }
-
-    function onPrefectureChange() {
-      var pref = (prefecture && prefecture.value) || "";
-      if (publicPrefecture) publicPrefecture.value = pref;
-      loadCitiesForSelect(false, pref);
-      loadCitiesForSelect(true, pref);
-    }
-    function onPublicPrefectureChange() {
-      loadCitiesForSelect(true, (publicPrefecture && publicPrefecture.value) || "");
-    }
-
-    if (prefecture && !prefecture.dataset.cityBound) {
-      prefecture.dataset.cityBound = "1";
-      prefecture.addEventListener("change", onPrefectureChange);
-    }
-    if (publicPrefecture && !publicPrefecture.dataset.cityBound) {
-      publicPrefecture.dataset.cityBound = "1";
-      publicPrefecture.addEventListener("change", onPublicPrefectureChange);
-    }
-    if (prefecture && prefecture.value) { loadCitiesForSelect(false, prefecture.value); loadCitiesForSelect(true, (publicPrefecture && publicPrefecture.value) || prefecture.value); }
-    if (otherTypeWrap) otherTypeWrap.style.display = (accountType && accountType.value === "その他") ? "" : "none";
-
-    function toggleBankYucho() {
-      var isYucho = bankKindYucho && bankKindYucho.checked;
-      if (bankFields) bankFields.style.display = isYucho ? "none" : "";
-      if (yuchoFields) yuchoFields.style.display = isYucho ? "" : "none";
-    }
-    if (bankKindBank) bankKindBank.addEventListener("change", toggleBankYucho);
-    if (bankKindYucho) bankKindYucho.addEventListener("change", toggleBankYucho);
-    toggleBankYucho();
-    if (accountType) accountType.addEventListener("change", function() {
-      if (otherTypeWrap) otherTypeWrap.style.display = (accountType.value === "その他") ? "" : "none";
-    });
-
-    var BANKS = window.BANK_DATA || [];
-
-    function filterBanks(query) {
-      var q = (query || "").trim().toLowerCase();
-      if (!q) return BANKS.slice(0, 30);
-      return BANKS.filter(function(b) {
-        return (b.name || "").toLowerCase().indexOf(q) >= 0 ||
-               (b.code || "").indexOf(q) >= 0;
-      }).slice(0, 50);
-    }
-
-    function showBankDropdown(items) {
-      if (!bankDropdownUl) return;
-      bankDropdownUl.innerHTML = "";
-      if (!items.length) {
-        var li0 = document.createElement("li");
-        li0.className = "px-3 py-2 text-white/40";
-        li0.textContent = "該当なし";
-        bankDropdownUl.appendChild(li0);
-        bankDropdownUl.style.display = "";
-        return;
-      }
-      items.forEach(function(b) {
-        var li = document.createElement("li");
-        li.className = "px-3 py-2 cursor-pointer hover:bg-white/10 transition-colors";
-        li.textContent = b.name;
-        li.setAttribute("data-code", b.code);
-        li.setAttribute("role", "option");
-        li.addEventListener("mousedown", function(e) {
-          e.preventDefault();
-          selectBank(b);
+        Enhance.getCitiesForPrefecture(pref, function (err, cities) {
+          if (loadEl) loadEl.style.display = "none";
+          if (err || !cities || !Array.isArray(cities) || cities.length === 0) {
+            sel.style.display = "none";
+            if (wrap && manualEl) { manualEl.style.display = ""; manualEl.placeholder = "市区町村を手入力（API取得に失敗しました）"; }
+            if (isPublic) publicCityManualMode = true; else cityManualMode = true;
+            return;
+          }
+          sel.style.display = "";
+          sel.disabled = false;
+          fillCitySelect(sel, cities, thenSelectValue || "");
         });
-        bankDropdownUl.appendChild(li);
-      });
-      bankDropdownUl.style.display = "";
-    }
+      }
 
-    function hideBankDropdown() {
-      if (bankDropdownUl) bankDropdownUl.style.display = "none";
-    }
+      function onPrefectureChange() {
+        var pref = (prefecture && prefecture.value) || "";
+        if (publicPrefecture) publicPrefecture.value = pref;
+        loadCitiesForSelect(false, pref);
+        loadCitiesForSelect(true, pref);
+      }
+      function onPublicPrefectureChange() {
+        loadCitiesForSelect(true, (publicPrefecture && publicPrefecture.value) || "");
+      }
 
-    function selectBank(bank) {
-      if (bankSearch) bankSearch.value = bank.name;
-      if (bankCodeHidden) bankCodeHidden.value = bank.code;
-      hideBankDropdown();
-      updateBranchSelect(bank.code);
-    }
+      if (prefecture && !prefecture.dataset.cityBound) {
+        prefecture.dataset.cityBound = "1";
+        prefecture.addEventListener("change", onPrefectureChange);
+      }
+      if (publicPrefecture && !publicPrefecture.dataset.cityBound) {
+        publicPrefecture.dataset.cityBound = "1";
+        publicPrefecture.addEventListener("change", onPublicPrefectureChange);
+      }
+      if (prefecture && prefecture.value) { loadCitiesForSelect(false, prefecture.value); loadCitiesForSelect(true, (publicPrefecture && publicPrefecture.value) || prefecture.value); }
+      if (otherTypeWrap) otherTypeWrap.style.display = (accountType && accountType.value === "その他") ? "" : "none";
 
-    function updateBranchSelect(bankCode) {
-      if (!branchSelect) return;
-      var code = (bankCode || "").trim();
-      var bank = BANKS.filter(function(b) { return (b.code || "").toString() === code; })[0];
-      var branches = (bank && bank.branches) ? bank.branches : [];
-
-      branchSelect.innerHTML = "";
-      var opt0 = document.createElement("option");
-      opt0.value = "";
-      opt0.textContent = branches.length ? "選択してください" : "先に銀行を選択";
-      branchSelect.appendChild(opt0);
-
-      branches.forEach(function(br) {
-        var opt = document.createElement("option");
-        var code3 = (br.code || "").toString();
-        code3 = code3.length >= 3 ? code3.slice(-3) : code3.padStart(3, "0");
-        opt.value = code3;
-        opt.textContent = code3 + " " + (br.name || br.branch_name || "");
-        branchSelect.appendChild(opt);
+      function toggleBankYucho() {
+        var isYucho = bankKindYucho && bankKindYucho.checked;
+        if (bankFields) bankFields.style.display = isYucho ? "none" : "";
+        if (yuchoFields) yuchoFields.style.display = isYucho ? "" : "none";
+      }
+      if (bankKindBank) bankKindBank.addEventListener("change", toggleBankYucho);
+      if (bankKindYucho) bankKindYucho.addEventListener("change", toggleBankYucho);
+      toggleBankYucho();
+      if (accountType) accountType.addEventListener("change", function () {
+        if (otherTypeWrap) otherTypeWrap.style.display = (accountType.value === "その他") ? "" : "none";
       });
 
-      branchSelect.disabled = !code;
-      branchSelect.value = "";
-    }
+      var BANKS = window.BANK_DATA || [];
 
-    if (bankSearch) {
-      bankSearch.addEventListener("focus", function() {
-        showBankDropdown(filterBanks(bankSearch.value));
-      });
-      bankSearch.addEventListener("input", function() {
-        if (bankCodeHidden) bankCodeHidden.value = "";
-        updateBranchSelect("");
-        showBankDropdown(filterBanks(bankSearch.value));
-      });
-      bankSearch.addEventListener("blur", function() {
-        setTimeout(hideBankDropdown, 180);
-      });
-      bankSearch.addEventListener("keydown", function(e) {
+      function filterBanks(query) {
+        var q = (query || "").trim().toLowerCase();
+        if (!q) return BANKS.slice(0, 30);
+        return BANKS.filter(function (b) {
+          return (b.name || "").toLowerCase().indexOf(q) >= 0 ||
+            (b.code || "").indexOf(q) >= 0;
+        }).slice(0, 50);
+      }
+
+      function showBankDropdown(items) {
         if (!bankDropdownUl) return;
-        var opts = bankDropdownUl.querySelectorAll("[role=option]");
-        if (!opts.length) return;
-        var cur = bankDropdownUl.querySelector(".bank-active");
-        var idx = cur ? [].indexOf.call(opts, cur) : -1;
-        if (e.key === "ArrowDown") {
-          e.preventDefault();
-          if (cur) cur.classList.remove("bank-active");
-          var next = opts[idx + 1] || opts[0];
-          if (next) { next.classList.add("bank-active"); next.scrollIntoView({ block: "nearest" }); }
-        } else if (e.key === "ArrowUp") {
-          e.preventDefault();
-          if (cur) cur.classList.remove("bank-active");
-          var prev = opts[idx - 1] || opts[opts.length - 1];
-          if (prev) { prev.classList.add("bank-active"); prev.scrollIntoView({ block: "nearest" }); }
-        } else if (e.key === "Enter") {
-          e.preventDefault();
-          if (cur) {
-            var code = cur.getAttribute("data-code");
-            var bank = BANKS.filter(function(b) { return b.code === code; })[0];
-            if (bank) selectBank(bank);
-          }
-        } else if (e.key === "Escape") {
-          hideBankDropdown();
+        bankDropdownUl.innerHTML = "";
+        if (!items.length) {
+          var li0 = document.createElement("li");
+          li0.className = "px-3 py-2 text-white/40";
+          li0.textContent = "該当なし";
+          bankDropdownUl.appendChild(li0);
+          bankDropdownUl.style.display = "";
+          return;
         }
-      });
-    }
-    updateBranchSelect("");
-
-    function updateModelSelect(makerSelect, modelSelect) {
-      if (window.VehicleLinkage && window.VehicleLinkage.updateLightVehicleSelect) {
-        window.VehicleLinkage.updateLightVehicleSelect(makerSelect, modelSelect);
-      }
-    }
-    if (maker && model) { updateModelSelect(maker, model); maker.addEventListener("change", () => { updateModelSelect(maker, model); syncPublicVehicle(); }); }
-    if (publicMaker && publicModel) { updateModelSelect(publicMaker, publicModel); publicMaker.addEventListener("change", () => updateModelSelect(publicMaker, publicModel)); }
-
-    function syncPublicVehicle() {
-      if (publicPrefecture && prefecture) publicPrefecture.value = prefecture.value;
-      if (publicCityManualMode && publicCityManual && cityManual) publicCityManual.value = cityManual.value;
-      else if (publicCity && city) publicCity.value = city.value;
-      if (publicMaker && maker) publicMaker.value = maker.value;
-      updateModelSelect(publicMaker, publicModel);
-      if (publicModel && model) publicModel.value = model.value;
-    }
-    function getCityValue() { return cityManualMode && cityManual ? (cityManual.value || "").trim() : (city && city.value || "").trim(); }
-    function getPublicCityValue() { return publicCityManualMode && publicCityManual ? (publicCityManual.value || "").trim() : (publicCity && publicCity.value || "").trim(); }
-    if (city && city.tagName === "SELECT") city.addEventListener("change", function() { if (publicCity && !publicCityManualMode) publicCity.value = city.value; });
-    if (cityManual) cityManual.addEventListener("input", function() { if (publicCityManual) publicCityManual.value = cityManual.value; });
-    maker.addEventListener("change", syncPublicVehicle);
-    model.addEventListener("change", () => { if (publicModel) publicModel.value = model.value; });
-
-    el("btnZipLookup").addEventListener("click", doZipLookup);
-    postalCode.addEventListener("blur", function() { if ((postalCode.value || "").replace(/\D/g, "").length === 7) doZipLookup(); });
-
-    function doZipLookup() {
-      var zip = (postalCode.value || "").replace(/\D/g, "");
-      if (zip.length !== 7) return;
-      fetch("https://zipcloud.ibsnet.co.jp/api/search?zipcode=" + zip)
-        .then(function(r) { return r.json(); })
-        .then(function(data) {
-          if (data.status !== 200 || !data.results || !data.results[0]) return;
-          var r = data.results[0];
-          var prefVal = (r.address1 || "") || prefecture.value;
-          var cityVal = (r.address2 || "") || "";
-          prefecture.value = prefVal;
-          addressLine.value = (r.address3 || "") || addressLine.value;
-          if (publicPrefecture) publicPrefecture.value = prefVal;
-          loadCitiesForSelect(false, prefVal, cityVal);
-          loadCitiesForSelect(true, prefVal, cityVal);
-          syncPublicVehicle();
-        })
-        .catch(function() {});
-    }
-
-    postalCode.addEventListener("input", function() {
-      this.value = this.value.replace(/\D/g, "").slice(0, 7);
-    });
-    if (accountNumber) accountNumber.addEventListener("input", function() { this.value = (this.value || "").replace(/\D/g, "").slice(0, 7); });
-    if (yuchoStoreCode) yuchoStoreCode.addEventListener("input", function() { this.value = (this.value || "").replace(/\D/g, "").slice(0, 3); });
-    if (yuchoAccountNumber) yuchoAccountNumber.addEventListener("input", function() { this.value = (this.value || "").replace(/\D/g, "").slice(0, 7); });
-
-    function normalizeKana(str) {
-      if (typeof str !== "string") return "";
-      return str.replace(/[ｱ-ﾝ]/g, function(c) {
-        var k = "ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝﾞﾟ".indexOf(c);
-        if (k < 0) return c;
-        return "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワン゛゜".charAt(k);
-      });
-    }
-    function isKanaOnly(str) {
-      if (typeof str !== "string" || !str.length) return false;
-      return /^[\u30A1-\u30F6\u30FC\u30FB\u309B\u309C\u0020\u00A0]+$/.test(str);
-    }
-
-    function makeReceiptId() {
-      const ts = Date.now().toString(36);
-      const r = Math.floor(Math.random()*1e6).toString(36).padStart(4,"0");
-      return "DRF-" + ts + "-" + r;
-    }
-    function makeDebugId() {
-      const ts = Date.now().toString(36);
-      const r = Math.floor(Math.random()*1e6).toString(36).padStart(5,"0");
-      return "DBG-" + ts + "-" + r;
-    }
-
-    const allInputs = [fullName, postalCode, prefecture, city, addressLine, maker, model, experienceYears, licenseFront, licenseBack, vehicleFront, vehicleInspection, compulsoryInsurance, voluntaryInsurance, keiCargoNotification, bankSearch, branchSelect, accountType, accountNumber, accountHolderKana, yuchoStoreName, yuchoStoreCode, yuchoAccountNumber, yuchoAccountHolderKana, cargoInsurance, nickname, publicPrefecture, publicCity, publicMaker, publicModel, publicAppeal, agree, cityManual, publicCityManual];
-    const agreeLabelEl = el("agreeLabel");
-    const agreeErrorTextEl = el("agreeErrorText");
-    function clearInvalid() {
-      allInputs.forEach(x => {
-        if (!x) return;
-        x.classList.remove("is-invalid");
-      });
-      if (agreeLabelEl) agreeLabelEl.classList.remove("is-invalid");
-      if (agreeErrorTextEl) { agreeErrorTextEl.textContent = ""; agreeErrorTextEl.style.display = "none"; }
-    }
-
-    function setError(msg, debugId) {
-      errorText.textContent = msg;
-      if (errorDebugIdEl) errorDebugIdEl.textContent = debugId ? "追跡ID: " + debugId : "";
-      errorBox.style.display = "";
-      successBox.style.display = "none";
-      errorBox.scrollIntoView({behavior:"smooth", block:"center"});
-    }
-
-    function fileToDataUrl(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(String(reader.result || ""));
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-      });
-    }
-
-    function getFile(input) {
-      return (input && input.files && input.files[0]) ? input.files[0] : null;
-    }
-
-    function checkSize(file, inputEl) {
-      if (!file) return true;
-      if (file.size <= MAX_MB * 1024 * 1024) return true;
-      if (inputEl) inputEl.classList.add("is-invalid");
-      setError("ファイルが大きすぎます（上限 " + MAX_MB + "MB）。：" + (file.name || "file"));
-      return false;
-    }
-
-    function validate() {
-      clearInvalid();
-      errorBox.style.display = "none";
-      var firstInvalidEl = null;
-
-      var n = (fullName.value || "").trim();
-      var pc = (postalCode.value || "").replace(/\D/g, "");
-      var pref = (prefecture.value || "").trim();
-      var c = getCityValue();
-      var al = (addressLine.value || "").trim();
-      var m = (maker.value || "").trim();
-      var mod = (model.value || "").trim();
-      var exp = (experienceYears.value || "").trim();
-      var nick = (nickname.value || "").trim();
-      var pubPref = (publicPrefecture.value || "").trim();
-      var pubCity = getPublicCityValue();
-      var pubMaker = (publicMaker.value || "").trim();
-      var pubModel = (publicModel.value || "").trim();
-      var pubAppeal = (publicAppeal.value || "").trim();
-
-      var fLf = getFile(licenseFront);
-      var fLb = getFile(licenseBack);
-      var fVf = getFile(vehicleFront);
-      var fVi = getFile(vehicleInspection);
-      var fCo = getFile(compulsoryInsurance);
-      var fVo = getFile(voluntaryInsurance);
-      var fKei = getFile(keiCargoNotification);
-      var fCi = getFile(cargoInsurance);
-      var bankKind = (document.querySelector("input[name=bankKind]:checked") && document.querySelector("input[name=bankKind]:checked").value) || "bank";
-      var bCode = (bankCodeHidden && bankCodeHidden.value || "").trim();
-      var brCode = (branchSelect && branchSelect.value || "").trim();
-      var bankObj = BANKS.filter(function(b) { return (b.code || "").toString() === bCode; })[0];
-      var branchObj = (bankObj && bankObj.branches) ? bankObj.branches.filter(function(br) { var c = (br.code || "").toString(); c = c.length >= 3 ? c.slice(-3) : c.padStart(3, "0"); return c === brCode; })[0] : null;
-      var bName = (bankObj && (bankObj.name || bankObj.bank_name)) || "";
-      var bBranch = (branchObj && (branchObj.name || branchObj.branch_name)) || "";
-      var bType = (accountType && accountType.value || "").trim();
-      var bNum = (accountNumber && accountNumber.value || "").replace(/\D/g, "");
-      var bKana = normalizeKana((accountHolderKana && accountHolderKana.value || "").trim());
-      var yStore = (yuchoStoreName && yuchoStoreName.value || "").trim();
-      var yCode = (yuchoStoreCode && yuchoStoreCode.value || "").replace(/\D/g, "");
-      var yNum = (yuchoAccountNumber && yuchoAccountNumber.value || "").replace(/\D/g, "");
-      var yKana = normalizeKana((yuchoAccountHolderKana && yuchoAccountHolderKana.value || "").trim());
-
-      if (!n) { fullName.classList.add("is-invalid"); return {ok:false, msg:"氏名を入力してください。", firstInvalidEl: fullName}; }
-      if (pc.length !== 7) { postalCode.classList.add("is-invalid"); return {ok:false, msg:"郵便番号を7桁で入力してください。", firstInvalidEl: postalCode}; }
-      if (!pref) { prefecture.classList.add("is-invalid"); return {ok:false, msg:"都道府県を選択してください。", firstInvalidEl: prefecture}; }
-      if (!c) { (cityManualMode && cityManual ? cityManual : city).classList.add("is-invalid"); return {ok:false, msg:"市区町村を入力してください。", firstInvalidEl: (cityManualMode && cityManual) ? cityManual : city}; }
-      if (!al) { addressLine.classList.add("is-invalid"); return {ok:false, msg:"町名・番地以降を入力してください。", firstInvalidEl: addressLine}; }
-      if (!m) { maker.classList.add("is-invalid"); return {ok:false, msg:"車両メーカーを選択してください。", firstInvalidEl: maker}; }
-      if (!mod) { model.classList.add("is-invalid"); return {ok:false, msg:"車種を選択してください。", firstInvalidEl: model}; }
-      if (!exp) { experienceYears.classList.add("is-invalid"); return {ok:false, msg:"経験年数を選択してください。", firstInvalidEl: experienceYears}; }
-
-      if (!fLf) { licenseFront.classList.add("is-invalid"); return {ok:false, msg:"運転免許証（表）を添付してください。", firstInvalidEl: licenseFront}; }
-      if (!fLb) { licenseBack.classList.add("is-invalid"); return {ok:false, msg:"運転免許証（裏）を添付してください。", firstInvalidEl: licenseBack}; }
-      if (!fVf) { vehicleFront.classList.add("is-invalid"); return {ok:false, msg:"車両前面写真を添付してください。", firstInvalidEl: vehicleFront}; }
-      if (!fVi) { vehicleInspection.classList.add("is-invalid"); return {ok:false, msg:"車検証を添付してください。", firstInvalidEl: vehicleInspection}; }
-      if (!fCo) { compulsoryInsurance.classList.add("is-invalid"); return {ok:false, msg:"自賠責を添付してください。", firstInvalidEl: compulsoryInsurance}; }
-      if (!fVo) { voluntaryInsurance.classList.add("is-invalid"); return {ok:false, msg:"任意保険を添付してください。", firstInvalidEl: voluntaryInsurance}; }
-      if (!fKei) { keiCargoNotification.classList.add("is-invalid"); return {ok:false, msg:"経営届出書（受領印あり）を添付してください。", firstInvalidEl: keiCargoNotification}; }
-
-      if (bankKind === "bank") {
-        if (!bCode) { if (bankSearch) bankSearch.classList.add("is-invalid"); return {ok:false, msg:"銀行名を検索して選択してください。", firstInvalidEl: bankSearch}; }
-        if (!brCode) { if (branchSelect) branchSelect.classList.add("is-invalid"); return {ok:false, msg:"支店を選択してください。", firstInvalidEl: branchSelect}; }
-        if (bType !== "普通" && bType !== "当座" && bType !== "その他") { if (accountType) accountType.classList.add("is-invalid"); return {ok:false, msg:"口座種別は「普通」「当座」「その他」のいずれかを選択してください。", firstInvalidEl: accountType}; }
-        if (bNum.length < 6 || bNum.length > 7) { if (accountNumber) accountNumber.classList.add("is-invalid"); return {ok:false, msg:"口座番号は6〜7桁で入力してください。", firstInvalidEl: accountNumber}; }
-        if (!bKana) { if (accountHolderKana) accountHolderKana.classList.add("is-invalid"); return {ok:false, msg:"口座名義（カナ）を入力してください。", firstInvalidEl: accountHolderKana}; }
-        if (!isKanaOnly(bKana)) { if (accountHolderKana) accountHolderKana.classList.add("is-invalid"); return {ok:false, msg:"口座名義はカタカナで入力してください。", firstInvalidEl: accountHolderKana}; }
-      } else {
-        if (!yStore) { if (yuchoStoreName) yuchoStoreName.classList.add("is-invalid"); return {ok:false, msg:"ゆうちょの店名を入力してください。", firstInvalidEl: yuchoStoreName}; }
-        if (yCode.length !== 3) { if (yuchoStoreCode) yuchoStoreCode.classList.add("is-invalid"); return {ok:false, msg:"ゆうちょの店番は3桁で入力してください。", firstInvalidEl: yuchoStoreCode}; }
-        if (yNum.length !== 7) { if (yuchoAccountNumber) yuchoAccountNumber.classList.add("is-invalid"); return {ok:false, msg:"ゆうちょの口座番号は7桁で入力してください。", firstInvalidEl: yuchoAccountNumber}; }
-        if (!yKana) { if (yuchoAccountHolderKana) yuchoAccountHolderKana.classList.add("is-invalid"); return {ok:false, msg:"口座名義（カナ）を入力してください。", firstInvalidEl: yuchoAccountHolderKana}; }
-        if (!isKanaOnly(yKana)) { if (yuchoAccountHolderKana) yuchoAccountHolderKana.classList.add("is-invalid"); return {ok:false, msg:"口座名義はカタカナで入力してください。", firstInvalidEl: yuchoAccountHolderKana}; }
+        items.forEach(function (b) {
+          var li = document.createElement("li");
+          li.className = "px-3 py-2 cursor-pointer hover:bg-white/10 transition-colors";
+          li.textContent = b.name;
+          li.setAttribute("data-code", b.code);
+          li.setAttribute("role", "option");
+          li.addEventListener("mousedown", function (e) {
+            e.preventDefault();
+            selectBank(b);
+          });
+          bankDropdownUl.appendChild(li);
+        });
+        bankDropdownUl.style.display = "";
       }
 
-      if (!checkSize(fLf, licenseFront)) return {ok:false, firstInvalidEl: licenseFront};
-      if (!checkSize(fLb, licenseBack)) return {ok:false, firstInvalidEl: licenseBack};
-      if (!checkSize(fVf, vehicleFront)) return {ok:false, firstInvalidEl: vehicleFront};
-      if (!checkSize(fVi, vehicleInspection)) return {ok:false, firstInvalidEl: vehicleInspection};
-      if (!checkSize(fCo, compulsoryInsurance)) return {ok:false, firstInvalidEl: compulsoryInsurance};
-      if (!checkSize(fVo, voluntaryInsurance)) return {ok:false, firstInvalidEl: voluntaryInsurance};
-      if (!checkSize(fKei, keiCargoNotification)) return {ok:false, firstInvalidEl: keiCargoNotification};
-      if (fCi && !checkSize(fCi, cargoInsurance)) return {ok:false, firstInvalidEl: cargoInsurance};
-
-      if (!nick) { nickname.classList.add("is-invalid"); return {ok:false, msg:"ニックネーム（公開）を入力してください。", firstInvalidEl: nickname}; }
-      if (!pubPref) { publicPrefecture.classList.add("is-invalid"); return {ok:false, msg:"公開用の都道府県を選択してください。", firstInvalidEl: publicPrefecture}; }
-      if (!pubCity) { (publicCityManualMode && publicCityManual ? publicCityManual : publicCity).classList.add("is-invalid"); return {ok:false, msg:"公開用の市区町村を入力してください。", firstInvalidEl: (publicCityManualMode && publicCityManual) ? publicCityManual : publicCity}; }
-      if (!pubMaker) { publicMaker.classList.add("is-invalid"); return {ok:false, msg:"公開用のメーカーを選択してください。", firstInvalidEl: publicMaker}; }
-      if (!pubModel) { publicModel.classList.add("is-invalid"); return {ok:false, msg:"公開用の車種を選択してください。", firstInvalidEl: publicModel}; }
-      if (!pubAppeal) { publicAppeal.classList.add("is-invalid"); return {ok:false, msg:"アピールポイント（公開）を入力してください。", firstInvalidEl: publicAppeal}; }
-
-      if (!agree.checked) {
-        agree.classList.add("is-invalid");
-        if (agreeLabelEl) agreeLabelEl.classList.add("is-invalid");
-        if (agreeErrorTextEl) { agreeErrorTextEl.textContent = "同意にチェックを入れてください。"; agreeErrorTextEl.style.display = ""; }
-        return {ok:false, msg:"同意にチェックを入れてください。", firstInvalidEl: agree};
+      function hideBankDropdown() {
+        if (bankDropdownUl) bankDropdownUl.style.display = "none";
       }
 
-      if (!ENDPOINT || ENDPOINT === "あとで貼る") {
-        return { ok:false, msg:"送信先（GAS_ENDPOINT）が未設定です（config.js を確認してください）。", firstInvalidEl: null};
+      function selectBank(bank) {
+        if (bankSearch) bankSearch.value = bank.name;
+        if (bankCodeHidden) bankCodeHidden.value = bank.code;
+        hideBankDropdown();
+        updateBranchSelect(bank.code);
       }
 
-      var addressFull = pref + c + al;
-      var manualMode = cityManualMode || publicCityManualMode;
-      var bankAccount = {
-        manualMode: manualMode,
-        bank: bankKind === "bank" ? {
-          bankCode: bCode,
-          bankName: bName,
-          branchCode: brCode,
-          branchName: bBranch,
-          accountType: bType,
-          otherTypeText: (bType === "その他" && otherTypeText) ? (otherTypeText.value || "").trim() : undefined,
-          accountNumber: bNum,
-          accountHolderKana: bKana
-        } : undefined,
-        yucho: bankKind === "yucho" ? {
-          storeName: yStore,
-          storeCode: yCode,
-          accountNumber: yNum,
-          accountHolderKana: yKana
-        } : undefined
-      };
-      return {
-        ok: true,
-        data: {
-          n, addressFull, postalCode: pc, prefecture: pref, city: c, addressLine: al,
-          maker: m, model: mod, experienceYears: exp,
-          nickname: nick, publicPrefecture: pubPref, publicCity: pubCity, publicMaker: pubMaker, publicModel: pubModel, publicAppeal: pubAppeal,
-          bankAccount: bankAccount,
-          fLf, fLb, fVf, fVi, fCo, fVo, fKei, fCi
-        }
-      };
-    }
+      function updateBranchSelect(bankCode) {
+        if (!branchSelect) return;
+        var code = (bankCode || "").trim();
+        var bank = BANKS.filter(function (b) { return (b.code || "").toString() === code; })[0];
+        var branches = (bank && bank.branches) ? bank.branches : [];
 
-    function updateHint() {
-      hintText.textContent = "上限：" + MAX_MB + "MB（各ファイル）。";
-    }
-    updateHint();
+        branchSelect.innerHTML = "";
+        var opt0 = document.createElement("option");
+        opt0.value = "";
+        opt0.textContent = branches.length ? "選択してください" : "先に銀行を選択";
+        branchSelect.appendChild(opt0);
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const v = validate();
-      if (!v.ok) {
-        if (v.msg) setError(v.msg, "");
-        if (v.firstInvalidEl) {
-          if (v.firstInvalidEl.scrollIntoView) v.firstInvalidEl.scrollIntoView({ behavior: "smooth", block: "center" });
-          try { if (v.firstInvalidEl.focus) v.firstInvalidEl.focus({ preventScroll: false }); } catch (err) {}
-        }
-        return;
-      }
-
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = "<span class=\"inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2\"></span>送信中…";
-      errorBox.style.display = "none";
-      successBox.style.display = "none";
-
-      const rid = makeReceiptId();
-      const debugId = makeDebugId();
-      const d = v.data;
-
-      try {
-        const lfUrl = await fileToDataUrl(d.fLf);
-        const lbUrl = await fileToDataUrl(d.fLb);
-        const vfUrl = await fileToDataUrl(d.fVf);
-        const viUrl = await fileToDataUrl(d.fVi);
-        const coUrl = await fileToDataUrl(d.fCo);
-        const voUrl = await fileToDataUrl(d.fVo);
-        const keiUrl = await fileToDataUrl(d.fKei);
-        const ciUrl = d.fCi ? await fileToDataUrl(d.fCi) : "";
-
-        const files = {
-          licenseFront: { name: d.fLf.name || "licenseFront", type: d.fLf.type || "", dataUrl: lfUrl },
-          licenseBack: { name: d.fLb.name || "licenseBack", type: d.fLb.type || "", dataUrl: lbUrl },
-          vehicleFront: { name: d.fVf.name || "vehicleFront", type: d.fVf.type || "", dataUrl: vfUrl },
-          vehicleInspection: { name: d.fVi.name || "vehicleInspection", type: d.fVi.type || "", dataUrl: viUrl },
-          compulsoryInsurance: { name: d.fCo.name || "compulsoryInsurance", type: d.fCo.type || "", dataUrl: coUrl },
-          voluntaryInsurance: { name: d.fVo.name || "voluntaryInsurance", type: d.fVo.type || "", dataUrl: voUrl },
-          keiCargoNotification: { name: d.fKei.name || "keiCargoNotification", type: d.fKei.type || "", dataUrl: keiUrl }
-        };
-        if (d.fCi) files.cargoInsurance = { name: d.fCi.name || "cargoInsurance", type: d.fCi.type || "", dataUrl: ciUrl };
-
-        const bodyObj = {
-          type: "driver_full_register",
-          receiptId: rid,
-          debugId: debugId,
-          data: {
-            fullName: d.n,
-            address: d.addressFull,
-            postalCode: d.postalCode,
-            prefecture: d.prefecture,
-            city: d.city,
-            addressLine: d.addressLine,
-            maker: d.maker,
-            model: d.model,
-            experienceYears: d.experienceYears,
-            bankAccount: d.bankAccount || {},
-            publicProfile: {
-              nickname: d.nickname,
-              prefecture: d.publicPrefecture,
-              city: d.publicCity,
-              vehicle: d.publicMaker + " " + d.publicModel,
-              maker: d.publicMaker,
-              model: d.publicModel,
-              experienceYears: d.experienceYears,
-              experience: d.experienceYears,
-              appeal: d.publicAppeal,
-              message: d.publicAppeal,
-              tools: ""
-            },
-            consent: true
-          },
-          files: files
-        };
-
-        const res = await fetch(ENDPOINT, {
-          method: "POST",
-          headers: { "Content-Type": "text/plain" },
-          body: JSON.stringify(bodyObj)
+        branches.forEach(function (br) {
+          var opt = document.createElement("option");
+          var code3 = (br.code || "").toString();
+          code3 = code3.length >= 3 ? code3.slice(-3) : code3.padStart(3, "0");
+          opt.value = code3;
+          opt.textContent = code3 + " " + (br.name || br.branch_name || "");
+          branchSelect.appendChild(opt);
         });
 
-        var json = null;
-        try {
-          const text = await res.text();
-          if (text && text.trim()) json = JSON.parse(text);
-        } catch (parseErr) {}
-
-        if (json && typeof json.ok === "boolean") {
-          if (json.ok === true) {
-            receiptIdEl.textContent = rid;
-            if (successDebugIdEl) successDebugIdEl.textContent = json.debugId || debugId;
-            successBox.style.display = "";
-            errorBox.style.display = "none";
-            window.location.href = "thankyou.html?receiptId=" + encodeURIComponent(rid) + "&debugId=" + encodeURIComponent(json.debugId || debugId);
-            return;
-          } else {
-            setError((json.message || "送信できませんでした。") + (json.debugId ? " 追跡ID: " + json.debugId : ""), json.debugId || debugId);
-            return;
-          }
-        }
-
-        setError("送信結果を確認できませんでした（未確認）。Jobsで追跡できます。", debugId);
-      } catch (err) {
-        setError("通信エラーで送信できませんでした。時間をおいて再度お試しください。追跡ID: " + debugId, debugId);
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = '<i data-lucide="send" class="w-4 h-4"></i> 送信する';
-        lucide.createIcons();
+        branchSelect.disabled = !code;
+        branchSelect.value = "";
       }
-    });
 
-    document.addEventListener('mousemove', (e) => {
-      document.querySelectorAll('.glass-card').forEach(card => {
-        const rect = card.getBoundingClientRect();
-        card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
-        card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+      if (bankSearch) {
+        bankSearch.addEventListener("focus", function () {
+          showBankDropdown(filterBanks(bankSearch.value));
+        });
+        bankSearch.addEventListener("input", function () {
+          if (bankCodeHidden) bankCodeHidden.value = "";
+          updateBranchSelect("");
+          showBankDropdown(filterBanks(bankSearch.value));
+        });
+        bankSearch.addEventListener("blur", function () {
+          setTimeout(hideBankDropdown, 180);
+        });
+        bankSearch.addEventListener("keydown", function (e) {
+          if (!bankDropdownUl) return;
+          var opts = bankDropdownUl.querySelectorAll("[role=option]");
+          if (!opts.length) return;
+          var cur = bankDropdownUl.querySelector(".bank-active");
+          var idx = cur ? [].indexOf.call(opts, cur) : -1;
+          if (e.key === "ArrowDown") {
+            e.preventDefault();
+            if (cur) cur.classList.remove("bank-active");
+            var next = opts[idx + 1] || opts[0];
+            if (next) { next.classList.add("bank-active"); next.scrollIntoView({ block: "nearest" }); }
+          } else if (e.key === "ArrowUp") {
+            e.preventDefault();
+            if (cur) cur.classList.remove("bank-active");
+            var prev = opts[idx - 1] || opts[opts.length - 1];
+            if (prev) { prev.classList.add("bank-active"); prev.scrollIntoView({ block: "nearest" }); }
+          } else if (e.key === "Enter") {
+            e.preventDefault();
+            if (cur) {
+              var code = cur.getAttribute("data-code");
+              var bank = BANKS.filter(function (b) { return b.code === code; })[0];
+              if (bank) selectBank(bank);
+            }
+          } else if (e.key === "Escape") {
+            hideBankDropdown();
+          }
+        });
+      }
+      updateBranchSelect("");
+
+      function updateModelSelect(makerSelect, modelSelect) {
+        if (window.VehicleLinkage && window.VehicleLinkage.updateLightVehicleSelect) {
+          window.VehicleLinkage.updateLightVehicleSelect(makerSelect, modelSelect);
+        }
+      }
+      if (maker && model) { updateModelSelect(maker, model); maker.addEventListener("change", () => { updateModelSelect(maker, model); syncPublicVehicle(); }); }
+      if (publicMaker && publicModel) { updateModelSelect(publicMaker, publicModel); publicMaker.addEventListener("change", () => updateModelSelect(publicMaker, publicModel)); }
+
+      function syncPublicVehicle() {
+        if (publicPrefecture && prefecture) publicPrefecture.value = prefecture.value;
+        if (publicCityManualMode && publicCityManual && cityManual) publicCityManual.value = cityManual.value;
+        else if (publicCity && city) publicCity.value = city.value;
+        if (publicMaker && maker) publicMaker.value = maker.value;
+        updateModelSelect(publicMaker, publicModel);
+        if (publicModel && model) publicModel.value = model.value;
+      }
+      function getCityValue() { return cityManualMode && cityManual ? (cityManual.value || "").trim() : (city && city.value || "").trim(); }
+      function getPublicCityValue() { return publicCityManualMode && publicCityManual ? (publicCityManual.value || "").trim() : (publicCity && publicCity.value || "").trim(); }
+      if (city && city.tagName === "SELECT") city.addEventListener("change", function () { if (publicCity && !publicCityManualMode) publicCity.value = city.value; });
+      if (cityManual) cityManual.addEventListener("input", function () { if (publicCityManual) publicCityManual.value = cityManual.value; });
+      maker.addEventListener("change", syncPublicVehicle);
+      model.addEventListener("change", () => { if (publicModel) publicModel.value = model.value; });
+
+      el("btnZipLookup").addEventListener("click", doZipLookup);
+      postalCode.addEventListener("blur", function () { if ((postalCode.value || "").replace(/\D/g, "").length === 7) doZipLookup(); });
+
+      function doZipLookup() {
+        var zip = (postalCode.value || "").replace(/\D/g, "");
+        if (zip.length !== 7) return;
+        fetch("https://zipcloud.ibsnet.co.jp/api/search?zipcode=" + zip)
+          .then(function (r) { return r.json(); })
+          .then(function (data) {
+            if (data.status !== 200 || !data.results || !data.results[0]) return;
+            var r = data.results[0];
+            var prefVal = (r.address1 || "") || prefecture.value;
+            var cityVal = (r.address2 || "") || "";
+            prefecture.value = prefVal;
+            addressLine.value = (r.address3 || "") || addressLine.value;
+            if (publicPrefecture) publicPrefecture.value = prefVal;
+            loadCitiesForSelect(false, prefVal, cityVal);
+            loadCitiesForSelect(true, prefVal, cityVal);
+            syncPublicVehicle();
+          })
+          .catch(function () { });
+      }
+
+      postalCode.addEventListener("input", function () {
+        this.value = this.value.replace(/\D/g, "").slice(0, 7);
       });
-    });
+      if (accountNumber) accountNumber.addEventListener("input", function () { this.value = (this.value || "").replace(/\D/g, "").slice(0, 7); });
+      if (yuchoStoreCode) yuchoStoreCode.addEventListener("input", function () { this.value = (this.value || "").replace(/\D/g, "").slice(0, 3); });
+      if (yuchoAccountNumber) yuchoAccountNumber.addEventListener("input", function () { this.value = (this.value || "").replace(/\D/g, "").slice(0, 7); });
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('reveal-visible');
-          observer.unobserve(entry.target);
+      function normalizeKana(str) {
+        if (typeof str !== "string") return "";
+        return str.replace(/[ｱ-ﾝ]/g, function (c) {
+          var k = "ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝﾞﾟ".indexOf(c);
+          if (k < 0) return c;
+          return "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワン゛゜".charAt(k);
+        });
+      }
+      function isKanaOnly(str) {
+        if (typeof str !== "string" || !str.length) return false;
+        return /^[\u30A1-\u30F6\u30FC\u30FB\u309B\u309C\u0020\u00A0]+$/.test(str);
+      }
+
+      function makeReceiptId() {
+        const ts = Date.now().toString(36);
+        const r = Math.floor(Math.random() * 1e6).toString(36).padStart(4, "0");
+        return "DRF-" + ts + "-" + r;
+      }
+      function makeDebugId() {
+        const ts = Date.now().toString(36);
+        const r = Math.floor(Math.random() * 1e6).toString(36).padStart(5, "0");
+        return "DBG-" + ts + "-" + r;
+      }
+
+      const allInputs = [fullName, postalCode, prefecture, city, addressLine, maker, model, experienceYears, licenseFront, licenseBack, vehicleFront, vehicleInspection, compulsoryInsurance, voluntaryInsurance, keiCargoNotification, bankSearch, branchSelect, accountType, accountNumber, accountHolderKana, yuchoStoreName, yuchoStoreCode, yuchoAccountNumber, yuchoAccountHolderKana, cargoInsurance, nickname, publicPrefecture, publicCity, publicMaker, publicModel, publicAppeal, agree, cityManual, publicCityManual];
+      const agreeLabelEl = el("agreeLabel");
+      const agreeErrorTextEl = el("agreeErrorText");
+      function clearInvalid() {
+        allInputs.forEach(x => {
+          if (!x) return;
+          x.classList.remove("is-invalid");
+        });
+        if (agreeLabelEl) agreeLabelEl.classList.remove("is-invalid");
+        if (agreeErrorTextEl) { agreeErrorTextEl.textContent = ""; agreeErrorTextEl.style.display = "none"; }
+      }
+
+      function setError(msg, debugId) {
+        errorText.textContent = msg;
+        if (errorDebugIdEl) errorDebugIdEl.textContent = debugId ? "追跡ID: " + debugId : "";
+        errorBox.style.display = "";
+        successBox.style.display = "none";
+        errorBox.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+
+      function fileToDataUrl(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(String(reader.result || ""));
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
+      }
+
+      function getFile(input) {
+        return (input && input.files && input.files[0]) ? input.files[0] : null;
+      }
+
+      function checkSize(file, inputEl) {
+        if (!file) return true;
+        if (file.size <= MAX_MB * 1024 * 1024) return true;
+        if (inputEl) inputEl.classList.add("is-invalid");
+        setError("ファイルが大きすぎます（上限 " + MAX_MB + "MB）。：" + (file.name || "file"));
+        return false;
+      }
+
+      function validate() {
+        clearInvalid();
+        errorBox.style.display = "none";
+        var firstInvalidEl = null;
+
+        var n = (fullName.value || "").trim();
+        var pc = (postalCode.value || "").replace(/\D/g, "");
+        var pref = (prefecture.value || "").trim();
+        var c = getCityValue();
+        var al = (addressLine.value || "").trim();
+        var m = (maker.value || "").trim();
+        var mod = (model.value || "").trim();
+        var exp = (experienceYears.value || "").trim();
+        var nick = (nickname.value || "").trim();
+        var pubPref = (publicPrefecture.value || "").trim();
+        var pubCity = getPublicCityValue();
+        var pubMaker = (publicMaker.value || "").trim();
+        var pubModel = (publicModel.value || "").trim();
+        var pubAppeal = (publicAppeal.value || "").trim();
+
+        var fLf = getFile(licenseFront);
+        var fLb = getFile(licenseBack);
+        var fVf = getFile(vehicleFront);
+        var fVi = getFile(vehicleInspection);
+        var fCo = getFile(compulsoryInsurance);
+        var fVo = getFile(voluntaryInsurance);
+        var fKei = getFile(keiCargoNotification);
+        var fCi = getFile(cargoInsurance);
+        var bankKind = (document.querySelector("input[name=bankKind]:checked") && document.querySelector("input[name=bankKind]:checked").value) || "bank";
+        var bCode = (bankCodeHidden && bankCodeHidden.value || "").trim();
+        var brCode = (branchSelect && branchSelect.value || "").trim();
+        var bankObj = BANKS.filter(function (b) { return (b.code || "").toString() === bCode; })[0];
+        var branchObj = (bankObj && bankObj.branches) ? bankObj.branches.filter(function (br) { var c = (br.code || "").toString(); c = c.length >= 3 ? c.slice(-3) : c.padStart(3, "0"); return c === brCode; })[0] : null;
+        var bName = (bankObj && (bankObj.name || bankObj.bank_name)) || "";
+        var bBranch = (branchObj && (branchObj.name || branchObj.branch_name)) || "";
+        var bType = (accountType && accountType.value || "").trim();
+        var bNum = (accountNumber && accountNumber.value || "").replace(/\D/g, "");
+        var bKana = normalizeKana((accountHolderKana && accountHolderKana.value || "").trim());
+        var yStore = (yuchoStoreName && yuchoStoreName.value || "").trim();
+        var yCode = (yuchoStoreCode && yuchoStoreCode.value || "").replace(/\D/g, "");
+        var yNum = (yuchoAccountNumber && yuchoAccountNumber.value || "").replace(/\D/g, "");
+        var yKana = normalizeKana((yuchoAccountHolderKana && yuchoAccountHolderKana.value || "").trim());
+
+        if (!n) { fullName.classList.add("is-invalid"); return { ok: false, msg: "氏名を入力してください。", firstInvalidEl: fullName }; }
+        if (pc.length !== 7) { postalCode.classList.add("is-invalid"); return { ok: false, msg: "郵便番号を7桁で入力してください。", firstInvalidEl: postalCode }; }
+        if (!pref) { prefecture.classList.add("is-invalid"); return { ok: false, msg: "都道府県を選択してください。", firstInvalidEl: prefecture }; }
+        if (!c) { (cityManualMode && cityManual ? cityManual : city).classList.add("is-invalid"); return { ok: false, msg: "市区町村を入力してください。", firstInvalidEl: (cityManualMode && cityManual) ? cityManual : city }; }
+        if (!al) { addressLine.classList.add("is-invalid"); return { ok: false, msg: "町名・番地以降を入力してください。", firstInvalidEl: addressLine }; }
+        if (!m) { maker.classList.add("is-invalid"); return { ok: false, msg: "車両メーカーを選択してください。", firstInvalidEl: maker }; }
+        if (!mod) { model.classList.add("is-invalid"); return { ok: false, msg: "車種を選択してください。", firstInvalidEl: model }; }
+        if (!exp) { experienceYears.classList.add("is-invalid"); return { ok: false, msg: "経験年数を選択してください。", firstInvalidEl: experienceYears }; }
+
+        if (!fLf) { licenseFront.classList.add("is-invalid"); return { ok: false, msg: "運転免許証（表）を添付してください。", firstInvalidEl: licenseFront }; }
+        if (!fLb) { licenseBack.classList.add("is-invalid"); return { ok: false, msg: "運転免許証（裏）を添付してください。", firstInvalidEl: licenseBack }; }
+        if (!fVf) { vehicleFront.classList.add("is-invalid"); return { ok: false, msg: "車両前面写真を添付してください。", firstInvalidEl: vehicleFront }; }
+        if (!fVi) { vehicleInspection.classList.add("is-invalid"); return { ok: false, msg: "車検証を添付してください。", firstInvalidEl: vehicleInspection }; }
+        if (!fCo) { compulsoryInsurance.classList.add("is-invalid"); return { ok: false, msg: "自賠責を添付してください。", firstInvalidEl: compulsoryInsurance }; }
+        if (!fVo) { voluntaryInsurance.classList.add("is-invalid"); return { ok: false, msg: "任意保険を添付してください。", firstInvalidEl: voluntaryInsurance }; }
+        if (!fKei) { keiCargoNotification.classList.add("is-invalid"); return { ok: false, msg: "経営届出書（受領印あり）を添付してください。", firstInvalidEl: keiCargoNotification }; }
+
+        if (bankKind === "bank") {
+          if (!bCode) { if (bankSearch) bankSearch.classList.add("is-invalid"); return { ok: false, msg: "銀行名を検索して選択してください。", firstInvalidEl: bankSearch }; }
+          if (!brCode) { if (branchSelect) branchSelect.classList.add("is-invalid"); return { ok: false, msg: "支店を選択してください。", firstInvalidEl: branchSelect }; }
+          if (bType !== "普通" && bType !== "当座" && bType !== "その他") { if (accountType) accountType.classList.add("is-invalid"); return { ok: false, msg: "口座種別は「普通」「当座」「その他」のいずれかを選択してください。", firstInvalidEl: accountType }; }
+          if (bNum.length < 6 || bNum.length > 7) { if (accountNumber) accountNumber.classList.add("is-invalid"); return { ok: false, msg: "口座番号は6〜7桁で入力してください。", firstInvalidEl: accountNumber }; }
+          if (!bKana) { if (accountHolderKana) accountHolderKana.classList.add("is-invalid"); return { ok: false, msg: "口座名義（カナ）を入力してください。", firstInvalidEl: accountHolderKana }; }
+          if (!isKanaOnly(bKana)) { if (accountHolderKana) accountHolderKana.classList.add("is-invalid"); return { ok: false, msg: "口座名義はカタカナで入力してください。", firstInvalidEl: accountHolderKana }; }
+        } else {
+          if (!yStore) { if (yuchoStoreName) yuchoStoreName.classList.add("is-invalid"); return { ok: false, msg: "ゆうちょの店名を入力してください。", firstInvalidEl: yuchoStoreName }; }
+          if (yCode.length !== 3) { if (yuchoStoreCode) yuchoStoreCode.classList.add("is-invalid"); return { ok: false, msg: "ゆうちょの店番は3桁で入力してください。", firstInvalidEl: yuchoStoreCode }; }
+          if (yNum.length !== 7) { if (yuchoAccountNumber) yuchoAccountNumber.classList.add("is-invalid"); return { ok: false, msg: "ゆうちょの口座番号は7桁で入力してください。", firstInvalidEl: yuchoAccountNumber }; }
+          if (!yKana) { if (yuchoAccountHolderKana) yuchoAccountHolderKana.classList.add("is-invalid"); return { ok: false, msg: "口座名義（カナ）を入力してください。", firstInvalidEl: yuchoAccountHolderKana }; }
+          if (!isKanaOnly(yKana)) { if (yuchoAccountHolderKana) yuchoAccountHolderKana.classList.add("is-invalid"); return { ok: false, msg: "口座名義はカタカナで入力してください。", firstInvalidEl: yuchoAccountHolderKana }; }
+        }
+
+        if (!checkSize(fLf, licenseFront)) return { ok: false, firstInvalidEl: licenseFront };
+        if (!checkSize(fLb, licenseBack)) return { ok: false, firstInvalidEl: licenseBack };
+        if (!checkSize(fVf, vehicleFront)) return { ok: false, firstInvalidEl: vehicleFront };
+        if (!checkSize(fVi, vehicleInspection)) return { ok: false, firstInvalidEl: vehicleInspection };
+        if (!checkSize(fCo, compulsoryInsurance)) return { ok: false, firstInvalidEl: compulsoryInsurance };
+        if (!checkSize(fVo, voluntaryInsurance)) return { ok: false, firstInvalidEl: voluntaryInsurance };
+        if (!checkSize(fKei, keiCargoNotification)) return { ok: false, firstInvalidEl: keiCargoNotification };
+        if (fCi && !checkSize(fCi, cargoInsurance)) return { ok: false, firstInvalidEl: cargoInsurance };
+
+        if (!nick) { nickname.classList.add("is-invalid"); return { ok: false, msg: "ニックネーム（公開）を入力してください。", firstInvalidEl: nickname }; }
+        if (!pubPref) { publicPrefecture.classList.add("is-invalid"); return { ok: false, msg: "公開用の都道府県を選択してください。", firstInvalidEl: publicPrefecture }; }
+        if (!pubCity) { (publicCityManualMode && publicCityManual ? publicCityManual : publicCity).classList.add("is-invalid"); return { ok: false, msg: "公開用の市区町村を入力してください。", firstInvalidEl: (publicCityManualMode && publicCityManual) ? publicCityManual : publicCity }; }
+        if (!pubMaker) { publicMaker.classList.add("is-invalid"); return { ok: false, msg: "公開用のメーカーを選択してください。", firstInvalidEl: publicMaker }; }
+        if (!pubModel) { publicModel.classList.add("is-invalid"); return { ok: false, msg: "公開用の車種を選択してください。", firstInvalidEl: publicModel }; }
+        if (!pubAppeal) { publicAppeal.classList.add("is-invalid"); return { ok: false, msg: "アピールポイント（公開）を入力してください。", firstInvalidEl: publicAppeal }; }
+
+        if (!agree.checked) {
+          agree.classList.add("is-invalid");
+          if (agreeLabelEl) agreeLabelEl.classList.add("is-invalid");
+          if (agreeErrorTextEl) { agreeErrorTextEl.textContent = "同意にチェックを入れてください。"; agreeErrorTextEl.style.display = ""; }
+          return { ok: false, msg: "同意にチェックを入れてください。", firstInvalidEl: agree };
+        }
+
+        if (!ENDPOINT || ENDPOINT === "あとで貼る") {
+          return { ok: false, msg: "送信先（GAS_ENDPOINT）が未設定です（config.js を確認してください）。", firstInvalidEl: null };
+        }
+
+        var addressFull = pref + c + al;
+        var manualMode = cityManualMode || publicCityManualMode;
+        var bankAccount = {
+          manualMode: manualMode,
+          bank: bankKind === "bank" ? {
+            bankCode: bCode,
+            bankName: bName,
+            branchCode: brCode,
+            branchName: bBranch,
+            accountType: bType,
+            otherTypeText: (bType === "その他" && otherTypeText) ? (otherTypeText.value || "").trim() : undefined,
+            accountNumber: bNum,
+            accountHolderKana: bKana
+          } : undefined,
+          yucho: bankKind === "yucho" ? {
+            storeName: yStore,
+            storeCode: yCode,
+            accountNumber: yNum,
+            accountHolderKana: yKana
+          } : undefined
+        };
+        return {
+          ok: true,
+          data: {
+            n, addressFull, postalCode: pc, prefecture: pref, city: c, addressLine: al,
+            maker: m, model: mod, experienceYears: exp,
+            nickname: nick, publicPrefecture: pubPref, publicCity: pubCity, publicMaker: pubMaker, publicModel: pubModel, publicAppeal: pubAppeal,
+            bankAccount: bankAccount,
+            fLf, fLb, fVf, fVi, fCo, fVo, fKei, fCi
+          }
+        };
+      }
+
+      function updateHint() {
+        hintText.textContent = "上限：" + MAX_MB + "MB（各ファイル）。";
+      }
+      updateHint();
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const v = validate();
+        if (!v.ok) {
+          if (v.msg) setError(v.msg, "");
+          if (v.firstInvalidEl) {
+            if (v.firstInvalidEl.scrollIntoView) v.firstInvalidEl.scrollIntoView({ behavior: "smooth", block: "center" });
+            try { if (v.firstInvalidEl.focus) v.firstInvalidEl.focus({ preventScroll: false }); } catch (err) { }
+          }
+          return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = "<span class=\"inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2\"></span>送信中…";
+        errorBox.style.display = "none";
+        successBox.style.display = "none";
+
+        const rid = makeReceiptId();
+        const debugId = makeDebugId();
+        const d = v.data;
+
+        try {
+          const lfUrl = await fileToDataUrl(d.fLf);
+          const lbUrl = await fileToDataUrl(d.fLb);
+          const vfUrl = await fileToDataUrl(d.fVf);
+          const viUrl = await fileToDataUrl(d.fVi);
+          const coUrl = await fileToDataUrl(d.fCo);
+          const voUrl = await fileToDataUrl(d.fVo);
+          const keiUrl = await fileToDataUrl(d.fKei);
+          const ciUrl = d.fCi ? await fileToDataUrl(d.fCi) : "";
+
+          const files = {
+            licenseFront: { name: d.fLf.name || "licenseFront", type: d.fLf.type || "", dataUrl: lfUrl },
+            licenseBack: { name: d.fLb.name || "licenseBack", type: d.fLb.type || "", dataUrl: lbUrl },
+            vehicleFront: { name: d.fVf.name || "vehicleFront", type: d.fVf.type || "", dataUrl: vfUrl },
+            vehicleInspection: { name: d.fVi.name || "vehicleInspection", type: d.fVi.type || "", dataUrl: viUrl },
+            compulsoryInsurance: { name: d.fCo.name || "compulsoryInsurance", type: d.fCo.type || "", dataUrl: coUrl },
+            voluntaryInsurance: { name: d.fVo.name || "voluntaryInsurance", type: d.fVo.type || "", dataUrl: voUrl },
+            keiCargoNotification: { name: d.fKei.name || "keiCargoNotification", type: d.fKei.type || "", dataUrl: keiUrl }
+          };
+          if (d.fCi) files.cargoInsurance = { name: d.fCi.name || "cargoInsurance", type: d.fCi.type || "", dataUrl: ciUrl };
+
+          const bodyObj = {
+            type: "driver_full_register",
+            receiptId: rid,
+            debugId: debugId,
+            data: {
+              fullName: d.n,
+              address: d.addressFull,
+              postalCode: d.postalCode,
+              prefecture: d.prefecture,
+              city: d.city,
+              addressLine: d.addressLine,
+              maker: d.maker,
+              model: d.model,
+              experienceYears: d.experienceYears,
+              bankAccount: d.bankAccount || {},
+              publicProfile: {
+                nickname: d.nickname,
+                prefecture: d.publicPrefecture,
+                city: d.publicCity,
+                vehicle: d.publicMaker + " " + d.publicModel,
+                maker: d.publicMaker,
+                model: d.publicModel,
+                experienceYears: d.experienceYears,
+                experience: d.experienceYears,
+                appeal: d.publicAppeal,
+                message: d.publicAppeal,
+                tools: ""
+              },
+              consent: true
+            },
+            files: files
+          };
+
+          const res = await fetch(ENDPOINT, {
+            method: "POST",
+            headers: { "Content-Type": "text/plain" },
+            body: JSON.stringify(bodyObj)
+          });
+
+          var json = null;
+          try {
+            const text = await res.text();
+            if (text && text.trim()) json = JSON.parse(text);
+          } catch (parseErr) { }
+
+          if (json && typeof json.ok === "boolean") {
+            if (json.ok === true) {
+              receiptIdEl.textContent = rid;
+              if (successDebugIdEl) successDebugIdEl.textContent = json.debugId || debugId;
+              successBox.style.display = "";
+              errorBox.style.display = "none";
+              window.location.href = "thankyou.html?receiptId=" + encodeURIComponent(rid) + "&debugId=" + encodeURIComponent(json.debugId || debugId);
+              return;
+            } else {
+              setError((json.message || "送信できませんでした。") + (json.debugId ? " 追跡ID: " + json.debugId : ""), json.debugId || debugId);
+              return;
+            }
+          }
+
+          setError("送信結果を確認できませんでした（未確認）。Jobsで追跡できます。", debugId);
+        } catch (err) {
+          setError("通信エラーで送信できませんでした。時間をおいて再度お試しください。追跡ID: " + debugId, debugId);
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<i data-lucide="send" class="w-4 h-4"></i> 送信する';
+          lucide.createIcons();
         }
       });
-    }, { threshold: 0.05, rootMargin: "0px 0px -40px 0px" });
-    document.querySelectorAll('.reveal-hidden').forEach(elm => observer.observe(elm));
 
-    (function initNavOverlay() {
-      var overlay = document.getElementById("nav-overlay");
-      var toggle = document.getElementById("menu-toggle");
-      var closeBtn = document.getElementById("menu-close");
-      if (!overlay || !toggle) return;
-      function openMenu() { overlay.setAttribute("aria-hidden", "false"); toggle.setAttribute("aria-expanded", "true"); }
-      function closeMenu() { overlay.setAttribute("aria-hidden", "true"); toggle.setAttribute("aria-expanded", "false"); }
-      toggle.addEventListener("click", function() { overlay.getAttribute("aria-hidden") === "true" ? openMenu() : closeMenu(); });
-      if (closeBtn) closeBtn.addEventListener("click", closeMenu);
-      overlay.querySelectorAll("a").forEach(function(a) { a.addEventListener("click", closeMenu); });
-      document.addEventListener("keydown", function(e) { if (e.key === "Escape") closeMenu(); });
-    })();
+      document.addEventListener('mousemove', (e) => {
+        document.querySelectorAll('.glass-card').forEach(card => {
+          const rect = card.getBoundingClientRect();
+          card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+          card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+        });
+      });
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('reveal-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.05, rootMargin: "0px 0px -40px 0px" });
+      document.querySelectorAll('.reveal-hidden').forEach(elm => observer.observe(elm));
+
+      (function initNavOverlay() {
+        var overlay = document.getElementById("nav-overlay");
+        var toggle = document.getElementById("menu-toggle");
+        var closeBtn = document.getElementById("menu-close");
+        if (!overlay || !toggle) return;
+        function openMenu() { overlay.setAttribute("aria-hidden", "false"); toggle.setAttribute("aria-expanded", "true"); }
+        function closeMenu() { overlay.setAttribute("aria-hidden", "true"); toggle.setAttribute("aria-expanded", "false"); }
+        toggle.addEventListener("click", function () { overlay.getAttribute("aria-hidden") === "true" ? openMenu() : closeMenu(); });
+        if (closeBtn) closeBtn.addEventListener("click", closeMenu);
+        overlay.querySelectorAll("a").forEach(function (a) { a.addEventListener("click", closeMenu); });
+        document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeMenu(); });
+      })();
 
     })();
   </script>
   <script src="./assets/transition.js" defer></script>
   <script src="./assets/effects.js" defer></script>
 </body>
+
 </html>

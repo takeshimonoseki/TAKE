@@ -30,10 +30,10 @@
   function forceDarkBackground() {
     try {
       // CSS変数(--bg)があるならそれを優先（色替えに追従）
-      var bg = getCssVar("--bg", "#0B1220");
+      var bg = getCssVar("--bg", "#FBF7EF");
       if (root) root.style.backgroundColor = bg;
       if (document.body) document.body.style.backgroundColor = bg;
-    } catch (e) {}
+    } catch (e) { }
   }
 
   function injectLineBadgeFixCssOnce() {
@@ -46,7 +46,7 @@
         ".line-qr-box{position:relative;}" +
         ".line-qr-box::after{content:\"LINE\";position:absolute;top:-10px;right:-10px;padding:2px 8px;border-radius:9999px;background:#06C755;color:#fff;font-size:10px;font-weight:800;letter-spacing:0.08em;box-shadow:0 10px 24px rgba(0,0,0,0.25);}";
       document.head.appendChild(style);
-    } catch (e) {}
+    } catch (e) { }
   }
 
   function ensureLineQrBoxClass() {
@@ -56,7 +56,7 @@
       var p = img.parentElement;
       if (!p) return;
       if (!p.classList.contains("line-qr-box")) p.classList.add("line-qr-box");
-    } catch (e) {}
+    } catch (e) { }
   }
 
   function injectSubmitGuardCssOnce() {
@@ -65,17 +65,17 @@
       var style = document.createElement("style");
       style.id = "take-submit-guard-style";
       style.textContent =
-        "#take-submit-overlay{position:fixed;inset:0;z-index:2147483646;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(0,0,0,0.58);backdrop-filter:blur(8px);}" +
+        "#take-submit-overlay{position:fixed;inset:0;z-index:2147483646;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(251,247,239,0.72);backdrop-filter:blur(8px);}" +
         "#take-submit-overlay[aria-hidden=\"false\"]{display:flex;}" +
-        "#take-submit-overlay .box{width:min(560px,100%);border-radius:20px;border:1px solid rgba(255,255,255,0.12);background:rgba(11,31,59,0.92);box-shadow:0 18px 40px rgba(0,0,0,0.45);padding:18px 18px 16px;}" +
+        "#take-submit-overlay .box{width:min(560px,100%);border-radius:20px;border:1px solid rgba(7,43,51,0.12);background:rgba(255,255,255,0.94);box-shadow:0 18px 40px rgba(7,43,51,0.10);padding:18px 18px 16px;}" +
         "#take-submit-overlay .row{display:flex;gap:12px;align-items:center;}" +
-        "#take-submit-overlay .spin{width:18px;height:18px;border-radius:9999px;border:2px solid rgba(255,255,255,0.25);border-top-color:#2DD4BF;animation:takeSpin .8s linear infinite;flex:0 0 auto;}" +
-        "#take-submit-overlay .title{font-weight:900;color:rgba(255,255,255,0.94);font-size:14px;}" +
-        "#take-submit-overlay .desc{margin-top:8px;color:rgba(255,255,255,0.78);font-size:12px;line-height:1.5;}" +
-        "#take-submit-overlay .timer{margin-top:10px;color:rgba(255,255,255,0.70);font-size:12px;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,\"Liberation Mono\",\"Courier New\",monospace;}" +
+        "#take-submit-overlay .spin{width:18px;height:18px;border-radius:9999px;border:2px solid rgba(7,43,51,0.12);border-top-color:#1AA7A1;animation:takeSpin .8s linear infinite;flex:0 0 auto;}" +
+        "#take-submit-overlay .title{font-weight:900;color:rgba(7,43,51,0.92);font-size:14px;}" +
+        "#take-submit-overlay .desc{margin-top:8px;color:rgba(7,43,51,0.65);font-size:12px;line-height:1.5;}" +
+        "#take-submit-overlay .timer{margin-top:10px;color:rgba(7,43,51,0.50);font-size:12px;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,\"Liberation Mono\",\"Courier New\",monospace;}" +
         "@keyframes takeSpin{to{transform:rotate(360deg);}}";
       document.head.appendChild(style);
-    } catch (e) {}
+    } catch (e) { }
   }
 
   function ensureSubmitOverlay() {
@@ -152,7 +152,7 @@
           window.onbeforeunload = function () {
             return "送信中です。完了までこのままお待ちください。";
           };
-        } catch (e) {}
+        } catch (e) { }
       }
 
       function startTimer() {
@@ -194,21 +194,21 @@
         try {
           if (btn.disabled) showOverlay();
           else hideOverlay();
-        } catch (e) {}
+        } catch (e) { }
       });
       mo.observe(btn, { attributes: true, attributeFilter: ["disabled"] });
 
       // 初期状態
       if (btn.disabled) showOverlay();
       else hideOverlay();
-    } catch (e) {}
+    } catch (e) { }
   }
 
   function markEnter() {
     try {
       root.classList.add("is-enter");
       root.classList.remove("is-leave");
-    } catch (e) {}
+    } catch (e) { }
   }
 
   function handleReady() {
@@ -236,7 +236,7 @@
 
   window.addEventListener("pageshow", function () {
     forceDarkBackground();
-    try { if (root) root.classList.remove("is-leave"); } catch (e) {}
+    try { if (root) root.classList.remove("is-leave"); } catch (e) { }
     handleReady();
   });
 })();

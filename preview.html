@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="color-scheme" content="light" />
+  <meta name="theme-color" content="#fff8f5" />
+  <title>登録したらこう見えます｜表示例</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fff8f5;
+      --bg-blush: linear-gradient(180deg, #fff8f5 0%, #fff0eb 50%, #fff5f2 100%);
+      --text: #2d1f2d;
+      --text-muted: #5c4a5c;
+      --accent: #c97b8a;
+      --accent-muted: rgba(201, 123, 138, 0.22);
+      --sakura-light: rgba(255, 218, 224, 0.5);
+      --card-bg: #fff;
+      --card-border: rgba(201, 123, 138, 0.12);
+      --shadow-hover: 0 6px 16px rgba(201, 123, 138, 0.12);
+      --radius: 12px;
+      --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg-blush);
+      color: var(--text);
+      font-family: Inter, system-ui, -apple-system, "Noto Sans JP", sans-serif;
+      min-height: 100%;
+    }
+
+    .preview-page {
+      max-width: 420px;
+      margin: 0 auto;
+      padding: 24px 16px 48px;
+      position: relative;
+    }
+    .preview-page::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 180px;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, var(--sakura-light), transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .preview-header {
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+    .preview-header h1 {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text);
+      margin: 0 0 8px;
+      letter-spacing: 0.02em;
+    }
+    .preview-header p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin: 0;
+    }
+    .preview-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      text-decoration: none;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1;
+    }
+    .preview-back:hover {
+      text-decoration: underline;
+    }
+
+    .feed {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .feed-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: transform 150ms var(--ease), box-shadow 150ms var(--ease);
+      box-shadow: 0 2px 8px rgba(201, 123, 138, 0.06);
+    }
+    .feed-card:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+    }
+    .card-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, var(--accent-muted) 0%, rgba(201, 123, 138, 0.1) 100%);
+      border: 1px solid rgba(201, 123, 138, 0.25);
+    }
+    .card-avatar.av2 {
+      background: linear-gradient(135deg, rgba(201, 123, 138, 0.2) 0%, rgba(255, 218, 224, 0.3) 100%);
+    }
+    .card-avatar.av3 {
+      background: linear-gradient(225deg, rgba(201, 123, 138, 0.25) 0%, rgba(255, 200, 210, 0.2) 100%);
+    }
+    .card-meta {
+      flex: 1;
+      min-width: 0;
+    }
+    .card-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      margin: 0;
+    }
+    .card-id {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .card-image {
+      aspect-ratio: 16 / 9;
+      background: linear-gradient(145deg, rgba(201, 123, 138, 0.12) 0%, rgba(255, 218, 224, 0.2) 50%, rgba(255, 240, 245, 0.3) 100%);
+      border-top: 1px solid var(--card-border);
+      border-bottom: 1px solid var(--card-border);
+    }
+    .card-image.img2 {
+      background: linear-gradient(180deg, rgba(255, 218, 224, 0.35) 0%, rgba(201, 123, 138, 0.08) 100%);
+    }
+    .card-image.img3 {
+      background: repeating-linear-gradient(
+        -45deg,
+        rgba(201, 123, 138, 0.08),
+        rgba(201, 123, 138, 0.08) 8px,
+        rgba(255, 218, 224, 0.15) 8px,
+        rgba(255, 218, 224, 0.15) 16px
+      );
+    }
+
+    .card-info {
+      padding: 12px 16px 14px;
+    }
+    .card-info-row {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      line-height: 1.45;
+    }
+    .card-info-row:last-of-type {
+      margin-bottom: 12px;
+    }
+    .card-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .card-chip {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 6px;
+      background: var(--accent-muted);
+      color: var(--accent);
+      border: 1px solid rgba(201, 123, 138, 0.25);
+    }
+  </style>
+</head>
+<body>
+  <div class="preview-page">
+    <a href="./index.html" class="preview-back">← トップへ戻る</a>
+
+    <header class="preview-header">
+      <h1>登録したらこう見えます</h1>
+      <p>お客さま向けページでの表示例（サンプル）</p>
+    </header>
+
+    <div class="feed">
+      <article class="feed-card">
+        <div class="card-header">
+          <div class="card-avatar"></div>
+          <div class="card-meta">
+            <p class="card-name">やまぐち太郎</p>
+            <p class="card-id">ID: D-001</p>
+          </div>
+        </div>
+        <div class="card-image"></div>
+        <div class="card-info">
+          <p class="card-info-row">下関市・長門市｜トヨタ・ハイゼットカーゴ</p>
+          <div class="card-chips">
+            <span class="card-chip">夜間OK</span>
+            <span class="card-chip">早朝OK</span>
+            <span class="card-chip">長距離OK</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="feed-card">
+        <div class="card-header">
+          <div class="card-avatar av2"></div>
+          <div class="card-meta">
+            <p class="card-name">みかんドライバー</p>
+            <p class="card-id">ID: D-002</p>
+          </div>
+        </div>
+        <div class="card-image img2"></div>
+        <div class="card-info">
+          <p class="card-info-row">宇部市・山陽小野田市｜日産・NV200バネット</p>
+          <div class="card-chips">
+            <span class="card-chip">週末対応</span>
+            <span class="card-chip">積み下ろしOK</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="feed-card">
+        <div class="card-header">
+          <div class="card-avatar av3"></div>
+          <div class="card-meta">
+            <p class="card-name">のびのび運転</p>
+            <p class="card-id">ID: D-003</p>
+          </div>
+        </div>
+        <div class="card-image img3"></div>
+        <div class="card-info">
+          <p class="card-info-row">山口市・防府市｜スズキ・エブリイ</p>
+          <div class="card-chips">
+            <span class="card-chip">夜間OK</span>
+            <span class="card-chip">早朝OK</span>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,19 +1,20 @@
 /* ① path: drivers.css */
 :root {
-  /* Trust Navy + Teal (+ CTA Amber) */
-  --bg: #0B1220;
-  --surface: rgba(255, 255, 255, 0.06);
-  --text: rgba(232, 238, 246, 0.92);
-  --muted: rgba(169, 183, 198, 0.72);
-  --accent: #2DD4BF;
-  --cream: #F5F7FB;
-  --border: rgba(255, 255, 255, 0.12);
+  /* Spring Palette — 春の朝 */
+  --bg: #FBF7EF;
+  --surface: rgba(255, 255, 255, 0.88);
+  --text: rgba(7, 43, 51, 0.92);
+  --muted: rgba(7, 43, 51, 0.55);
+  --accent: #1AA7A1;
+  --cream: #FBF7EF;
+  --border: rgba(7, 43, 51, 0.14);
 
-  /* optional helpers (safe: CSS変数を増やすだけ) */
-  --navy: #0B1220;
-  --navy-2: #0B1F3B;
-  --primary: #2E6EF7;
+  /* optional helpers */
+  --deep: #072B33;
+  --deep-2: #0A3D47;
+  --primary: #1AA7A1;
   --cta: #F59E0B;
+  --sakura: #F6B8D0;
 
   --bg-deep: var(--bg);
   --bg-card: var(--surface);
@@ -21,8 +22,8 @@
   --text-muted: var(--muted);
   --border-color: var(--border);
 
-  --shadow-soft: 0 10px 28px rgba(0,0,0,0.28);
-  --shadow-card: 0 18px 40px rgba(0,0,0,0.35);
+  --shadow-soft: 0 10px 28px rgba(7,43,51,0.06);
+  --shadow-card: 0 18px 40px rgba(7,43,51,0.08);
 
   --radius-card: 24px;
   --radius-pill: 999px;
@@ -30,7 +31,7 @@
   --ease: cubic-bezier(.2,.8,.2,1);
 
   --line-green: #06C755;
-  --focus: rgba(45,212,191,0.35);
+  --focus: rgba(26,167,161,0.35);
 }
 
 * { box-sizing: border-box; }
@@ -43,27 +44,27 @@ html, body {
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans JP", sans-serif;
 }
 
-/* セレクトのドロップダウンを暗い背景にして文字を見えるように（白背景で文字が消えるのを防止） */
+/* セレクトのドロップダウン（ライトテーマ） */
 select {
-  color-scheme: dark;
+  color-scheme: light;
 }
 select option {
-  background: #1e293b;
-  color: #fff;
+  background: #ffffff;
+  color: #072B33;
 }
 
 a { color: inherit; text-decoration: none; }
 img { max-width: 100%; display: block; }
-hr { border: 0; border-top: 1px solid rgba(255,255,255,0.10); margin: 24px 0; }
+hr { border: 0; border-top: 1px solid rgba(7,43,51,0.10); margin: 24px 0; }
 
 /* ===== Header ===== */
 body > header {
   position: sticky !important;
   top: 0 !important;
   z-index: 1000 !important;
-  background: rgba(11, 31, 59, 0.92) !important;
+  background: rgba(251, 247, 239, 0.92) !important;
   backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(255,255,255,0.12);
+  border-bottom: 1px solid rgba(7,43,51,0.10);
 }
 
 body > header .header-inner {
@@ -84,19 +85,42 @@ body > header .header-inner {
   gap: 8px;
   padding: 8px 12px;
   border-radius: var(--radius-pill);
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.12);
-  color: rgba(255,255,255,0.80);
+  background: rgba(7,43,51,0.04);
+  border: 1px solid rgba(7,43,51,0.12);
+  color: rgba(7,43,51,0.80);
   font-size: 13px;
   font-weight: 800;
   transition: transform .12s var(--ease), background .18s var(--ease), border-color .18s var(--ease);
 }
 .chip:hover {
-  background: rgba(255,255,255,0.07);
-  border-color: rgba(255,255,255,0.20);
+  background: rgba(7,43,51,0.07);
+  border-color: rgba(7,43,51,0.20);
 }
 .chip:active { transform: translateY(1px) scale(0.99); }
 .chip i { width: 16px; height: 16px; }
+
+/* ===== トップページ：メインCTA（仮登録）・サブCTA ===== */
+[data-page="top"] .chip-primary {
+  padding: 12px 22px !important;
+  font-size: 15px !important;
+  background: linear-gradient(135deg, rgba(26,167,161,0.18) 0%, rgba(26,167,161,0.08) 100%) !important;
+  border: 1px solid rgba(26,167,161,0.45) !important;
+  color: #072B33 !important;
+  box-shadow: 0 4px 20px rgba(26,167,161,0.12), 0 0 0 1px rgba(26,167,161,0.08) !important;
+}
+[data-page="top"] .chip-primary:hover {
+  background: linear-gradient(135deg, rgba(26,167,161,0.28) 0%, rgba(26,167,161,0.14) 100%) !important;
+  border-color: rgba(26,167,161,0.60) !important;
+  box-shadow: 0 6px 28px rgba(26,167,161,0.18), 0 0 0 1px rgba(26,167,161,0.12) !important;
+}
+[data-page="top"] .chip-secondary {
+  font-size: 12px !important;
+  padding: 6px 14px !important;
+  opacity: 0.9;
+}
+[data-page="top"] .chip-secondary:hover {
+  opacity: 1;
+}
 
 /* ===== PC 1024px以上：LINE導線のみ非表示（QRは表示） ===== */
 @media (min-width: 1024px) {
@@ -121,9 +145,9 @@ img[data-qr="line"],
   position: relative;
   padding: 14px;
   border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: rgba(255,255,255,0.04);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,255,255,0.06);
+  border: 1px solid rgba(7,43,51,0.10);
+  background: rgba(255,255,255,0.80);
+  box-shadow: 0 8px 24px rgba(7,43,51,0.06), 0 0 0 1px rgba(7,43,51,0.04);
 }
 .line-qr-box::after {
   content: "LINE";
@@ -140,7 +164,7 @@ img[data-qr="line"],
 }
 img[data-qr="line"] {
   border-radius: 16px !important;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 12px rgba(7,43,51,0.08);
   background: #fff !important;
   display: block !important;
 }
