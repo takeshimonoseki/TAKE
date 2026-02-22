@@ -16,6 +16,7 @@
     }
   }
 
+<<<<<<< Updated upstream
   function getCssVar(name, fallback) {
     try {
       if (!root) return fallback;
@@ -34,6 +35,13 @@
       if (root) root.style.backgroundColor = bg;
       if (document.body) document.body.style.backgroundColor = bg;
     } catch (e) {}
+=======
+  function forceCreamBackground() {
+    try {
+      if (root) root.style.backgroundColor = "#F2F8F5";
+      if (document.body) document.body.style.backgroundColor = "#F2F8F5";
+    } catch (e) { }
+>>>>>>> Stashed changes
   }
 
   function injectLineBadgeFixCssOnce() {
@@ -46,7 +54,7 @@
         ".line-qr-box{position:relative;}" +
         ".line-qr-box::after{content:\"LINE\";position:absolute;top:-10px;right:-10px;padding:2px 8px;border-radius:9999px;background:#06C755;color:#fff;font-size:10px;font-weight:800;letter-spacing:0.08em;box-shadow:0 10px 24px rgba(0,0,0,0.25);}";
       document.head.appendChild(style);
-    } catch (e) {}
+    } catch (e) { }
   }
 
   function ensureLineQrBoxClass() {
@@ -56,7 +64,7 @@
       var p = img.parentElement;
       if (!p) return;
       if (!p.classList.contains("line-qr-box")) p.classList.add("line-qr-box");
-    } catch (e) {}
+    } catch (e) { }
   }
 
   function injectSubmitGuardCssOnce() {
@@ -208,11 +216,11 @@
     try {
       root.classList.add("is-enter");
       root.classList.remove("is-leave");
-    } catch (e) {}
+    } catch (e) { }
   }
 
   function handleReady() {
-    forceDarkBackground();
+    forceCreamBackground();
     injectLineBadgeFixCssOnce();
     ensureLineQrBoxClass();
     initSubmitGuard();
@@ -235,8 +243,8 @@
   }
 
   window.addEventListener("pageshow", function () {
-    forceDarkBackground();
-    try { if (root) root.classList.remove("is-leave"); } catch (e) {}
+    forceCreamBackground();
+    try { if (root) root.classList.remove("is-leave"); } catch (e) { }
     handleReady();
   });
 })();

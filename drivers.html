@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ja" class="scroll-smooth">
 <head>
-  <style id="critical">html,body{background:#0f1915!important;color:rgba(255,255,255,0.88)!important;min-height:100%!important;}</style>
+  <style id="critical">html,body{background:#F2F8F5!important;color:#1A3A2F!important;min-height:100%!important;}</style>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>公開ドライバー一覧｜drivers-site（山口県）</title>
@@ -15,7 +15,7 @@
     tailwind.config = {
       theme: {
         extend: {
-          colors: { deep: '#0f1915', muted: 'rgba(255,255,255,0.60)', cream: '#f3eadf', accent: '#7aa07a' },
+          colors: { deep: '#F2F8F5', muted: 'rgba(26,58,47,0.62)', cream: '#F2F8F5', accent: '#5BAD97' },
           fontFamily: { sans: ['Inter','sans-serif'], mono: ['JetBrains Mono','monospace'] }
         }
       }
@@ -26,16 +26,16 @@
   <script src="./config.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="bg-deep text-white min-h-screen">
-  <header class="site-header sticky top-0 w-full z-[1000] bg-deep/80 backdrop-blur-xl border-b border-white/5" id="top">
+<body class="bg-deep text-[#1A3A2F] min-h-screen">
+  <header class="site-header sticky top-0 w-full z-[1000] bg-[#F2F8F5]/92 backdrop-blur-xl border-b border-[#1A3A2F]/10" id="top">
     <div class="header-inner max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       <a href="./index.html" class="flex items-center gap-3 group">
-        <div class="hidden sm:flex flex-col items-center justify-center px-3 py-1 bg-white/5 border border-white/10 rounded-full" aria-label="対応地域">
-          <div class="text-[9px] tracking-widest font-extrabold text-white/80" id="regionEn">YAMAGUCHI</div>
-          <div class="text-[9px] font-bold text-white/50" id="regionJa">山口県</div>
+        <div class="hidden sm:flex flex-col items-center justify-center px-3 py-1 bg-[#5BAD97]/8 border border-[#5BAD97]/20 rounded-full" aria-label="対応地域">
+          <div class="text-[9px] tracking-widest font-extrabold text-[#1A3A2F]/80" id="regionEn">YAMAGUCHI</div>
+          <div class="text-[9px] font-bold text-[#1A3A2F]/50" id="regionJa">山口県</div>
         </div>
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#2b3a2f] to-accent flex items-center justify-center shadow-lg shadow-emerald-900/30" aria-hidden="true">
-          <span class="w-4 h-4 rounded-full border-2 border-white/90"></span>
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#5BAD97]/80 to-[#5BAD97] flex items-center justify-center shadow-lg shadow-[#5BAD97]/20" aria-hidden="true">
+          <span class="w-4 h-4 rounded-full border-2 border-white"></span>
         </div>
         <div>
           <div class="text-sm font-black tracking-wide leading-none" id="companyName">軽貨物TAKE</div>
@@ -44,11 +44,11 @@
       </a>
       <div class="flex items-center gap-4 flex-wrap">
         <nav class="hidden md:flex gap-1 flex-wrap" aria-label="メイン">
-          <a href="./index.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-white hover:bg-white/5 transition-colors">トップ</a>
-          <a href="./consult.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-white hover:bg-white/5 transition-colors">相談スタート</a>
-          <a href="./startup.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-white hover:bg-white/5 transition-colors">開業トータル相談</a>
-          <a href="./vehicle.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-white hover:bg-white/5 transition-colors">車両の相談</a>
-          <a href="./register.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-white hover:bg-white/5 transition-colors">仮登録</a>
+          <a href="./index.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-[#1A3A2F] hover:bg-[#5BAD97]/8 transition-colors">トップ</a>
+          <a href="./consult.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-[#1A3A2F] hover:bg-[#5BAD97]/8 transition-colors">相談スタート</a>
+          <a href="./startup.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-[#1A3A2F] hover:bg-[#5BAD97]/8 transition-colors">開業トータル相談</a>
+          <a href="./vehicle.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-[#1A3A2F] hover:bg-[#5BAD97]/8 transition-colors">車両の相談</a>
+          <a href="./register.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-[#1A3A2F] hover:bg-[#5BAD97]/8 transition-colors">仮登録</a>
         </nav>
       </div>
     </div>
@@ -57,21 +57,21 @@
   <main class="pt-20 pb-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto" role="main">
     <div class="mb-8">
       <h1 class="text-2xl sm:text-3xl font-black tracking-tight mb-2">公開ドライバー一覧</h1>
-      <p class="text-sm text-white/60">審査通過した協力ドライバーを掲載しています。</p>
+      <p class="text-sm text-[#1A3A2F]/60">審査通過した協力ドライバーを掲載しています。</p>
     </div>
 
     <div id="drivers-list" class="space-y-4">
-      <div id="drivers-loading" class="glass-card p-8 text-center text-white/60">
+      <div id="drivers-loading" class="glass-card p-8 text-center text-[#1A3A2F]/60">
         <span class="inline-block w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" aria-hidden="true"></span>
         <p class="mt-3 text-sm">読み込み中…</p>
       </div>
-      <div id="drivers-empty" class="glass-card p-8 text-center text-white/70" style="display:none;">
+      <div id="drivers-empty" class="glass-card p-8 text-center text-[#1A3A2F]/70" style="display:none;">
         <p class="text-sm">掲載は審査通過後です。</p>
-        <p class="mt-2 text-xs text-white/50">現在、公開中のドライバーはいません。</p>
+        <p class="mt-2 text-xs text-[#1A3A2F]/50">現在、公開中のドライバーはいません。</p>
       </div>
       <div id="drivers-error" class="glass-card p-6 border border-red-500/20 bg-red-500/5" style="display:none;">
         <p class="text-sm text-red-200" id="drivers-error-text">一覧の取得に失敗しました。</p>
-        <button type="button" id="drivers-retry" class="mt-3 px-4 py-2 rounded-xl bg-white/10 text-white text-sm font-bold hover:bg-white/20 transition-colors">再読み込み</button>
+        <button type="button" id="drivers-retry" class="mt-3 px-4 py-2 rounded-xl bg-white/10 text-[#1A3A2F] text-sm font-bold hover:bg-white/20 transition-colors">再読み込み</button>
       </div>
       <div id="drivers-cards" class="grid gap-4" style="display:none;"></div>
     </div>
@@ -107,17 +107,17 @@
         cardsEl.style.display = "grid";
         list.forEach(function(d) {
           var card = document.createElement("div");
-          card.className = "glass-card p-5 rounded-2xl border border-white/10";
+          card.className = "glass-card p-5 rounded-2xl border border-[#1A3A2F]/10";
           var name = (d.nickname_public || "ドライバー").toString();
           var city = (d.city_public || "").toString();
           var vehicle = (d.vehicleType || "").toString();
           var exp = (d.experience || "").toString();
           var profile = (d.profile || "").toString();
           card.innerHTML =
-            "<div class=\"font-bold text-white mb-1\">" + escapeHtml(name) + "</div>" +
-            (city ? "<div class=\"text-xs text-white/60 mb-2\">" + escapeHtml(city) + (vehicle ? " · " + escapeHtml(vehicle) : "") + "</div>" : "") +
-            (exp ? "<p class=\"text-sm text-white/80 mb-2\">" + escapeHtml(exp) + "</p>" : "") +
-            (profile ? "<p class=\"text-sm text-white/70\">" + escapeHtml(profile) + "</p>" : "");
+            "<div class=\"font-bold text-[#1A3A2F] mb-1\">" + escapeHtml(name) + "</div>" +
+            (city ? "<div class=\"text-xs text-[#1A3A2F]/60 mb-2\">" + escapeHtml(city) + (vehicle ? " · " + escapeHtml(vehicle) : "") + "</div>" : "") +
+            (exp ? "<p class=\"text-sm text-[#1A3A2F]/80 mb-2\">" + escapeHtml(exp) + "</p>" : "") +
+            (profile ? "<p class=\"text-sm text-[#1A3A2F]/70\">" + escapeHtml(profile) + "</p>" : "");
           cardsEl.appendChild(card);
         });
       }

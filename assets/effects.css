@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 /* ② path: effects.css */
 :root{
   --page-dur-enter: 260ms;
@@ -22,11 +23,18 @@
   --fx-skeleton-from: rgba(255, 255, 255, 0.04);
   --fx-skeleton-to: rgba(255, 255, 255, 0.10);
   --fx-scroll-hint-color: rgba(255, 255, 255, 0.40);
+=======
+:root {
+  --page-dur-enter: 260ms;
+  --page-dur-leave: 240ms;
+  --page-blur: 2px;
+  --grain-opacity: 0.03;
+>>>>>>> Stashed changes
 }
 
 /* ごく薄いノイズ（粒状） */
-html::before{
-  content:"";
+html::before {
+  content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
@@ -36,79 +44,132 @@ html::before{
   mix-blend-mode: soft-light;
 }
 
+<<<<<<< Updated upstream
 /* Trust Navy + Teal：ゆっくり光のにじみ */
 body::before{
   content:"";
+=======
+/* オパールグリーン・ゆっくり光のにじみ */
+body::before {
+  content: "";
+>>>>>>> Stashed changes
   position: fixed;
-  top:-20%;
-  right:-10%;
-  width:420px;
-  height:420px;
-  border-radius:50%;
+  top: -20%;
+  right: -10%;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
   background:
+<<<<<<< Updated upstream
     radial-gradient(circle at 30% 30%, rgba(45,212,191,0.20), transparent 60%),
     radial-gradient(circle at 70% 70%, rgba(11,18,32,0.92), transparent 65%);
   opacity:0.4;
+=======
+    radial-gradient(circle at 30% 30%, rgba(91, 173, 151, 0.10), transparent 60%),
+    radial-gradient(circle at 70% 70%, rgba(242, 248, 245, 0.6), transparent 65%);
+  opacity: 0.5;
+>>>>>>> Stashed changes
   filter: blur(32px);
-  pointer-events:none;
-  z-index:-1;
+  pointer-events: none;
+  z-index: -1;
   animation: matchaBlob1 26s ease-in-out infinite alternate;
 }
-body::after{
-  content:"";
+
+body::after {
+  content: "";
   position: fixed;
-  bottom:-25%;
-  left:-10%;
-  width:360px;
-  height:360px;
-  border-radius:50%;
+  bottom: -25%;
+  left: -10%;
+  width: 360px;
+  height: 360px;
+  border-radius: 50%;
   background:
+<<<<<<< Updated upstream
     radial-gradient(circle at 20% 80%, rgba(245,158,11,0.14), transparent 60%),
     radial-gradient(circle at 80% 20%, rgba(11,31,59,0.92), transparent 70%);
   opacity:0.32;
+=======
+    radial-gradient(circle at 20% 80%, rgba(91, 173, 151, 0.08), transparent 60%),
+    radial-gradient(circle at 80% 20%, rgba(242, 248, 245, 0.5), transparent 70%);
+  opacity: 0.4;
+>>>>>>> Stashed changes
   filter: blur(30px);
-  pointer-events:none;
-  z-index:-1;
+  pointer-events: none;
+  z-index: -1;
   animation: matchaBlob2 32s ease-in-out infinite alternate;
 }
 
-@keyframes matchaBlob1{
-  0%{ transform: translate3d(0,0,0) scale(1); }
-  50%{ transform: translate3d(-4%,6%,0) scale(1.05); }
-  100%{ transform: translate3d(-8%,2%,0) scale(1.02); }
-}
-@keyframes matchaBlob2{
-  0%{ transform: translate3d(0,0,0) scale(1); }
-  50%{ transform: translate3d(6%,-4%,0) scale(1.06); }
-  100%{ transform: translate3d(2%,-2%,0) scale(1.03); }
-}
+@keyframes matchaBlob1 {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
 
-/* 初回表示時のフラッシュ防止：opacity は 1 のまま、blur のみで入場 */
-@keyframes pageEnter{
-  from{ opacity: 1; filter: blur(var(--page-blur)); }
-  to  { opacity: 1; filter: blur(0px); }
-}
-html.is-enter{
-  animation: pageEnter var(--page-dur-enter) ease both;
-}
+  50% {
+    transform: translate3d(-4%, 6%, 0) scale(1.05);
+  }
 
-@keyframes pageLeave{
-  from{ opacity: 1; filter: blur(0px); }
-  to  { opacity: 0; filter: blur(var(--page-blur)); }
-}
-html.is-leave{
-  animation: pageLeave var(--page-dur-leave) ease both;
-}
-
-/* PC 1024px以上：LINE導線非表示（QRブロックはdrivers.cssで表示のまま） */
-@media (min-width: 1024px){
-  [data-line-ui="1"],
-  .js-line-send,
-  #headerLineLink {
-    display:none !important;
+  100% {
+    transform: translate3d(-8%, 2%, 0) scale(1.02);
   }
 }
 
+@keyframes matchaBlob2 {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate3d(6%, -4%, 0) scale(1.06);
+  }
+
+  100% {
+    transform: translate3d(2%, -2%, 0) scale(1.03);
+  }
+}
+
+@keyframes pageEnter {
+  from {
+    opacity: 1;
+    filter: blur(var(--page-blur));
+  }
+
+  to {
+    opacity: 1;
+    filter: blur(0px);
+  }
+}
+
+html.is-enter {
+  animation: pageEnter var(--page-dur-enter) ease both;
+}
+
+@keyframes pageLeave {
+  from {
+    opacity: 1;
+    filter: blur(0px);
+  }
+
+  to {
+    opacity: 0;
+    filter: blur(var(--page-blur));
+  }
+}
+
+html.is-leave {
+  animation: pageLeave var(--page-dur-leave) ease both;
+}
+
+/* PC 1024px以上：LINE導線非表示 */
+@media (min-width: 1024px) {
+
+  [data-line-ui="1"],
+  .js-line-send,
+  #headerLineLink {
+    display: none !important;
+  }
+}
+
+<<<<<<< Updated upstream
 /* ================================================
    (1) 上品マイクロ反応
    ================================================ */
@@ -397,16 +458,22 @@ html.is-leave{
    reduced motion
    ================================================ */
 @media (prefers-reduced-motion: reduce){
+=======
+@media (prefers-reduced-motion: reduce) {
+
+>>>>>>> Stashed changes
   html.is-enter,
-  html.is-leave{
+  html.is-leave {
     animation: none !important;
     filter: none !important;
   }
+
   body::before,
-  body::after{
+  body::after {
     animation: none !important;
     opacity: 0.2;
   }
+<<<<<<< Updated upstream
 
   .fx-active [data-reveal] {
     opacity: 1 !important;
@@ -441,3 +508,6 @@ html.is-leave{
     transition: none !important;
   }
 }
+=======
+}
+>>>>>>> Stashed changes

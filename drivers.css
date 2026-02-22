@@ -1,5 +1,6 @@
 /* ① path: drivers.css */
 :root {
+<<<<<<< Updated upstream
   /* Trust Navy + Teal (+ CTA Amber) */
   --bg: #0B1220;
   --surface: rgba(255, 255, 255, 0.06);
@@ -14,6 +15,16 @@
   --navy-2: #0B1F3B;
   --primary: #2E6EF7;
   --cta: #F59E0B;
+=======
+  /* ===== Opal Green Palette ===== */
+  --bg: #F2F8F5;
+  --surface: rgba(255, 255, 255, 0.90);
+  --text: #1A3A2F;
+  --muted: rgba(26, 58, 47, 0.60);
+  --accent: #5BAD97;
+  --cream: #F2F8F5;
+  --border: rgba(26, 58, 47, 0.12);
+>>>>>>> Stashed changes
 
   --bg-deep: var(--bg);
   --bg-card: var(--surface);
@@ -21,21 +32,28 @@
   --text-muted: var(--muted);
   --border-color: var(--border);
 
-  --shadow-soft: 0 10px 28px rgba(0,0,0,0.28);
-  --shadow-card: 0 18px 40px rgba(0,0,0,0.35);
+  --shadow-soft: 0 10px 28px rgba(26, 58, 47, 0.07);
+  --shadow-card: 0 18px 40px rgba(26, 58, 47, 0.09);
 
   --radius-card: 24px;
   --radius-pill: 999px;
 
-  --ease: cubic-bezier(.2,.8,.2,1);
+  --ease: cubic-bezier(.2, .8, .2, 1);
 
   --line-green: #06C755;
+<<<<<<< Updated upstream
   --focus: rgba(45,212,191,0.35);
+=======
+  --focus: rgba(91, 173, 151, 0.30);
+>>>>>>> Stashed changes
 }
 
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   background: var(--bg);
@@ -43,30 +61,47 @@ html, body {
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans JP", sans-serif;
 }
 
-/* セレクトのドロップダウンを暗い背景にして文字を見えるように（白背景で文字が消えるのを防止） */
+/* セレクトのドロップダウンを見えやすくする */
 select {
-  color-scheme: dark;
-}
-select option {
-  background: #1e293b;
-  color: #fff;
+  color-scheme: light;
 }
 
-a { color: inherit; text-decoration: none; }
-img { max-width: 100%; display: block; }
-hr { border: 0; border-top: 1px solid rgba(255,255,255,0.10); margin: 24px 0; }
+select option {
+  background: #fff;
+  color: #1A3A2F;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid rgba(26, 58, 47, 0.10);
+  margin: 24px 0;
+}
 
 /* ===== Header ===== */
-body > header {
+body>header {
   position: sticky !important;
   top: 0 !important;
   z-index: 1000 !important;
+<<<<<<< Updated upstream
   background: rgba(11, 31, 59, 0.92) !important;
+=======
+  background: rgba(242, 248, 245, 0.94) !important;
+>>>>>>> Stashed changes
   backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(255,255,255,0.12);
+  border-bottom: 1px solid rgba(26, 58, 47, 0.10);
 }
 
-body > header .header-inner {
+body>header .header-inner {
   min-height: 64px !important;
   height: 64px !important;
   max-height: 64px !important;
@@ -77,6 +112,37 @@ body > header .header-inner {
   padding-bottom: 0 !important;
 }
 
+/* ===== Company Name Size Boost ===== */
+#companyName {
+  font-size: 1rem !important;
+  line-height: 1.2 !important;
+  letter-spacing: 0.03em !important;
+  color: var(--text) !important;
+}
+
+/* ===== Glass Card (light mode overrides) ===== */
+.glass-card {
+  background: rgba(255, 255, 255, 0.82) !important;
+  border: 1px solid rgba(26, 58, 47, 0.10) !important;
+  border-radius: var(--radius-card) !important;
+  box-shadow: var(--shadow-soft) !important;
+  color: var(--text) !important;
+}
+
+/* ===== Nav overlay (mobile menu) ===== */
+#nav-overlay {
+  background: rgba(242, 248, 245, 0.98) !important;
+  color: var(--text) !important;
+}
+
+#nav-overlay a {
+  color: var(--text) !important;
+}
+
+#nav-overlay a:hover {
+  background: rgba(91, 173, 151, 0.10) !important;
+}
+
 /* ===== Chip ===== */
 .chip {
   display: inline-flex;
@@ -84,22 +150,31 @@ body > header .header-inner {
   gap: 8px;
   padding: 8px 12px;
   border-radius: var(--radius-pill);
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.12);
-  color: rgba(255,255,255,0.80);
+  background: rgba(91, 173, 151, 0.10);
+  border: 1px solid rgba(91, 173, 151, 0.22);
+  color: #1A3A2F;
   font-size: 13px;
   font-weight: 800;
   transition: transform .12s var(--ease), background .18s var(--ease), border-color .18s var(--ease);
 }
+
 .chip:hover {
-  background: rgba(255,255,255,0.07);
-  border-color: rgba(255,255,255,0.20);
+  background: rgba(91, 173, 151, 0.16);
+  border-color: rgba(91, 173, 151, 0.32);
 }
-.chip:active { transform: translateY(1px) scale(0.99); }
-.chip i { width: 16px; height: 16px; }
+
+.chip:active {
+  transform: translateY(1px) scale(0.99);
+}
+
+.chip i {
+  width: 16px;
+  height: 16px;
+}
 
 /* ===== PC 1024px以上：LINE導線のみ非表示（QRは表示） ===== */
 @media (min-width: 1024px) {
+
   #headerLineLink,
   a[href*="line.me"]:not([data-qr="line"]),
   a[href^="line:"]:not([data-qr="line"]),
@@ -108,23 +183,27 @@ body > header .header-inner {
     display: none !important;
   }
 }
+
 img[data-qr="line"],
 [data-qr="line"] {
   display: block !important;
 }
+
 .line-qr-box,
-.line-qr-img { display: block !important; }
+.line-qr-img {
+  display: block !important;
+}
 
 /* ===== QRかわいく（角丸・影・枠・バッジ） ===== */
-/* NOTE: :has() を使うと祖先div全部に当たり、LINEバッジが増殖する。必ず .line-qr-box に限定する */
 .line-qr-box {
   position: relative;
   padding: 14px;
   border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: rgba(255,255,255,0.04);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,255,255,0.06);
+  border: 1px solid rgba(26, 58, 47, 0.12);
+  background: rgba(255, 255, 255, 0.80);
+  box-shadow: 0 8px 24px rgba(26, 58, 47, 0.07), 0 0 0 1px rgba(26, 58, 47, 0.04);
 }
+
 .line-qr-box::after {
   content: "LINE";
   position: absolute;
@@ -138,9 +217,10 @@ img[data-qr="line"],
   font-weight: 800;
   letter-spacing: 0.02em;
 }
+
 img[data-qr="line"] {
   border-radius: 16px !important;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 12px rgba(26, 58, 47, 0.08);
   background: #fff !important;
   display: block !important;
 }

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ja" class="scroll-smooth">
 <head>
-  <style id="critical">html,body{background:#0f1915!important;color:rgba(255,255,255,0.88)!important;min-height:100%!important;}</style>
+  <style id="critical">html,body{background:#F2F8F5!important;color:#1A3A2F!important;min-height:100%!important;}</style>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>協力ドライバーからの連絡専用ページ｜drivers-site</title>
@@ -14,7 +14,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    tailwind.config = { theme: { extend: { colors: { deep: '#0f1915', muted: 'rgba(255,255,255,0.60)', cream: '#f3eadf', accent: '#7aa07a' }, fontFamily: { sans: ['Inter','sans-serif'], mono: ['JetBrains Mono','monospace'] } } } }
+    tailwind.config = { theme: { extend: { colors: { deep: '#F2F8F5', muted: 'rgba(26,58,47,0.62)', cream: '#F2F8F5', accent: '#5BAD97' }, fontFamily: { sans: ['Inter','sans-serif'], mono: ['JetBrains Mono','monospace'] } } } }
   </script>
   <link rel="stylesheet" href="./drivers.css" />
   <link rel="stylesheet" href="./assets/effects.css">
@@ -22,17 +22,17 @@
   <script src="./line-consult.js" defer></script>
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="bg-deep text-white min-h-screen">
+<body class="bg-deep text-[#1A3A2F] min-h-screen">
 
-  <header class="site-header sticky top-0 w-full z-[1000] bg-deep/80 backdrop-blur-xl border-b border-white/5" id="top">
+  <header class="site-header sticky top-0 w-full z-[1000] bg-[#F2F8F5]/92 backdrop-blur-xl border-b border-[#1A3A2F]/10" id="top">
     <div class="header-inner max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       <a href="./index.html" class="flex items-center gap-3 group">
-        <div class="hidden sm:flex flex-col items-center justify-center px-3 py-1 bg-white/5 border border-white/10 rounded-full" aria-label="対応地域">
-          <div class="text-[9px] tracking-widest font-extrabold text-white/80" id="regionEn">YAMAGUCHI</div>
-          <div class="text-[9px] font-bold text-white/50" id="regionJa">山口県</div>
+        <div class="hidden sm:flex flex-col items-center justify-center px-3 py-1 bg-[#5BAD97]/8 border border-[#5BAD97]/20 rounded-full" aria-label="対応地域">
+          <div class="text-[9px] tracking-widest font-extrabold text-[#1A3A2F]/80" id="regionEn">YAMAGUCHI</div>
+          <div class="text-[9px] font-bold text-[#1A3A2F]/50" id="regionJa">山口県</div>
         </div>
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#2b3a2f] to-accent flex items-center justify-center shadow-lg shadow-emerald-900/30" aria-hidden="true">
-          <span class="w-4 h-4 rounded-full border-2 border-white/90"></span>
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#5BAD97]/80 to-[#5BAD97] flex items-center justify-center shadow-lg shadow-[#5BAD97]/20" aria-hidden="true">
+          <span class="w-4 h-4 rounded-full border-2 border-white"></span>
         </div>
         <div>
           <div class="text-sm font-black tracking-wide leading-none" id="companyName">軽貨物TAKE</div>
@@ -42,16 +42,16 @@
 
       <div class="flex items-center gap-4">
         <div class="hidden lg:flex items-center gap-3 text-xs text-muted" aria-label="連絡先">
-          <a href="https://line.me/R/ti/p/%40277rcesk" id="headerLineLink" data-line-ui="1" class="hover:text-white transition-colors" target="_blank" rel="noopener noreferrer">LINE</a>
-          <span class="text-white/20">|</span>
-          <a href="#" id="headerMailLink" class="hover:text-white transition-colors">takeshimonoseki@gmail.com</a>
+          <a href="https://line.me/R/ti/p/%40277rcesk" id="headerLineLink" data-line-ui="1" class="hover:text-[#1A3A2F] transition-colors" target="_blank" rel="noopener noreferrer">LINE</a>
+          <span class="text-[#1A3A2F]/20">|</span>
+          <a href="#" id="headerMailLink" class="hover:text-[#1A3A2F] transition-colors">takeshimonoseki@gmail.com</a>
         </div>
         <nav class="hidden md:flex gap-1" aria-label="メイン">
-          <a href="./index.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-white hover:bg-white/5 transition-colors">トップ</a>
-          <a href="./startup.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-white hover:bg-white/5 transition-colors">開業トータル相談</a>
-          <a href="./vehicle.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-white hover:bg-white/5 transition-colors">車両の相談</a>
-          <a href="./register.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-white hover:bg-white/5 transition-colors">仮登録</a>
-          <span class="px-4 py-2 rounded-full text-xs font-bold bg-cream text-[#151a16] shadow-lg shadow-white/10" aria-current="page">連絡</span>
+          <a href="./index.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-[#1A3A2F] hover:bg-[#5BAD97]/8 transition-colors">トップ</a>
+          <a href="./startup.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-[#1A3A2F] hover:bg-[#5BAD97]/8 transition-colors">開業トータル相談</a>
+          <a href="./vehicle.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-[#1A3A2F] hover:bg-[#5BAD97]/8 transition-colors">車両の相談</a>
+          <a href="./register.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-[#1A3A2F] hover:bg-[#5BAD97]/8 transition-colors">仮登録</a>
+          <span class="px-4 py-2 rounded-full text-xs font-bold bg-[#5BAD97]/15 text-[#1A3A2F] shadow-lg shadow-[#5BAD97]/10" aria-current="page">連絡</span>
         </nav>
       </div>
     </div>
@@ -67,10 +67,10 @@
         </span>
         <h1 class="text-2xl sm:text-3xl font-black tracking-tight mb-3">協力ドライバーからの連絡専用</h1>
         <p class="text-sm text-muted leading-relaxed mb-2">
-          このページは、<strong class="text-white">協力ドライバー登録済み・登録検討中の方向け</strong>の連絡専用ページです。<br>
+          このページは、<strong class="text-[#1A3A2F]">協力ドライバー登録済み・登録検討中の方向け</strong>の連絡専用ページです。<br>
           お客さま向けの「受注フォーム」や「案件応募フォーム」ではありません。
         </p>
-        <ul class="text-xs text-white/50 space-y-1 mt-3">
+        <ul class="text-xs text-[#1A3A2F]/50 space-y-1 mt-3">
           <li>・登録内容の変更・削除依頼</li>
           <li>・条件や運用ルールに関する質問</li>
           <li>・「こういう働き方はできるか？」といった相談</li>
@@ -80,15 +80,15 @@
 
     <div class="glass-card p-6 md:p-10 mb-6 reveal-hidden delay-100">
       <h2 class="text-base font-bold mb-2 flex items-center gap-2">
-        <i data-lucide="edit-3" class="w-4 h-4 text-sky-400"></i> 送信したい内容（メモ）
+        <i data-lucide="edit-3" class="w-4 h-4 text-[#3D8B73]"></i> 送信したい内容（メモ）
       </h2>
       <p class="text-xs text-muted mb-4">
-        下の欄にメモを書いてからボタンを押すと、<strong class="text-white/80">スマホはLINE下書き／PCはメール下書き</strong>で開きます。<br>
-        PCでLINE送信したい場合は、ボタンの下に出る<strong class="text-white/80">QRをスマホで読み取って</strong>ください。
+        下の欄にメモを書いてからボタンを押すと、<strong class="text-[#1A3A2F]/80">スマホはLINE下書き／PCはメール下書き</strong>で開きます。<br>
+        PCでLINE送信したい場合は、ボタンの下に出る<strong class="text-[#1A3A2F]/80">QRをスマホで読み取って</strong>ください。
       </p>
 
       <textarea id="messageBody" rows="6"
-        class="js-line-note w-full bg-white/[0.03] border border-white/10 rounded-xl p-4 text-sm text-white placeholder-white/25 focus:border-sky-500/50 focus:outline-none focus:ring-1 focus:ring-sky-500/20 transition-all resize-y"
+        class="js-line-note w-full bg-white/60 border border-[#1A3A2F]/10 rounded-xl p-4 text-sm text-[#1A3A2F] placeholder-white/25 focus:border-[#5BAD97]/50 focus:outline-none focus:ring-1 focus:ring-[#5BAD97]/20 transition-all resize-y"
         data-line-note
         placeholder="例：登録内容の変更・削除依頼／条件の相談／現状の働き方　など自由にお書きください。"></textarea>
 
@@ -98,7 +98,7 @@
 
       <div class="mt-5">
         <button type="button"
-          class="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-[#06C755] text-white font-bold text-sm shadow-lg shadow-green-500/20 transition-all active:scale-95 js-line-send"
+          class="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-[#06C755] text-[#1A3A2F] font-bold text-sm shadow-lg shadow-green-500/20 transition-all active:scale-95 js-line-send"
           id="btnLineSend"
           data-line-title="協力ドライバーからの連絡"
           data-line-ui="1">
@@ -111,16 +111,16 @@
       <h2 class="text-base font-bold mb-3 flex items-center gap-2">
         <i data-lucide="shield-alert" class="w-4 h-4 text-amber-400"></i> 運用上のお願い
       </h2>
-      <ul class="space-y-2 text-sm text-white/70">
-        <li class="flex items-start gap-2"><i data-lucide="x-circle" class="w-3.5 h-3.5 mt-0.5 text-red-400 flex-shrink-0"></i> このページから<strong class="text-white">具体的な運賃の交渉や金額提示</strong>は行わないでください。</li>
-        <li class="flex items-start gap-2"><i data-lucide="check-circle" class="w-3.5 h-3.5 mt-0.5 text-green-400 flex-shrink-0"></i> 案件のご相談は、あくまで<strong class="text-white">代表たけとのやり取りの中</strong>で行います。</li>
+      <ul class="space-y-2 text-sm text-[#1A3A2F]/70">
+        <li class="flex items-start gap-2"><i data-lucide="x-circle" class="w-3.5 h-3.5 mt-0.5 text-red-400 flex-shrink-0"></i> このページから<strong class="text-[#1A3A2F]">具体的な運賃の交渉や金額提示</strong>は行わないでください。</li>
+        <li class="flex items-start gap-2"><i data-lucide="check-circle" class="w-3.5 h-3.5 mt-0.5 text-[#3D8B73] flex-shrink-0"></i> 案件のご相談は、あくまで<strong class="text-[#1A3A2F]">代表たけとのやり取りの中</strong>で行います。</li>
         <li class="flex items-start gap-2"><i data-lucide="x-circle" class="w-3.5 h-3.5 mt-0.5 text-red-400 flex-shrink-0"></i> お客さまとの直接のやり取りや、個別の営業連絡にこのページを使うことはお控えください。</li>
       </ul>
     </div>
 
-    <footer class="border-t border-white/5 mt-12 pt-8 pb-4 text-center">
+    <footer class="border-t border-[#1A3A2F]/10 mt-12 pt-8 pb-4 text-center">
       <div class="text-xs text-muted" id="footerCompany">drivers-site｜協力ドライバー登録プール（山口県）</div>
-      <div class="text-[11px] text-white/30 mt-1">このページは、ドライバーさん側から代表たけへの連絡専用ページです。</div>
+      <div class="text-[11px] text-[#1A3A2F]/30 mt-1">このページは、ドライバーさん側から代表たけへの連絡専用ページです。</div>
     </footer>
   </main>
 

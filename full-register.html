@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ja" class="scroll-smooth">
 <head>
-  <style id="critical">html,body{background:#0f1915!important;color:rgba(255,255,255,0.88)!important;min-height:100%!important;}</style>
+  <style id="critical">html,body{background:#F2F8F5!important;color:#1A3A2F!important;min-height:100%!important;}</style>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="robots" content="noindex, nofollow" />
@@ -18,7 +18,7 @@
     tailwind.config = {
       theme: {
         extend: {
-          colors: { deep: '#0f1915', muted: 'rgba(255,255,255,0.60)', cream: '#f3eadf', accent: '#7aa07a' },
+          colors: { deep: '#F2F8F5', muted: 'rgba(26,58,47,0.62)', cream: '#F2F8F5', accent: '#5BAD97' },
           fontFamily: { sans: ['Inter','sans-serif'], mono: ['JetBrains Mono','monospace'] }
         }
       }
@@ -36,11 +36,11 @@
   <style>
     .field-input {
       width: 100%;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.85);
+      border: 1px solid rgba(7,43,51,0.14);
       border-radius: 12px;
       padding: 10px 14px;
-      color: white;
+      color: #1A3A2F;
       font-size: 14px;
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
@@ -57,18 +57,18 @@
     .is-invalid { border-color: rgba(239,68,68,0.6) !important; }
     .is-invalid:focus { box-shadow: 0 0 0 3px rgba(239,68,68,0.15) !important; }
     .bank-active { background: rgba(255,255,255,0.12); }
-    .field-error-text { color: #fca5a5; font-size: 12px; margin-top: 4px; }
-    #agreeLabel.is-invalid { color: #fca5a5; }
+    .field-error-text { color: #dc2626; font-size: 12px; margin-top: 4px; }
+    #agreeLabel.is-invalid { color: #dc2626; }
 
     .error-banner {
       padding: 16px; border-radius: 16px;
       background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3);
-      color: #fca5a5; font-size: 14px;
+      color: #dc2626; font-size: 14px;
     }
     .success-banner {
       padding: 20px; border-radius: 16px;
       background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3);
-      color: #86efac; font-size: 14px;
+      color: #059669; font-size: 14px;
     }
     #agreeLabel { font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 10px; }
     #agreeLabel input { accent-color: #38bdf8; }
@@ -76,16 +76,16 @@
   </style>
 </head>
 
-<body class="bg-deep text-white min-h-screen">
-  <header class="site-header sticky top-0 w-full z-[1000] bg-deep/80 backdrop-blur-xl border-b border-white/5" id="top">
+<body class="bg-deep text-[#1A3A2F] min-h-screen">
+  <header class="site-header sticky top-0 w-full z-[1000] bg-[#F2F8F5]/92 backdrop-blur-xl border-b border-[#1A3A2F]/10" id="top">
     <div class="header-inner max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       <a href="./index.html" class="flex items-center gap-3 group">
-        <div class="hidden sm:flex flex-col items-center justify-center px-3 py-1 bg-white/5 border border-white/10 rounded-full" aria-label="対応地域">
-          <div class="text-[9px] tracking-widest font-extrabold text-white/80" id="regionEn">YAMAGUCHI</div>
-          <div class="text-[9px] font-bold text-white/50" id="regionJa">山口県</div>
+        <div class="hidden sm:flex flex-col items-center justify-center px-3 py-1 bg-[#5BAD97]/8 border border-[#5BAD97]/20 rounded-full" aria-label="対応地域">
+          <div class="text-[9px] tracking-widest font-extrabold text-[#1A3A2F]/80" id="regionEn">YAMAGUCHI</div>
+          <div class="text-[9px] font-bold text-[#1A3A2F]/50" id="regionJa">山口県</div>
         </div>
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#2b3a2f] to-accent flex items-center justify-center shadow-lg shadow-emerald-900/30" aria-hidden="true">
-          <span class="w-4 h-4 rounded-full border-2 border-white/90"></span>
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#5BAD97]/80 to-[#5BAD97] flex items-center justify-center shadow-lg shadow-[#5BAD97]/20" aria-hidden="true">
+          <span class="w-4 h-4 rounded-full border-2 border-white"></span>
         </div>
         <div>
           <div class="text-sm font-black tracking-wide leading-none" id="companyName">軽貨物TAKE</div>
@@ -95,20 +95,20 @@
 
       <div class="flex items-center gap-4 flex-wrap">
         <div class="hidden lg:flex items-center gap-3 text-xs text-muted" aria-label="連絡先">
-          <a href="https://line.me/R/ti/p/%40277rcesk" id="headerLineLink" data-line-ui="1" class="hover:text-white transition-colors" target="_blank" rel="noopener noreferrer">LINE</a>
-          <span class="text-white/20">|</span>
-          <a href="#" id="headerMailLink" class="hover:text-white transition-colors">takeshimonoseki@gmail.com</a>
+          <a href="https://line.me/R/ti/p/%40277rcesk" id="headerLineLink" data-line-ui="1" class="hover:text-[#1A3A2F] transition-colors" target="_blank" rel="noopener noreferrer">LINE</a>
+          <span class="text-[#1A3A2F]/20">|</span>
+          <a href="#" id="headerMailLink" class="hover:text-[#1A3A2F] transition-colors">takeshimonoseki@gmail.com</a>
         </div>
 
         <nav class="hidden md:flex gap-1 flex-wrap" aria-label="メイン">
-          <a href="./index.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-white hover:bg-white/5 transition-colors">トップ</a>
-          <a href="./consult.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-white hover:bg-white/5 transition-colors">相談スタート</a>
-          <a href="./startup.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-white hover:bg-white/5 transition-colors">開業トータル相談</a>
-          <a href="./vehicle.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-white hover:bg-white/5 transition-colors">車両の相談</a>
-          <a href="./register.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-white hover:bg-white/5 transition-colors">仮登録</a>
+          <a href="./index.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-[#1A3A2F] hover:bg-[#5BAD97]/8 transition-colors">トップ</a>
+          <a href="./consult.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-[#1A3A2F] hover:bg-[#5BAD97]/8 transition-colors">相談スタート</a>
+          <a href="./startup.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-[#1A3A2F] hover:bg-[#5BAD97]/8 transition-colors">開業トータル相談</a>
+          <a href="./vehicle.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-[#1A3A2F] hover:bg-[#5BAD97]/8 transition-colors">車両の相談</a>
+          <a href="./register.html" class="px-4 py-2 rounded-full text-xs font-bold text-muted hover:text-[#1A3A2F] hover:bg-[#5BAD97]/8 transition-colors">仮登録</a>
         </nav>
 
-        <button type="button" class="md:hidden p-2 text-white bg-white/10 rounded-full hover:bg-white/20 transition-colors" aria-label="メニューを開く" aria-expanded="false" aria-controls="nav-overlay" id="menu-toggle">
+        <button type="button" class="md:hidden p-2 text-[#1A3A2F] bg-[#1A3A2F]/8 rounded-full hover:bg-[#1A3A2F]/15 transition-colors" aria-label="メニューを開く" aria-expanded="false" aria-controls="nav-overlay" id="menu-toggle">
           <i data-lucide="menu" class="w-5 h-5"></i>
         </button>
       </div>
@@ -130,7 +130,7 @@
     <div class="glass-card p-6 md:p-10 mb-6 relative overflow-hidden" data-reveal>
       <div class="absolute -top-20 -right-20 w-[300px] h-[300px] bg-gradient-to-br from-blue-600/10 to-transparent rounded-full blur-3xl pointer-events-none"></div>
       <div class="relative z-10">
-        <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[11px] font-bold text-muted mb-4">
+        <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/70 border border-[#1A3A2F]/10 text-[11px] font-bold text-muted mb-4">
           <i data-lucide="shield" class="w-3 h-3"></i> noindex（案内された方のみ）
         </span>
 
@@ -138,7 +138,7 @@
         <p class="text-sm text-muted leading-relaxed mb-2">
           必須：氏名／住所／軽車両・経験年数／免許証（表・裏）／車両前面／車検証／自賠責／任意保険／経営届出書／振込口座（入力）。任意：貨物保険（あれば）。
         </p>
-        <p class="text-xs text-white/40">
+        <p class="text-xs text-[#1A3A2F]/40">
           公開プロフィール（必須）は、お客さま向け掲載用です。住所・車両は上で入力した値が初期表示され、編集できます。
         </p>
       </div>
@@ -150,14 +150,14 @@
         <div id="errorBox" class="error-banner mb-6" style="display:none;">
           <strong>送信できませんでした。</strong>
           <div class="mt-2" id="errorText">赤枠の項目をご確認ください。</div>
-          <div class="mt-2 text-xs font-mono text-white/80" id="errorDebugId"></div>
+          <div class="mt-2 text-xs font-mono text-[#1A3A2F]/80" id="errorDebugId"></div>
         </div>
 
         <div id="successBox" class="success-banner mb-6" style="display:none;">
           <strong>送信しました。</strong>
-          <div class="mt-2 text-white/70 text-sm">受付ID：<span id="receiptId" class="font-mono"></span></div>
-          <div class="mt-2 text-white/70 text-sm">追跡ID：<span id="successDebugId" class="font-mono"></span></div>
-          <div class="mt-2 text-white/60 text-xs">確認後、必要に応じて運営から連絡します。</div>
+          <div class="mt-2 text-[#1A3A2F]/70 text-sm">受付ID：<span id="receiptId" class="font-mono"></span></div>
+          <div class="mt-2 text-[#1A3A2F]/70 text-sm">追跡ID：<span id="successDebugId" class="font-mono"></span></div>
+          <div class="mt-2 text-[#1A3A2F]/60 text-xs">確認後、必要に応じて運営から連絡します。</div>
         </div>
 
         <div class="p-5 rounded-2xl border border-amber-500/20 bg-amber-500/5 mb-6">
@@ -179,7 +179,7 @@
                 <input type="text" id="postalCode" class="field-input" placeholder="例：7500023" maxlength="7" pattern="[0-9]*" inputmode="numeric" />
                 <button type="button" id="btnZipLookup" class="flex-shrink-0 px-4 py-2 rounded-xl bg-white/10 border border-white/20 text-sm font-bold hover:bg-white/20 transition-colors">住所を自動入力</button>
               </div>
-              <div class="text-xs text-white/40 mt-1">ハイフンなし7桁。失敗時は手入力で続行できます。</div>
+              <div class="text-xs text-[#1A3A2F]/40 mt-1">ハイフンなし7桁。失敗時は手入力で続行できます。</div>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
@@ -191,7 +191,7 @@
                 <select id="city" class="field-input" disabled>
                   <option value="">都道府県を選択してください</option>
                 </select>
-                <span id="cityLoading" class="text-xs text-white/50 ml-2" style="display:none;">読み込み中…</span>
+                <span id="cityLoading" class="text-xs text-[#1A3A2F]/50 ml-2" style="display:none;">読み込み中…</span>
                 <input type="text" id="cityManual" class="field-input mt-2" placeholder="市区町村（手入力）" autocomplete="off" style="display:none;" />
               </div>
               <div>
@@ -272,7 +272,7 @@
               </div>
             </div>
             <!-- 振込口座（入力・必須） -->
-            <div class="p-4 rounded-xl border border-white/10 bg-white/5 space-y-4">
+            <div class="p-4 rounded-xl border border-[#1A3A2F]/10 bg-white/70 space-y-4">
               <div class="font-bold text-sm">振込口座（入力・必須）</div>
               <div class="flex flex-wrap gap-4">
                 <label class="flex items-center gap-2 cursor-pointer">
@@ -346,7 +346,7 @@
             <div>
               <label class="text-sm font-bold mb-2 block" for="cargoInsurance">貨物保険（任意）</label>
               <input type="file" id="cargoInsurance" class="field-input" accept="image/*,application/pdf" />
-              <div class="text-xs text-white/40 mt-1">
+              <div class="text-xs text-[#1A3A2F]/40 mt-1">
                 PickGoの「貨物の保障」公式説明：
                 <a class="note-link" href="https://lp.partner.pickgo.town/partner/support/insurance" target="_blank" rel="noopener noreferrer">こちら</a>
               </div>
@@ -360,13 +360,13 @@
             <i data-lucide="user" class="w-4 h-4 text-amber-400"></i>
             <span class="font-bold text-sm">公開プロフィール（必須）</span>
           </div>
-          <p class="text-xs text-white/60 mb-4">お客さま向け掲載用。上の住所・車両が初期値で入ります（編集可）。</p>
+          <p class="text-xs text-[#1A3A2F]/60 mb-4">お客さま向け掲載用。上の住所・車両が初期値で入ります（編集可）。</p>
 
           <div class="space-y-5">
             <div>
               <label class="text-sm font-bold mb-2 block" for="nickname">ニックネーム（公開）</label>
               <input type="text" id="nickname" class="field-input" placeholder="例：やまぐち便" autocomplete="off" />
-              <div class="text-xs text-white/40 mt-1">本名ではなくこちらを公開します。</div>
+              <div class="text-xs text-[#1A3A2F]/40 mt-1">本名ではなくこちらを公開します。</div>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
@@ -378,7 +378,7 @@
                 <select id="publicCity" class="field-input" disabled>
                   <option value="">都道府県を選択してください</option>
                 </select>
-                <span id="publicCityLoading" class="text-xs text-white/50 ml-2" style="display:none;">読み込み中…</span>
+                <span id="publicCityLoading" class="text-xs text-[#1A3A2F]/50 ml-2" style="display:none;">読み込み中…</span>
                 <input type="text" id="publicCityManual" class="field-input mt-2" placeholder="市区町村（手入力）" autocomplete="off" style="display:none;" />
               </div>
             </div>
@@ -410,19 +410,19 @@
           </div>
         </div>
 
-        <div class="p-5 rounded-2xl border border-white/10 bg-white/5 mb-6">
+        <div class="p-5 rounded-2xl border border-[#1A3A2F]/10 bg-white/70 mb-6">
           <label id="agreeLabel">
             <input type="checkbox" id="agree" />
             <span>内容に同意します（20%手数料／指名は希望のみ（確約なし）／電話導線なし）</span>
           </label>
           <div id="agreeErrorText" class="field-error-text" role="alert" style="display:none;"></div>
-          <div class="text-xs text-white/40 mt-2">※本人確認情報は公開しません。</div>
+          <div class="text-xs text-[#1A3A2F]/40 mt-2">※本人確認情報は公開しません。</div>
         </div>
 
-        <button id="submitBtn" type="submit" class="w-full flex items-center justify-center gap-2 px-4 py-4 rounded-2xl bg-white text-black font-black text-sm shadow-lg shadow-white/10 hover:shadow-white/20 transition-all">
+        <button id="submitBtn" type="submit" class="w-full flex items-center justify-center gap-2 px-4 py-4 rounded-2xl bg-white text-black font-black text-sm shadow-lg shadow-[#1A3A2F]/8 hover:shadow-[#1A3A2F]/10 transition-all">
           <i data-lucide="send" class="w-4 h-4"></i> 送信する
         </button>
-        <div class="text-xs text-white/45 mt-3" id="hintText"></div>
+        <div class="text-xs text-[#1A3A2F]/45 mt-3" id="hintText"></div>
       </form>
     </div>
   </main>
@@ -619,7 +619,7 @@
       bankDropdownUl.innerHTML = "";
       if (!items.length) {
         var li0 = document.createElement("li");
-        li0.className = "px-3 py-2 text-white/40";
+        li0.className = "px-3 py-2 text-[#1A3A2F]/40";
         li0.textContent = "該当なし";
         bankDropdownUl.appendChild(li0);
         bankDropdownUl.style.display = "";
